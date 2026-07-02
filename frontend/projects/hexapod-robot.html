@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Autonomous Hexapod Robot — Lucas Pin</title>
-  <meta name="description" content="Autonomous hexapod robot with computer vision, ROS2 navigation, and Gazebo simulation.">
+  <meta name="description" content="Full development of a 6-legged autonomous robot with ROS2, Gazebo simulation, computer vision (YOLO), GPS navigation, and custom 3D-printed hardware.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
 </head>
@@ -36,26 +36,36 @@
           <span class="proj-year">2024 – 2025</span>
         </div>
         <div class="proj-cover">
-          <div class="proj-cover-placeholder">🤖</div>
+          <img
+            src="../static/Projects/Hexapod/Hexapod_real_and_sim.png"
+            alt="Hexapod — real robot (left) and Gazebo simulation (right)"
+            class="proj-cover-img"
+          >
         </div>
       </div>
       <div class="proj-hero-right">
         <h2 class="proj-section-heading">Overview</h2>
         <p class="proj-overview">
-          Development of an autonomous hexapod robot integrating computer vision for obstacle and target
-          detection, autonomous navigation via ROS2, and physical simulation in Gazebo for testing and
-          validation before real-world deployment.
+          Complete development of a <strong>6-legged autonomous robot (hexapod)</strong> — from mechanical 3D design
+          and embedded firmware to a full ROS2 software stack running in both Gazebo simulation and on the
+          physical robot. The same high-level behaviors — autonomous navigation, vision-based following,
+          swarm coordination, hand-gesture interaction — run identically on the simulator and real hardware.
+          The only difference is the actuation layer.
         </p>
         <div class="proj-tech-row">
-          <span class="pill">ROS2</span>
-          <span class="pill">Gazebo</span>
+          <span class="pill">ROS2 Jazzy</span>
+          <span class="pill">Gazebo Harmonic</span>
           <span class="pill">C++</span>
           <span class="pill">Python</span>
-          <span class="pill">OpenCV</span>
           <span class="pill">YOLO</span>
+          <span class="pill">OpenCV</span>
+          <span class="pill">MediaPipe</span>
+          <span class="pill">Arduino</span>
+          <span class="pill">Raspberry Pi</span>
+          <span class="pill">SolidWorks</span>
         </div>
         <div class="proj-links-block">
-          <a href="https://github.com/Spin7" target="_blank" class="btn-outline btn-sm">GitHub →</a>
+          <a href="https://github.com/Spin7ion/hexapod-robot" target="_blank" class="btn-outline btn-sm">GitHub →</a>
         </div>
         <div class="proj-meta-grid">
           <div class="proj-meta-item">
@@ -73,45 +83,90 @@
 
   <section class="proj-detail">
     <div class="proj-detail-inner">
-      <h2 class="proj-section-heading">Detailed Description</h2>
+      <h2 class="proj-section-heading">Hardware Platform</h2>
       <div class="proj-detail-content">
-        <p>
-          This project involved the full development pipeline of an autonomous hexapod robot — from
-          mechanical design to software integration. The hexapod uses a gait controller that generates
-          smooth, stable walking patterns across different terrains.
-        </p>
-        <p>
-          The computer vision subsystem uses YOLO to detect obstacles and targets in real time.
-          ROS2 handles the communication between perception, planning, and actuation nodes,
-          enabling fully autonomous behavior without human intervention.
-        </p>
-        <p>
-          Gazebo was used extensively for simulation — testing gaits, navigation algorithms,
-          and sensor integration in a physics-accurate environment before deploying to hardware.
-        </p>
+        <div class="proj-table-wrap">
+          <table class="proj-table">
+            <thead>
+              <tr><th>Component</th><th>Details</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>🖥️ PC</td><td>ASUS TUF Gaming F15 — NVIDIA RTX 3060 · Ubuntu 24.04 LTS</td></tr>
+              <tr><td>🍓 Raspberry Pi</td><td>Raspberry Pi 4 (4 GB RAM) · Ubuntu 24.04 LTS</td></tr>
+              <tr><td>🔌 Microcontroller</td><td>Arduino Mega — 18 servo motors (3 DOF × 6 legs)</td></tr>
+              <tr><td>📱 Smartphone</td><td>Google Pixel 7 — camera + IMU via SensorServer</td></tr>
+              <tr><td>🦿 Mechanics</td><td>Custom 3D-printed chassis · SolidWorks design</td></tr>
+              <tr><td>📡 Sensors</td><td>HC-SR04 ultrasonic · IMU · GPS (via smartphone) · IR proximity</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2 class="proj-section-heading" style="margin-top:2.5rem;">Operation Modes</h2>
+      <div class="proj-detail-content">
         <div class="proj-highlights">
           <div class="proj-highlight">
-            <span class="proj-highlight-icon">🦿</span>
+            <span class="proj-highlight-icon">🎯</span>
             <div>
-              <strong>Gait Control</strong>
-              <p>Smooth hexapod walking patterns implemented for stable multi-terrain navigation.</p>
+              <strong>Vision Follower</strong>
+              <p>YOLO-based visual target tracking and pursuit in real time.</p>
             </div>
           </div>
           <div class="proj-highlight">
-            <span class="proj-highlight-icon">👁️</span>
+            <span class="proj-highlight-icon">🗺️</span>
             <div>
-              <strong>Computer Vision</strong>
-              <p>Real-time YOLO-based obstacle and target detection integrated via ROS2 topics.</p>
+              <strong>GPS Navigation</strong>
+              <p>Autonomous travel to GPS waypoints with heading + obstacle avoidance.</p>
             </div>
           </div>
           <div class="proj-highlight">
-            <span class="proj-highlight-icon">🖥️</span>
+            <span class="proj-highlight-icon">🐝</span>
             <div>
-              <strong>Gazebo Simulation</strong>
-              <p>Full physics simulation for rapid prototyping and validation before hardware deployment.</p>
+              <strong>Swarm Follower</strong>
+              <p>Leader-following with simplified collective swarm rules.</p>
+            </div>
+          </div>
+          <div class="proj-highlight">
+            <span class="proj-highlight-icon">🖐️</span>
+            <div>
+              <strong>Social Robot (HRI)</strong>
+              <p>Hand-gesture recognition (ROCK / VICTORY / AL_PELO) → motion commands via MediaPipe.</p>
+            </div>
+          </div>
+          <div class="proj-highlight">
+            <span class="proj-highlight-icon">⚖️</span>
+            <div>
+              <strong>Auto-Balance</strong>
+              <p>IMU-driven postural correction — real-time roll / pitch stabilization.</p>
+            </div>
+          </div>
+          <div class="proj-highlight">
+            <span class="proj-highlight-icon">🕹️</span>
+            <div>
+              <strong>Teleoperation</strong>
+              <p>Direct keyboard control for debugging and calibration.</p>
             </div>
           </div>
         </div>
+      </div>
+
+      <h2 class="proj-section-heading" style="margin-top:2.5rem;">System Architecture</h2>
+      <div class="proj-detail-content">
+        <p>
+          The core philosophy is <strong>dual-execution</strong>: one shared intelligence layer drives two physical
+          realities. High-level behaviors (vision, navigation, social logic) publish to a single
+          <code>cmd_robot</code> topic. A simulation bridge maps that to Gazebo joint trajectories; the real-robot
+          bridge sends commands over serial to the Arduino Mega which runs the inverse-kinematics loop at 50 Hz.
+        </p>
+        <p>
+          The Arduino controls <strong>18 servo motors</strong> (3 DOF per leg — Coxa · Femur · Tibia, lengths
+          51 mm / 65 mm / 121 mm) and generates IK-based foot placement for forward, backward, lateral, and
+          rotational gaits. Battery voltage (12 V) is monitored continuously.
+        </p>
+        <p>
+          A Google Pixel 7 running the <strong>SensorServer</strong> Android app streams GPS, IMU, and camera
+          data over WebSocket to the ROS2 network, acting as a low-cost multi-sensor hub.
+        </p>
       </div>
     </div>
   </section>
@@ -119,9 +174,39 @@
   <section class="proj-media">
     <div class="proj-detail-inner">
       <h2 class="proj-section-heading">Media</h2>
-      <div class="proj-media-placeholder">
-        <span>📹</span>
-        <p>Video or images coming soon.</p>
+      <div class="proj-media-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1rem;">
+        <figure style="margin:0;">
+          <img
+            src="../static/Projects/Hexapod/Hexapod_real_and_sim.png"
+            alt="Hexapod real robot and Gazebo simulation side by side"
+            style="width:100%;border-radius:12px;object-fit:cover;"
+          >
+          <figcaption style="font-size:0.82rem;color:var(--text-muted,#aaa);text-align:center;margin-top:0.4rem;">
+            Left: Physical hexapod in action · Right: Gazebo simulation counterpart
+          </figcaption>
+        </figure>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="background:var(--card-bg,rgba(255,255,255,0.04));border-radius:12px;padding:1.2rem;">
+            <p style="font-weight:600;margin-bottom:0.5rem;">Real Robot Demonstrations</p>
+            <ul style="list-style:none;padding:0;margin:0;font-size:0.88rem;line-height:1.8;color:var(--text-muted,#aaa);">
+              <li>▸ DDS bridge startup &amp; Arduino handshake</li>
+              <li>▸ Keyboard teleoperation</li>
+              <li>▸ Auto-balance / IMU stabilization</li>
+              <li>▸ Vision-based follower mode</li>
+              <li>▸ Swarm follower behavior</li>
+              <li>▸ Full GPS autonomous navigation</li>
+            </ul>
+          </div>
+          <div style="background:var(--card-bg,rgba(255,255,255,0.04));border-radius:12px;padding:1.2rem;">
+            <p style="font-weight:600;margin-bottom:0.5rem;">Simulation Demonstrations</p>
+            <ul style="list-style:none;padding:0;margin:0;font-size:0.88rem;line-height:1.8;color:var(--text-muted,#aaa);">
+              <li>▸ Gazebo world startup &amp; robot spawn</li>
+              <li>▸ Follower &amp; swarm follower in Gazebo</li>
+              <li>▸ GPS navigation in simulation</li>
+              <li>▸ Hand gesture control in Gazebo</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </section>

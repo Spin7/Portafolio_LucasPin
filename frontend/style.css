@@ -1734,6 +1734,54 @@ section {
   box-shadow: var(--shadow-sm);
 }
 
+/* Project detail table */
+.proj-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.proj-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.proj-table th {
+  background: var(--bg);
+  color: var(--text-sub);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.proj-table td {
+  padding: 11px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+.proj-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.proj-table tbody tr:hover td {
+  background: var(--bg);
+}
+
+.proj-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* Responsive */
 @media (max-width: 860px) {
   .proj-hero {
