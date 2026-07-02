@@ -7,6 +7,217 @@
   <meta name="description" content="Full development of a 6-legged autonomous robot with ROS2, Gazebo simulation, computer vision (YOLO), GPS navigation, and custom 3D-printed hardware.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ── Video Gallery ── */
+    .video-section {
+      padding: 3rem 0 4rem;
+      background: var(--bg);
+    }
+    .video-section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .video-section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .video-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #ff0000;
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .video-section-sub {
+      font-size: 0.92rem;
+      color: var(--text);
+      margin-bottom: 2rem;
+      max-width: 700px;
+    }
+    .video-section-sub a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .video-section-sub a:hover { text-decoration: underline; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    }
+
+    .video-thumb-wrap {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: #000;
+      text-decoration: none;
+    }
+    .video-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .video-card:hover .video-thumb-wrap img {
+      transform: scale(1.04);
+      opacity: 0.85;
+    }
+    .video-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .video-play-btn svg {
+      width: 56px;
+      height: 56px;
+      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.55));
+      transition: transform 0.2s ease;
+    }
+    .video-card:hover .video-play-btn svg {
+      transform: scale(1.14);
+    }
+
+    .video-part-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(10,40,80,0.88);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.22rem 0.6rem;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+    }
+
+    .video-card-body {
+      padding: 1rem 1.1rem 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .video-card-title {
+      font-size: 0.91rem;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+    .video-card-desc {
+      font-size: 0.81rem;
+      color: var(--text);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .video-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.25rem;
+    }
+    .video-card-tag {
+      font-size: 0.67rem;
+      font-weight: 600;
+      padding: 0.18rem 0.48rem;
+      border-radius: 4px;
+      background: var(--primary-light, #eff6ff);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .video-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.77rem;
+      font-weight: 600;
+      color: #cc0000;
+      text-decoration: none;
+      margin-top: 0.3rem;
+      transition: opacity 0.15s;
+    }
+    .video-card-link:hover { opacity: 0.7; }
+
+    /* playlist banner */
+    .playlist-banner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid #ff0000;
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+    .playlist-banner-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .playlist-banner-text { flex: 1; min-width: 200px; }
+    .playlist-banner-text strong {
+      display: block;
+      font-size: 0.87rem;
+      color: var(--dark);
+      font-weight: 700;
+    }
+    .playlist-banner-text span {
+      font-size: 0.79rem;
+      color: var(--text);
+    }
+    .playlist-banner-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #ff0000;
+      color: white;
+      font-size: 0.79rem;
+      font-weight: 700;
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .playlist-banner-link:hover {
+      background: #cc0000;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .video-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
@@ -93,10 +304,10 @@
             <tbody>
               <tr><td>🖥️ PC</td><td>ASUS TUF Gaming F15 — NVIDIA RTX 3060 · Ubuntu 24.04 LTS</td></tr>
               <tr><td>🍓 Raspberry Pi</td><td>Raspberry Pi 4 (4 GB RAM) · Ubuntu 24.04 LTS</td></tr>
-              <tr><td>🔌 Microcontroller</td><td>Arduino Mega — 18 servo motors (3 DOF × 6 legs)</td></tr>
-              <tr><td>📱 Smartphone</td><td>Google Pixel 7 — camera + IMU via SensorServer</td></tr>
+              <tr><td>🔌 Microcontroller</td><td>Arduino Mega — 18 servo motors (3 DOF × 6 legs) · IK firmware · 50 Hz</td></tr>
+              <tr><td>📱 Smartphone</td><td>Google Pixel 7 — GPS + IMU (SensorServer) + camera (IriunWebCam)</td></tr>
               <tr><td>🦿 Mechanics</td><td>Custom 3D-printed chassis · SolidWorks design</td></tr>
-              <tr><td>📡 Sensors</td><td>HC-SR04 ultrasonic · IMU · GPS (via smartphone) · IR proximity</td></tr>
+              <tr><td>📡 Sensors</td><td>HC-SR04 ultrasonic · BerryIMU · GPS (via smartphone) · IR proximity</td></tr>
             </tbody>
           </table>
         </div>
@@ -171,43 +382,292 @@
     </div>
   </section>
 
-  <section class="proj-media">
-    <div class="proj-detail-inner">
-      <h2 class="proj-section-heading">Media</h2>
-      <div class="proj-media-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1rem;">
-        <figure style="margin:0;">
-          <img
-            src="../static/Projects/Hexapod/Hexapod_real_and_sim.png"
-            alt="Hexapod real robot and Gazebo simulation side by side"
-            style="width:100%;border-radius:12px;object-fit:cover;"
-          >
-          <figcaption style="font-size:0.82rem;color:var(--text-muted,#aaa);text-align:center;margin-top:0.4rem;">
-            Left: Physical hexapod in action · Right: Gazebo simulation counterpart
-          </figcaption>
-        </figure>
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <div style="background:var(--card-bg,rgba(255,255,255,0.04));border-radius:12px;padding:1.2rem;">
-            <p style="font-weight:600;margin-bottom:0.5rem;">Real Robot Demonstrations</p>
-            <ul style="list-style:none;padding:0;margin:0;font-size:0.88rem;line-height:1.8;color:var(--text-muted,#aaa);">
-              <li>▸ DDS bridge startup &amp; Arduino handshake</li>
-              <li>▸ Keyboard teleoperation</li>
-              <li>▸ Auto-balance / IMU stabilization</li>
-              <li>▸ Vision-based follower mode</li>
-              <li>▸ Swarm follower behavior</li>
-              <li>▸ Full GPS autonomous navigation</li>
-            </ul>
-          </div>
-          <div style="background:var(--card-bg,rgba(255,255,255,0.04));border-radius:12px;padding:1.2rem;">
-            <p style="font-weight:600;margin-bottom:0.5rem;">Simulation Demonstrations</p>
-            <ul style="list-style:none;padding:0;margin:0;font-size:0.88rem;line-height:1.8;color:var(--text-muted,#aaa);">
-              <li>▸ Gazebo world startup &amp; robot spawn</li>
-              <li>▸ Follower &amp; swarm follower in Gazebo</li>
-              <li>▸ GPS navigation in simulation</li>
-              <li>▸ Hand gesture control in Gazebo</li>
-            </ul>
+  <!-- ═══════════════════════════════════════════════════
+       YOUTUBE VIDEO GALLERY — Real Robot Demonstrations
+       ═══════════════════════════════════════════════════ -->
+  <section class="video-section">
+    <div class="video-section-inner">
+
+      <div class="video-section-header">
+        <h2 class="proj-section-heading" style="margin:0;">Real Robot Demonstrations</h2>
+        <span class="video-section-badge">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          YouTube
+        </span>
+      </div>
+
+      <p class="video-section-sub">
+        9 videos of the hexapod operating on <strong>real hardware</strong>: Raspberry Pi 4 + Arduino Mega + 18 servo motors.
+        Real sensors, real noise, real world. Part of the
+        <a href="https://github.com/Spin7/Hexapod-Project" target="_blank">Hexapod Project →</a>
+      </p>
+
+      <!-- Playlist banner -->
+      <div class="playlist-banner">
+        <span class="playlist-banner-icon">🎬</span>
+        <div class="playlist-banner-text">
+          <strong>Full Playlist — Hexapod Project: Real Robot (Raspberry Pi + Arduino)</strong>
+          <span>All 9 demonstrations in sequence · Start from Part 1</span>
+        </div>
+        <a href="https://www.youtube.com/playlist?list=PLKEwz7hYqfYv2mX7ygFkLWUyIp_i9QGUa"
+           target="_blank" rel="noopener" class="playlist-banner-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          Watch Playlist
+        </a>
+      </div>
+
+      <div class="video-grid">
+
+        <!-- Part 1 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/VLH7wAWyUxs" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/VLH7wAWyUxs/hqdefault.jpg" alt="Part 1 – DDS Communication Launch" loading="lazy">
+            <span class="video-part-badge">Part 1</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">DDS Communication Launch</p>
+            <p class="video-card-desc">Establishing the DDS bridge between PC (ROS2) and the robot (Raspberry Pi + Arduino Mega) — the communication backbone without which the robot is completely blind and deaf.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">ROS2 Jazzy</span>
+              <span class="video-card-tag">DDS / Fast-DDS</span>
+              <span class="video-card-tag">Raspberry Pi 4</span>
+              <span class="video-card-tag">Arduino Mega</span>
+            </div>
+            <a href="https://youtu.be/VLH7wAWyUxs" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
           </div>
         </div>
-      </div>
+
+        <!-- Part 2 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/U2Dk3tRs2tY" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/U2Dk3tRs2tY/hqdefault.jpg" alt="Part 2 – Teleoperation" loading="lazy">
+            <span class="video-part-badge">Part 2</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">Teleoperation</p>
+            <p class="video-card-desc">Direct manual control of the physical hexapod using keyboard-based teleoperation. Each keypress travels through the full stack: PC → DDS → serial → Arduino → servo motors.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">ROS2 Jazzy</span>
+              <span class="video-card-tag">Teleop Node</span>
+              <span class="video-card-tag">Arduino Mega</span>
+            </div>
+            <a href="https://youtu.be/U2Dk3tRs2tY" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 3 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/IZbR-sUqEJs" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/IZbR-sUqEJs/hqdefault.jpg" alt="Part 3 – Auto-Balance Controller" loading="lazy">
+            <span class="video-part-badge">Part 3</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">Auto-Balance Controller</p>
+            <p class="video-card-desc">Postural correction layer between navigation commands and servo actuation. Uses IMU data to continuously compensate for uneven terrain, servo delays, and roll/pitch disturbances.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">IMU</span>
+              <span class="video-card-tag">BerryIMU</span>
+              <span class="video-card-tag">Raspberry Pi 4</span>
+            </div>
+            <a href="https://youtu.be/IZbR-sUqEJs" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 4 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/g3vVCbwPKyo" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/g3vVCbwPKyo/hqdefault.jpg" alt="Part 4 – Sensor Computation Layer" loading="lazy">
+            <span class="video-part-badge">Part 4</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">Sensor Computation Layer</p>
+            <p class="video-card-desc">Processes GPS → local XY coords, phone magnetometer → heading angle, dead-reckoning position estimate, and ultrasonic → obstacle distances. The real-world equivalent of the simulation sensor layer.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">GPS</span>
+              <span class="video-card-tag">BerryIMU</span>
+              <span class="video-card-tag">Ultrasonic</span>
+              <span class="video-card-tag">Google Pixel 7</span>
+            </div>
+            <a href="https://youtu.be/g3vVCbwPKyo" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 5 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/iJXCLiiwyK0" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/iJXCLiiwyK0/hqdefault.jpg" alt="Part 5 – Vision-Based Follower Launch" loading="lazy">
+            <span class="video-part-badge">Part 5</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">Vision-Based Follower Launch</p>
+            <p class="video-card-desc">Launching follower mode on the physical hexapod. Uses a camera and YOLO to detect a target and follow it in real time. Shows the full startup: camera node, YOLO detector, and navigation node initialization.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">YOLO</span>
+              <span class="video-card-tag">OpenCV</span>
+              <span class="video-card-tag">Google Pixel 7</span>
+            </div>
+            <a href="https://youtu.be/iJXCLiiwyK0" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 6 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/b_1az8GlGhw" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/b_1az8GlGhw/hqdefault.jpg" alt="Part 6 – Swarm Follower Launch" loading="lazy">
+            <span class="video-part-badge">Part 6</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">Swarm Follower Launch</p>
+            <p class="video-card-desc">Launching the swarm follower mode — designed for multi-robot coordination where each unit follows a leader using vision and obstacle-aware navigation. Covers full launch sequence and YOLO initialization.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">YOLO</span>
+              <span class="video-card-tag">Swarm Logic</span>
+              <span class="video-card-tag">Raspberry Pi 4</span>
+            </div>
+            <a href="https://youtu.be/b_1az8GlGhw" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 7 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/4EwRCGkaTQo" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/4EwRCGkaTQo/hqdefault.jpg" alt="Part 7 – GPS Navigation Launch" loading="lazy">
+            <span class="video-part-badge">Part 7</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">GPS Navigation Launch</p>
+            <p class="video-card-desc">Full autonomous GPS navigation stack initialization on the real robot — DDS bridge, real sensor computation (GPS, IMU, ultrasonic), YOLO cube detector, and autonomous navigation planner with obstacle avoidance.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">GPS</span>
+              <span class="video-card-tag">YOLO</span>
+              <span class="video-card-tag">Ultrasonic</span>
+              <span class="video-card-tag">Arduino</span>
+            </div>
+            <a href="https://youtu.be/4EwRCGkaTQo" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 8 -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/CMZotYHFU5w" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/CMZotYHFU5w/hqdefault.jpg" alt="Part 8 – Follower Full Demo" loading="lazy">
+            <span class="video-part-badge">Part 8</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">Follower Full Demo</p>
+            <p class="video-card-desc">Full demonstration of the vision-based follower running on real hardware. Handles real camera latency, physical motion instability, lighting variation, and obstacle avoidance on real terrain.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">YOLO</span>
+              <span class="video-card-tag">OpenCV</span>
+              <span class="video-card-tag">Raspberry Pi 4</span>
+              <span class="video-card-tag">Arduino Mega</span>
+            </div>
+            <a href="https://youtu.be/CMZotYHFU5w" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Part 9 — Crown Jewel -->
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/iqLUGNQwuDo" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/iqLUGNQwuDo/hqdefault.jpg" alt="Part 9 – GPS Navigation Full Demo" loading="lazy">
+            <span class="video-part-badge">Part 9 ⭐</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">GPS Navigation Full Demo ⭐</p>
+            <p class="video-card-desc">The crown jewel of the series — full end-to-end autonomous GPS navigation with obstacle avoidance. Receives GPS target → estimates position → computes heading → detects obstacles → detects target with YOLO → continuously replans → reaches goal.</p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">GPS</span>
+              <span class="video-card-tag">YOLO</span>
+              <span class="video-card-tag">IMU</span>
+              <span class="video-card-tag">Ultrasonic</span>
+              <span class="video-card-tag">Raspberry Pi 4</span>
+            </div>
+            <a href="https://youtu.be/iqLUGNQwuDo" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /video-grid -->
     </div>
   </section>
 
