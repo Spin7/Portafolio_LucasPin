@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucas Pin — Portfolio</title>
+  <meta name="description" content="Personal academic portfolio of Lucas Pin — researcher, engineer, and educator.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a href="home.html" class="nav-logo">
+      <span class="nav-logo-icon">LP</span>
+      Lucas Pin
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="home.html" class="active">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-badge">Available for collaboration</div>
+
+    <h1>
+      Hi, I'm <span>Lucas Pin</span><br>
+      Researcher &amp; Engineer
+    </h1>
+
+    <p class="hero-sub">
+      I work at the intersection of artificial intelligence, embedded systems, and applied research.
+      I design solutions that bridge theory and real-world impact.
+    </p>
+
+    <div class="hero-context">
+      🎓 <span>PhD Student · Universidad Nacional de Asunción</span>
+    </div>
+
+    <div class="hero-buttons">
+      <a href="research.html" class="btn-primary">View Research</a>
+      <a href="projects.html" class="btn-outline">See Projects</a>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-mouse"></div>
+      scroll
+    </div>
+  </section>
+
+  <!-- ===== ABOUT STRIP ===== -->
+  <div class="context-strip">
+    <div class="context-inner">
+      <div class="context-grid">
+        <div class="context-text">
+          <h2>About <span>Me</span></h2>
+          <p>
+            I am an engineer and researcher focused on <strong>artificial intelligence, computer vision, and IoT systems</strong>.
+            My work spans academic research, applied engineering projects, and teaching.
+          </p>
+          <p>
+            I am passionate about designing systems that solve real-world problems — from embedded AI on edge devices
+            to agent-based simulations for public health.
+          </p>
+          <div class="context-pills">
+            <span class="pill">Machine Learning</span>
+            <span class="pill">Embedded Systems</span>
+            <span class="pill">Computer Vision</span>
+            <span class="pill">IoT</span>
+            <span class="pill">Simulation</span>
+          </div>
+        </div>
+        <div class="context-stats">
+          <div class="cstat">
+            <div class="cstat-num">5+</div>
+            <div class="cstat-desc">Years of research experience</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-num">10+</div>
+            <div class="cstat-desc">Projects completed</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-num">3+</div>
+            <div class="cstat-desc">Publications</div>
+          </div>
+          <div class="cstat">
+            <div class="cstat-num">200+</div>
+            <div class="cstat-desc">Students taught</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGES OVERVIEW ===== -->
+  <section>
+    <p class="section-label">Explore</p>
+    <h2 class="section-title">What you'll find here</h2>
+    <p class="section-sub">
+      Navigate through my portfolio to learn more about my work, research, and teaching activities.
+    </p>
+
+    <div class="pages-grid">
+      <a href="projects.html" class="page-card">
+        <div class="page-card-tag">🛠 Engineering</div>
+        <div class="page-card-title">Projects</div>
+        <div class="page-card-desc">
+          Software, hardware, and AI projects — from concept to deployment.
+        </div>
+        <div class="page-card-arrow">→</div>
+      </a>
+
+      <a href="research.html" class="page-card">
+        <div class="page-card-tag">🔬 Science</div>
+        <div class="page-card-title">Research</div>
+        <div class="page-card-desc">
+          Publications, ongoing work, and academic collaborations.
+        </div>
+        <div class="page-card-arrow">→</div>
+      </a>
+
+      <a href="teaching.html" class="page-card">
+        <div class="page-card-tag">📚 Education</div>
+        <div class="page-card-title">Teaching</div>
+        <div class="page-card-desc">
+          Courses, workshops, and materials I have developed and delivered.
+        </div>
+        <div class="page-card-arrow">→</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2025 Lucas Pin</span>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+        <a href="mailto:lucas@example.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

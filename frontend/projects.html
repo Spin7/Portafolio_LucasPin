@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Lucas Pin</title>
+  <meta name="description" content="Engineering and research projects by Lucas Pin — AI, embedded systems, and software.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a href="home.html" class="nav-logo">
+      <span class="nav-logo-icon">LP</span>
+      Lucas Pin
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="home.html">Home</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="page-header">
+    <p class="section-label">Portfolio</p>
+    <h1 class="section-title">Projects</h1>
+    <p class="section-sub">
+      A collection of engineering, AI, and software projects — from prototypes to production-ready systems.
+    </p>
+  </div>
+
+  <!-- ===== PROJECT FILTERS ===== -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="ai">AI / ML</button>
+    <button class="filter-btn" data-filter="embedded">Embedded</button>
+    <button class="filter-btn" data-filter="software">Software</button>
+  </div>
+
+  <!-- ===== PROJECTS GRID ===== -->
+  <section class="projects-section">
+    <div class="projects-grid">
+
+      <!-- Project Card Template -->
+      <div class="project-card" data-category="ai">
+        <div class="project-card-header">
+          <div class="project-icon">🤖</div>
+          <div class="project-status project-status--active">Active</div>
+        </div>
+        <h2 class="project-title">Project Title One</h2>
+        <p class="project-desc">
+          Brief description of this project. What problem does it solve? What technologies were used?
+          What was the outcome or impact?
+        </p>
+        <div class="project-tags">
+          <span class="pill">Python</span>
+          <span class="pill">TensorFlow</span>
+          <span class="pill">Edge AI</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="btn-outline btn-sm">GitHub →</a>
+          <a href="#" class="btn-primary btn-sm">Demo →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-category="embedded">
+        <div class="project-card-header">
+          <div class="project-icon">⚙️</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">Project Title Two</h2>
+        <p class="project-desc">
+          Brief description of this project. What problem does it solve? What technologies were used?
+          What was the outcome or impact?
+        </p>
+        <div class="project-tags">
+          <span class="pill">C++</span>
+          <span class="pill">Raspberry Pi</span>
+          <span class="pill">IoT</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="btn-outline btn-sm">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-category="software">
+        <div class="project-card-header">
+          <div class="project-icon">💻</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">Project Title Three</h2>
+        <p class="project-desc">
+          Brief description of this project. What problem does it solve? What technologies were used?
+          What was the outcome or impact?
+        </p>
+        <div class="project-tags">
+          <span class="pill">JavaScript</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">PostgreSQL</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="btn-outline btn-sm">GitHub →</a>
+          <a href="#" class="btn-primary btn-sm">Live →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-category="ai">
+        <div class="project-card-header">
+          <div class="project-icon">🔬</div>
+          <div class="project-status project-status--active">In Progress</div>
+        </div>
+        <h2 class="project-title">Project Title Four</h2>
+        <p class="project-desc">
+          Brief description of this project. What problem does it solve? What technologies were used?
+          What was the outcome or impact?
+        </p>
+        <div class="project-tags">
+          <span class="pill">Python</span>
+          <span class="pill">Simulation</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="btn-outline btn-sm">Details →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2025 Lucas Pin</span>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+        <a href="mailto:lucas@example.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+
+    // Filter buttons
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        projectCards.forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? 'flex' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
