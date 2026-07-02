@@ -1667,3 +1667,29 @@ section {
   transform: scale(1.06);
   box-shadow: var(--shadow-md);
 }
+
+/* ===== TWO-COLUMN PROJECTS GRID ===== */
+.proj-list--two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 40px;
+}
+
+.proj-list--two-col .proj-list-item {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Add top border only to the first two items (column headers) */
+.proj-list--two-col .proj-list-item:nth-child(1),
+.proj-list--two-col .proj-list-item:nth-child(2) {
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 720px) {
+  .proj-list--two-col {
+    grid-template-columns: 1fr;
+  }
+  .proj-list--two-col .proj-list-item:nth-child(2) {
+    border-top: none;
+  }
+}
