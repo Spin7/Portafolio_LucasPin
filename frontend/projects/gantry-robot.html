@@ -861,7 +861,8 @@
             The robot structure is a <strong>custom-welded aluminum frame</strong> designed to be rigid,
             lightweight, and easy to mount on a standard conveyor belt line.
             The three Cartesian axes (X, Y, Z) are built with aluminum extrusion profiles and guided
-            by linear rails, ensuring smooth and repeatable motion across the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace.
+            by linear rails, ensuring smooth and repeatable motion across the 27.6&thinsp;&times;&thinsp;11&thinsp;cm
+            workspace.
           </p>
           <p>
             Each axis is driven by a <strong>NEMA 17 stepper motor</strong> through a belt-and-pulley
@@ -874,23 +875,27 @@
             The system uses a two-microcontroller architecture connected to a host PC:
           </p>
           <ul>
-            <li><strong>Arduino UNO + GRBL 0.9j</strong> &mdash; interprets G-code and drives 3&times; NEMA 17 steppers via A4988 drivers</li>
-            <li><strong>Arduino Mega</strong> &mdash; dedicated end-effector controller; receives serial commands from the PC</li>
-            <li><strong>A4988 drivers</strong> &mdash; microstepped current control for precise, smooth motion on each axis</li>
-            <li><strong>PC (Python)</strong> &mdash; runs all vision, planning, and GUI logic; sends G-code to GRBL over USB serial</li>
-            <li><strong>Smartphone camera</strong> &mdash; overhead-mounted; streams live frames to the PC vision pipeline</li>
+            <li><strong>Arduino UNO + GRBL 0.9j</strong> &mdash; interprets G-code and drives 3&times; NEMA 17 steppers
+              via A4988 drivers</li>
+            <li><strong>Arduino Mega</strong> &mdash; dedicated end-effector controller; receives serial commands from
+              the PC</li>
+            <li><strong>A4988 drivers</strong> &mdash; microstepped current control for precise, smooth motion on each
+              axis</li>
+            <li><strong>PC (Python)</strong> &mdash; runs all vision, planning, and GUI logic; sends G-code to GRBL over
+              USB serial</li>
+            <li><strong>Smartphone camera</strong> &mdash; overhead-mounted; streams live frames to the PC vision
+              pipeline</li>
           </ul>
         </div>
 
         <div class="design-img-col">
           <div class="design-img-wrap">
             <img src="../static/Projects/GantryRobot/Estructura_Soldada.jpg"
-                 alt="Welded aluminum frame of the gantry robot">
+              alt="Welded aluminum frame of the gantry robot">
             <p class="design-caption">Welded aluminum Cartesian frame with linear rails</p>
           </div>
           <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/R1_Hardware_Block_Diagram.png"
-                 alt="R1 hardware block diagram">
+            <img src="../static/Projects/GantryRobot/R1_Hardware_Block_Diagram.png" alt="R1 hardware block diagram">
             <p class="design-caption">Hardware architecture &mdash; PC, Arduino UNO (GRBL), Arduino Mega, drivers</p>
           </div>
         </div>
@@ -923,9 +928,11 @@
           </ul>
           <p>
             Commands are sent from the PC via the <strong>Arduino Mega</strong> over serial at 115200 baud:
-            <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$on</code>
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$on</code>
             to grip,
-            <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$off</code>
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$off</code>
             to release.
           </p>
 
@@ -945,12 +952,11 @@
         <div class="design-img-col">
           <div class="design-img-wrap">
             <img src="../static/Projects/GantryRobot/Herramienta_Final_1.png"
-                 alt="3D CAD model of the parallel-jaw servo gripper">
+              alt="3D CAD model of the parallel-jaw servo gripper">
             <p class="design-caption">CAD model &mdash; parallel-jaw servo gripper (PLA, MG995)</p>
           </div>
           <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Herramienta_Final_2.png"
-                 alt="3D-printed gripper mounted on the R1 Z-axis">
+            <img src="../static/Projects/GantryRobot/Gripper2.jpg" alt="3D-printed gripper mounted on the R1 Z-axis">
             <p class="design-caption">Printed and assembled gripper on the robot Z-axis</p>
           </div>
         </div>
@@ -973,7 +979,8 @@
         <div class="design-text">
           <h3>Conveyor Belt Workspace</h3>
           <p>
-            The robot operates over a <strong>27.6&thinsp;&times;&thinsp;11&thinsp;cm</strong> workspace that covers the full
+            The robot operates over a <strong>27.6&thinsp;&times;&thinsp;11&thinsp;cm</strong> workspace that covers the
+            full
             width of the conveyor belt. An overhead smartphone camera captures the entire workspace
             in a single frame, allowing the vision pipeline to detect every egg without moving the camera.
           </p>
@@ -996,8 +1003,9 @@
         <div class="design-img-col">
           <div class="design-img-wrap">
             <img src="../static/Projects/GantryRobot/UbicacionArUco.png"
-                 alt="ArUco marker placement on the conveyor belt workspace">
-            <p class="design-caption">ArUco marker positions on the belt &mdash; define the homography coordinate frame</p>
+              alt="ArUco marker placement on the conveyor belt workspace">
+            <p class="design-caption">ArUco marker positions on the belt &mdash; define the homography coordinate frame
+            </p>
           </div>
         </div>
       </div>
@@ -1017,15 +1025,18 @@
 
       <!-- 3 short paragraphs -->
       <div style="max-width:780px; margin-bottom:2.5rem;">
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">YOLOv8 Egg Detection</h3>
+        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">YOLOv8 Egg
+          Detection</h3>
         <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
           Each camera frame is processed in real time by a custom-trained <strong>YOLOv8</strong> model that classifies
-          every egg as <em>good</em> or <em>broken</em>. The model uses <strong>ByteTrack</strong> to maintain a persistent
+          every egg as <em>good</em> or <em>broken</em>. The model uses <strong>ByteTrack</strong> to maintain a
+          persistent
           identity across frames, so the robot can continue tracking a target even if it is temporarily occluded.
           Detected bounding boxes are overlaid on the live feed together with the class label and track ID.
         </p>
 
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Homographic Projection</h3>
+        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Homographic
+          Projection</h3>
         <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
           The centre of each detected bounding box is transformed into real-world workspace coordinates (in centimetres)
           using a <strong>homography matrix</strong> computed from the four ArUco markers.
@@ -1033,12 +1044,16 @@
           giving an undistorted, metric view of the workspace that is independent of camera angle or position.
         </p>
 
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control GUI</h3>
+        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control GUI
+        </h3>
         <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:0;">
-          A <strong>PyQt5</strong> desktop application ties everything together. It shows the live annotated camera feed,
-          a <strong>2D map</strong> of the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace with the robot position, detected eggs,
+          A <strong>PyQt5</strong> desktop application ties everything together. It shows the live annotated camera
+          feed,
+          a <strong>2D map</strong> of the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace with the robot position,
+          detected eggs,
           and ArUco marker status drawn in real time, plus a terminal log of every command sent to the robot.
-          A <em>Run / Stop</em> button triggers the full autonomous cycle: homing, vision startup, and the pick-and-place loop.
+          A <em>Run / Stop</em> button triggers the full autonomous cycle: homing, vision startup, and the
+          pick-and-place loop.
         </p>
       </div>
 
@@ -1046,16 +1061,16 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
         <div class="gallery-item">
           <img src="../static/Projects/GantryRobot/Test1.png"
-               alt="YOLOv8 egg detection — good/broken classification with workspace coordinate assignment"
-               loading="lazy" style="width:100%;height:340px;object-fit:cover;display:block;">
+            alt="YOLOv8 egg detection — good/broken classification with workspace coordinate assignment" loading="lazy"
+            style="width:100%;height:340px;object-fit:cover;display:block;">
           <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
             Detection test &mdash; good/broken egg classification &amp; coordinate assignment
           </p>
         </div>
         <div class="gallery-item">
           <img src="../static/Projects/GantryRobot/Reconstrucci%C3%B3n_Homografica.png"
-               alt="Top-down homographic reconstruction of the conveyor belt workspace"
-               loading="lazy" style="width:100%;height:340px;object-fit:cover;display:block;">
+            alt="Top-down homographic reconstruction of the conveyor belt workspace" loading="lazy"
+            style="width:100%;height:340px;object-fit:cover;display:block;">
           <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
             Homographic reconstruction &mdash; top-down workspace projection
           </p>
@@ -1065,8 +1080,8 @@
       <!-- Row 2: GUI full width -->
       <div class="gallery-item" style="margin-bottom:2rem;">
         <img src="../static/Projects/GantryRobot/Interfaz_Grafica.png"
-             alt="PyQt5 GUI — live camera feed, 2D workspace map and terminal log"
-             loading="lazy" style="width:100%;height:420px;object-fit:cover;display:block;">
+          alt="PyQt5 GUI — live camera feed, 2D workspace map and terminal log" loading="lazy"
+          style="width:100%;height:420px;object-fit:cover;display:block;">
         <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
           PyQt5 GUI &mdash; live camera feed, 2D workspace map &amp; terminal log
         </p>
@@ -1091,16 +1106,16 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
         <div class="gallery-item">
           <img src="../static/Projects/GantryRobot/Robot_Final_Frontal.jpg"
-               alt="R1 gantry robot — frontal view of the final build"
-               loading="lazy" style="width:100%;height:380px;object-fit:cover;display:block;">
+            alt="R1 gantry robot — frontal view of the final build" loading="lazy"
+            style="width:100%;height:380px;object-fit:cover;display:block;">
           <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
             Final build &mdash; frontal view
           </p>
         </div>
         <div class="gallery-item">
           <img src="../static/Projects/GantryRobot/Robot_Final_Lateral.jpg"
-               alt="R1 gantry robot — lateral view of the final build"
-               loading="lazy" style="width:100%;height:380px;object-fit:cover;display:block;">
+            alt="R1 gantry robot — lateral view of the final build" loading="lazy"
+            style="width:100%;height:380px;object-fit:cover;display:block;">
           <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
             Final build &mdash; lateral view
           </p>
@@ -1108,17 +1123,18 @@
       </div>
 
       <!-- YouTube demo video card -->
-      <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;">
+      <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
         <div class="video-card">
           <a class="video-thumb-wrap" href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener">
             <img src="https://img.youtube.com/vi/wMggKcSIY9M/hqdefault.jpg"
-                 alt="R1 Gantry Robot &mdash; Full Autonomous Demo"
-                 loading="lazy">
+              alt="R1 Gantry Robot &mdash; Full Autonomous Demo" loading="lazy">
             <span class="video-part-badge">Full Demo</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
-                <path d="M45 24L27 14v20" fill="#fff"/>
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24L27 14v20" fill="#fff" />
               </svg>
             </span>
           </a>
@@ -1138,7 +1154,8 @@
             </div>
             <a href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener" class="video-card-link">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
               </svg>
               Watch on YouTube
             </a>
