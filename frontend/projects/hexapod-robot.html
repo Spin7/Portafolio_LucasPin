@@ -207,7 +207,6 @@
       padding: 1.4rem 1.3rem;
       border: 1px solid var(--border);
     }
-    .arch-card-icon { font-size: 1.8rem; margin-bottom: 0.7rem; display: block; }
     .arch-card-title { font-size: 0.92rem; font-weight: 800; color: var(--dark); margin-bottom: 0.35rem; }
     .arch-card-sub { font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; }
     .arch-card-desc { font-size: 0.8rem; color: var(--text); line-height: 1.6; }
@@ -257,20 +256,6 @@
     }
     .proj-table tr:last-child td { border-bottom: none; }
     .proj-table tr:hover td { background: var(--bg); }
-
-    .modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
-    .mode-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 1.2rem 1.1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .mode-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .mode-icon { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
-    .mode-name { font-size: 0.88rem; font-weight: 700; color: var(--dark); margin-bottom: 0.25rem; }
-    .mode-desc { font-size: 0.78rem; color: var(--text); line-height: 1.55; }
-
     /* ── DESIGN SECTION ── */
     .design-section { background: var(--bg); padding: 0 0 64px; border-bottom: 2px solid var(--border); }
     .design-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
@@ -352,7 +337,6 @@
     }
     .playlist-cta--sim { background: var(--sim-light); border: 1px solid rgba(99,102,241,0.2); }
     .playlist-cta--real { background: var(--real-light); border: 1px solid rgba(10,40,80,0.15); }
-    .playlist-cta-icon { font-size: 1.5rem; flex-shrink: 0; }
     .playlist-cta-text { flex: 1; min-width: 180px; }
     .playlist-cta-text strong { display: block; font-size: 0.87rem; color: var(--dark); font-weight: 700; margin-bottom: 0.15rem; }
     .playlist-cta-text span { font-size: 0.79rem; color: var(--text); }
@@ -472,7 +456,7 @@
         <span class="section-label-line"></span>
       </div>
 
-      <!-- Key numbers at a glance -->
+      <!-- At-a-glance numbers -->
       <div class="stat-banner">
         <div class="stat-item">
           <span class="stat-num">6</span>
@@ -487,7 +471,7 @@
         <div class="stat-item">
           <span class="stat-num">50</span>
           <span class="stat-unit">Hz</span>
-          <span class="stat-desc">Real-time servo control loop</span>
+          <span class="stat-desc">Arduino servo control loop</span>
         </div>
         <div class="stat-item">
           <span class="stat-num">5</span>
@@ -496,113 +480,68 @@
         </div>
       </div>
 
-      <p style="font-size:0.93rem;color:var(--text);line-height:1.75;margin-bottom:1.8rem;max-width:800px;">
-        The robot is built around a <strong>two-computer architecture</strong>. All heavy computation
-        &mdash; computer vision, GPS navigation, planning &mdash; runs on a PC. A Raspberry Pi onboard the robot
-        handles sensor reading and forwards high-level commands down to the Arduino, the only component that
-        directly drives the 18 servo motors. ROS2 ties everything together over a DDS network.
-      </p>
-
-      <div class="arch-grid">
-        <div class="arch-card">
-          <span class="arch-card-icon">&#x1F5A5;&#xFE0F;</span>
-          <p class="arch-card-title">PC &mdash; Central Processor</p>
-          <p class="arch-card-sub">ASUS TUF Gaming F15 &middot; NVIDIA RTX 3060 &middot; Ubuntu 24.04</p>
-          <p class="arch-card-desc">
-            Hosts the full ROS2 Jazzy stack. Runs Gazebo Harmonic simulation, YOLO object detection,
-            GPS-based navigation planner, MediaPipe hand tracking, and swarm logic.
-            Communicates with the Raspberry Pi over Wi-Fi via DDS (Fast-DDS).
-          </p>
-        </div>
-        <div class="arch-card">
-          <span class="arch-card-icon">&#x1F353;</span>
-          <p class="arch-card-title">Raspberry Pi 4 &mdash; Mobile Processor</p>
-          <p class="arch-card-sub">Raspberry Pi 4 &middot; 4 GB RAM &middot; Ubuntu 24.04 &middot; onboard</p>
-          <p class="arch-card-desc">
-            Rides on the robot chassis. Reads sensor data (BerryIMU, HC-SR04 ultrasonic, GPS and camera
-            streamed from a smartphone), publishes it to the ROS2 network, and relays
-            high-level motion commands to the Arduino over serial.
-          </p>
-        </div>
-        <div class="arch-card">
-          <span class="arch-card-icon">&#x2699;&#xFE0F;</span>
-          <p class="arch-card-title">Arduino Mega &mdash; Low-Level Control</p>
-          <p class="arch-card-sub">Arduino Mega &middot; C++ firmware &middot; 50 Hz servo loop</p>
-          <p class="arch-card-desc">
-            The sole component that physically moves the robot. Receives compact text commands over serial
-            and translates them into smooth servo trajectories via inverse kinematics (IK).
-            Controls all 18 servos &mdash; 3 DOF per leg (Coxa 51 mm / Femur 65 mm / Tibia 121 mm)
-            across 6 legs &mdash; and monitors the 12&thinsp;V battery.
-          </p>
-        </div>
-      </div>
-
-      <div class="arch-flow">
-        <p class="arch-flow-title">Dual-execution architecture &mdash; one intelligence, two realities</p>
-        <p style="font-size:0.82rem;color:var(--text);line-height:1.7;">
-          Every high-level behavior publishes to a single <code>cmd_robot</code> topic (std_msgs/String).
-          A <strong>simulation bridge</strong> maps that topic directly to Gazebo joint trajectories;
-          the <strong>real-robot bridge</strong> serializes the same command over USB to the Arduino.
-          Switching between simulation and real hardware requires zero changes to any high-level node.
-        </p>
-      </div>
-
-      <h2 class="proj-section-heading" style="margin-bottom:1rem;">Sensors &amp; Peripherals</h2>
+      <!-- Compact spec table -->
       <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
         <table class="proj-table">
           <thead>
-            <tr><th>Sensor / Device</th><th>Role</th><th>Interface</th></tr>
+            <tr><th>Layer</th><th>Component</th><th>Role</th></tr>
           </thead>
           <tbody>
-            <tr><td>&#x1F4E1; HC-SR04 Ultrasonic</td><td>Obstacle detection at close range</td><td>GPIO (Raspberry Pi)</td></tr>
-            <tr><td>&#x1F9ED; BerryIMU</td><td>Roll / pitch / heading estimation for auto-balance</td><td>I&sup2;C (Raspberry Pi)</td></tr>
-            <tr><td>&#x1F4F1; Google Pixel 7 &mdash; SensorServer</td><td>GPS position + full IMU streamed over WebSocket</td><td>Wi-Fi &rarr; ROS2</td></tr>
-            <tr><td>&#x1F4F7; Google Pixel 7 &mdash; IriunWebCam</td><td>Live camera feed for YOLO and MediaPipe</td><td>Wi-Fi &rarr; PC</td></tr>
-            <tr><td>&#x1F50B; 12&thinsp;V Analog Monitor</td><td>Battery voltage tracking</td><td>Analog pin (Arduino)</td></tr>
+            <tr>
+              <td><strong>Computation (PC)</strong></td>
+              <td>ASUS TUF F15 &middot; RTX 3060 &middot; Ubuntu 24.04</td>
+              <td>ROS2 Jazzy stack, Gazebo simulation, YOLO, GPS planner, MediaPipe</td>
+            </tr>
+            <tr>
+              <td><strong>Onboard CPU</strong></td>
+              <td>Raspberry Pi 4 &middot; 4 GB &middot; Ubuntu 24.04</td>
+              <td>Sensor fusion (IMU, ultrasonic, GPS), ROS2 node relay to Arduino</td>
+            </tr>
+            <tr>
+              <td><strong>Low-level control</strong></td>
+              <td>Arduino Mega &middot; C++ &middot; 50 Hz</td>
+              <td>Inverse kinematics, 18-servo PWM output, 12&thinsp;V battery monitor</td>
+            </tr>
+            <tr>
+              <td><strong>Middleware</strong></td>
+              <td>ROS2 Jazzy &middot; Fast-DDS</td>
+              <td>PC &harr; Raspberry Pi communication over Wi-Fi; single <code>cmd_robot</code> topic drives both sim and real</td>
+            </tr>
+            <tr>
+              <td><strong>Simulation</strong></td>
+              <td>Gazebo Harmonic &middot; URDF</td>
+              <td>Faithful kinematic replica; all modes validated here before hardware deployment</td>
+            </tr>
+            <tr>
+              <td><strong>Computer vision</strong></td>
+              <td>YOLO &middot; OpenCV &middot; MediaPipe</td>
+              <td>Object detection (follower, GPS nav), hand-gesture recognition (HRI)</td>
+            </tr>
+            <tr>
+              <td><strong>Sensors</strong></td>
+              <td>BerryIMU &middot; HC-SR04 &middot; Google Pixel 7</td>
+              <td>Roll/pitch/heading (IMU), obstacle distance (ultrasonic), GPS + camera (smartphone via WebSocket)</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
-      <h2 class="proj-section-heading" style="margin-bottom:0.5rem;">Autonomous Operation Modes</h2>
-      <p style="font-size:0.85rem;color:var(--text);margin-bottom:1rem;">
-        All modes run identically on the simulator and the real robot. Each was first validated in simulation before deployment on hardware.
-      </p>
-      <div class="modes-grid">
-        <div class="mode-card">
-          <span class="mode-icon">&#x1F3AF;</span>
-          <p class="mode-name">Vision Follower</p>
-          <p class="mode-desc">YOLO detects a target object and drives the robot toward it in real time, adjusting direction and speed continuously.</p>
-        </div>
-        <div class="mode-card">
-          <span class="mode-icon">&#x1F5FA;&#xFE0F;</span>
-          <p class="mode-name">GPS Navigation</p>
-          <p class="mode-desc">Receives GPS waypoints, estimates position via dead-reckoning, computes heading with IMU, and avoids obstacles en route.</p>
-        </div>
-        <div class="mode-card">
-          <span class="mode-icon">&#x1F41D;</span>
-          <p class="mode-name">Swarm Follower</p>
-          <p class="mode-desc">Multi-robot coordination &mdash; each unit follows a leader using vision and obstacle-aware navigation.</p>
-        </div>
-        <div class="mode-card">
-          <span class="mode-icon">&#x1F590;&#xFE0F;</span>
-          <p class="mode-name">Social Robot (HRI)</p>
-          <p class="mode-desc">MediaPipe recognizes hand gestures (ROCK / VICTORY / AL_PELO) and maps them to motion commands in real time.</p>
-        </div>
-        <div class="mode-card">
-          <span class="mode-icon">&#x2696;&#xFE0F;</span>
-          <p class="mode-name">Auto-Balance</p>
-          <p class="mode-desc">IMU continuously measures roll and pitch; a correction layer adjusts foot placement to compensate for terrain and disturbances.</p>
-        </div>
-        <div class="mode-card">
-          <span class="mode-icon">&#x1F579;&#xFE0F;</span>
-          <p class="mode-name">Teleoperation</p>
-          <p class="mode-desc">Direct keyboard control for development, calibration, and manual override during field testing.</p>
-        </div>
+      <!-- Operation modes — compact list -->
+      <div class="arch-flow">
+        <p class="arch-flow-title">Operation modes &mdash; validated in simulation, deployed on hardware</p>
+        <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
+          <strong>Vision Follower</strong> &mdash; YOLO tracks a target and drives the robot toward it &nbsp;&middot;&nbsp;
+          <strong>GPS Navigation</strong> &mdash; autonomous travel to GPS waypoints with obstacle avoidance &nbsp;&middot;&nbsp;
+          <strong>Swarm Follower</strong> &mdash; multi-robot leader-following &nbsp;&middot;&nbsp;
+          <strong>Social Robot (HRI)</strong> &mdash; hand-gesture commands via MediaPipe &nbsp;&middot;&nbsp;
+          <strong>Auto-Balance</strong> &mdash; IMU-driven postural correction &nbsp;&middot;&nbsp;
+          <strong>Teleoperation</strong> &mdash; keyboard manual override
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════
+    <!-- ══════════════════════════════════════
        3D DESIGN
        ══════════════════════════════════════ -->
   <section class="design-section">
@@ -656,9 +595,7 @@
             <p class="design-caption">Physical robot alongside its Gazebo simulation counterpart</p>
           </div>
           <div class="gallery-item" style="border-radius:var(--radius-md);">
-            <div class="gallery-placeholder" style="height:200px;">
-              <span class="ph-icon">&#x1F527;</span>
-              <span class="ph-label">SolidWorks assembly render<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
+            <div class="gallery-placeholder" style="height:200px;"><span class="ph-label">SolidWorks assembly render<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
             </div>
           </div>
         </div>
@@ -689,15 +626,11 @@
 
       <div class="gallery-2">
         <div class="gallery-item">
-          <div class="gallery-placeholder" style="height:220px;">
-            <span class="ph-icon">&#x1F916;</span>
-            <span class="ph-label">Gazebo simulation screenshot 1<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
+          <div class="gallery-placeholder" style="height:220px;"><span class="ph-label">Gazebo simulation screenshot 1<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
           </div>
         </div>
         <div class="gallery-item">
-          <div class="gallery-placeholder" style="height:220px;">
-            <span class="ph-icon">&#x1F30D;</span>
-            <span class="ph-label">Gazebo simulation screenshot 2<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
+          <div class="gallery-placeholder" style="height:220px;"><span class="ph-label">Gazebo simulation screenshot 2<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
           </div>
         </div>
       </div>
@@ -761,7 +694,6 @@
       </div>
 
       <div class="playlist-cta playlist-cta--sim">
-        <span class="playlist-cta-icon">&#x1F3AC;</span>
         <div class="playlist-cta-text">
           <strong>Full Simulation Playlist &mdash; 7 videos</strong>
           <span>Gazebo startup &middot; Teleoperation &middot; Sensor pipeline &middot; Follower &middot; Swarm &middot; GPS Navigation &middot; Hand Gestures</span>
@@ -797,15 +729,11 @@
 
       <div class="gallery-2">
         <div class="gallery-item">
-          <div class="gallery-placeholder gallery-placeholder-real" style="height:220px;">
-            <span class="ph-icon">&#x1F9BE;</span>
-            <span class="ph-label">Real robot photo 1<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
+          <div class="gallery-placeholder gallery-placeholder-real" style="height:220px;"><span class="ph-label">Real robot photo 1<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
           </div>
         </div>
         <div class="gallery-item">
-          <div class="gallery-placeholder gallery-placeholder-real" style="height:220px;">
-            <span class="ph-icon">&#x1F33F;</span>
-            <span class="ph-label">Real robot photo 2 &mdash; outdoor test<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
+          <div class="gallery-placeholder gallery-placeholder-real" style="height:220px;"><span class="ph-label">Real robot photo 2 &mdash; outdoor test<br><em style="font-weight:400;opacity:0.7;">(add image here)</em></span>
           </div>
         </div>
       </div>
@@ -844,7 +772,7 @@
         <div class="video-card">
           <a class="video-thumb-wrap" href="https://youtu.be/iqLUGNQwuDo" target="_blank" rel="noopener">
             <img src="https://img.youtube.com/vi/iqLUGNQwuDo/hqdefault.jpg" alt="GPS Navigation Full Demo &mdash; Real Robot" loading="lazy">
-            <span class="video-part-badge">Real &middot; GPS Nav &#x2B50;</span>
+            <span class="video-part-badge">Real &middot; GPS Nav </span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
                 <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
@@ -853,7 +781,7 @@
             </span>
           </a>
           <div class="video-card-body">
-            <p class="video-card-title">GPS Navigation Full Demo &#x2B50;</p>
+            <p class="video-card-title">GPS Navigation Full Demo </p>
             <p class="video-card-desc">The crown jewel of the project. Full end-to-end autonomous navigation in the real world: receives a GPS target &rarr; estimates position &rarr; computes heading &rarr; detects obstacles &rarr; identifies the target with YOLO &rarr; continuously replans &rarr; reaches the goal.</p>
             <div class="video-card-tags">
               <span class="video-card-tag">GPS</span>
@@ -870,7 +798,6 @@
       </div>
 
       <div class="playlist-cta playlist-cta--real">
-        <span class="playlist-cta-icon">&#x1F3AC;</span>
         <div class="playlist-cta-text">
           <strong>Full Real-Robot Playlist &mdash; 9 videos</strong>
           <span>DDS launch &middot; Teleop &middot; Auto-balance &middot; Sensors &middot; Follower &middot; Swarm &middot; GPS setup &middot; Follower demo &middot; GPS demo</span>
