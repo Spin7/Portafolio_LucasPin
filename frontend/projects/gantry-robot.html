@@ -959,9 +959,55 @@
   </section>
 
   <!-- ══════════════════════════════════════
+       WORKSPACE & ARUCO LOCALIZATION
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Workspace &amp; ArUco Localization</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="design-grid">
+        <div class="design-text">
+          <h3>Conveyor Belt Workspace</h3>
+          <p>
+            The robot operates over a <strong>27.6&thinsp;&times;&thinsp;11&thinsp;cm</strong> workspace that covers the full
+            width of the conveyor belt. An overhead smartphone camera captures the entire workspace
+            in a single frame, allowing the vision pipeline to detect every egg without moving the camera.
+          </p>
+
+          <h3>ArUco Homography</h3>
+          <p>
+            Four <strong>ArUco fiducial markers</strong> are placed at the four corners of the belt platform.
+            At startup, the system detects these markers automatically and computes a
+            <strong>homography matrix</strong> that maps any pixel coordinate in the image to its
+            real-world position in centimetres on the workspace plane.
+          </p>
+          <p>
+            This one-time calibration step requires no manual measurement &mdash; the markers define the
+            coordinate frame entirely. Once calibrated, the system converts every YOLOv8 bounding-box
+            centre directly to a pick target in (X, Y) workspace coordinates, which are then
+            sent as G-code to GRBL.
+          </p>
+        </div>
+
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/GantryRobot/UbicacionArUco.png"
+                 alt="ArUco marker placement on the conveyor belt workspace">
+            <p class="design-caption">ArUco marker positions on the belt &mdash; define the homography coordinate frame</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
        VISION & SOFTWARE
        ══════════════════════════════════════ -->
-  <section class="design-section">
+  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
