@@ -898,6 +898,65 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       GRIPPER — END-EFFECTOR
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:var(--bg);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">End-Effector &mdash; 3D-Printed Gripper</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="design-grid">
+        <div class="design-text">
+          <h3>Mechanism</h3>
+          <p>
+            The end-effector is a <strong>parallel-jaw servo gripper</strong> mounted on the Z-axis head.
+            It is actuated by a single <strong>MG995 servo</strong> that rotates between two angles
+            to open and close the jaws:
+          </p>
+          <ul>
+            <li><strong>Close (grip)</strong> &mdash; servo at 20&deg; &rarr; jaws clamp the egg</li>
+            <li><strong>Open (release)</strong> &mdash; servo at 90&deg; &rarr; jaws spread apart</li>
+          </ul>
+          <p>
+            Commands are sent from the PC via the <strong>Arduino Mega</strong> over serial at 115200 baud:
+            <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$on</code>
+            to grip,
+            <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$off</code>
+            to release.
+          </p>
+
+          <h3>Material &amp; Fabrication</h3>
+          <p>
+            All structural parts are <strong>FDM 3D-printed</strong> in PLA.
+            The assembly consists of eight components: rotating base, upper and lower jaws,
+            drive rods (28 mm and 50 mm), servo horn adapter, and gripper arm &mdash;
+            all designed in CAD and sliced directly to print without supports.
+          </p>
+          <p>
+            The design is fully open-source; STL files and the editable CAD source are included
+            in the project repository.
+          </p>
+        </div>
+
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/GantryRobot/Gripper1.png"
+                 alt="3D model of the parallel-jaw servo gripper">
+            <p class="design-caption">CAD model &mdash; parallel-jaw servo gripper (PLA, MG995)</p>
+          </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/GantryRobot/Gripper2.png"
+                 alt="3D-printed gripper mounted on the R1 Z-axis">
+            <p class="design-caption">Printed and assembled gripper on the robot Z-axis</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ══════════════════════════════════════
        VISION & SOFTWARE
