@@ -795,6 +795,7 @@
       margin: 0 !important;
       display: block !important;
     }
+
     .breadcrumb-inner {
       max-width: 1200px;
       margin: 0 auto;
@@ -803,6 +804,7 @@
       flex-direction: column;
       gap: 0.35rem;
     }
+
     .breadcrumb-title {
       font-size: clamp(1.8rem, 3vw, 2.6rem);
       font-weight: 900;
@@ -812,7 +814,11 @@
       display: inline-block;
       transition: color 0.15s;
     }
-    .breadcrumb-title:hover { color: var(--primary); }
+
+    .breadcrumb-title:hover {
+      color: var(--primary);
+    }
+
     .breadcrumb-sub {
       font-size: 0.9rem;
       font-weight: 500;
@@ -821,7 +827,10 @@
       align-items: center;
       gap: 0.4rem;
     }
-    .breadcrumb-sub .sep { opacity: 0.4; }
+
+    .breadcrumb-sub .sep {
+      opacity: 0.4;
+    }
   </style>
 </head>
 
@@ -856,8 +865,7 @@
         <span class="proj-category-tag">Robotics &middot; ROS2 &middot; Computer Vision</span>
         <h1 class="proj-title">Autonomous Hexapod Robot</h1>
         <div class="proj-status-row">
-          <span class="project-status project-status--done">Completed</span>
-          <span class="proj-year">2024 &ndash; 2025</span>
+          <span class="proj-year">2025</span>
         </div>
         <div class="proj-cover">
           <img src="../static/Projects/Hexapod/Hexapod_real_and_sim.png"
@@ -887,7 +895,7 @@
           <span class="pill">SolidWorks</span>
         </div>
         <div class="proj-links-block">
-          <a href="https://github.com/Spin7ion/hexapod-robot" target="_blank" class="btn-outline">GitHub &rarr;</a>
+          <a href="https://github.com/Spin7/Hexapod-Project.git" target="_blank" class="btn-outline">GitHub &rarr;</a>
         </div>
         <div class="proj-meta-grid">
           <div class="proj-meta-item">
@@ -927,9 +935,9 @@
           <span class="stat-desc">3 DOF per leg &mdash; Coxa &middot; Femur &middot; Tibia</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">50</span>
-          <span class="stat-unit">Hz</span>
-          <span class="stat-desc">Arduino servo control loop</span>
+          <span class="stat-num">ROS2</span>
+          <span class="stat-unit">Project</span>
+          <span class="stat-desc">Full ROS2 System with Gazebo Physical Simulation</span>
         </div>
         <div class="stat-item">
           <span class="stat-num">5</span>
@@ -1102,18 +1110,24 @@
       <div class="video-duo">
         <div class="video-card">
           <a class="video-thumb-wrap" href="https://youtu.be/TKISpMUWDwg" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/TKISpMUWDwg/hqdefault.jpg" alt="Vision-Based Follower &mdash; Simulation Part 4" loading="lazy">
+            <img src="https://img.youtube.com/vi/TKISpMUWDwg/hqdefault.jpg"
+              alt="Vision-Based Follower &mdash; Simulation Part 4" loading="lazy">
             <span class="video-part-badge">Sim &middot; Part 4</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000" />
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
                 <path d="M45 24L27 14v20" fill="#fff" />
               </svg>
             </span>
           </a>
           <div class="video-card-body">
             <p class="video-card-title">Vision-Based Follower &mdash; Simulation</p>
-            <p class="video-card-desc">The hexapod autonomously follows a moving object detected by the camera using a YOLO-based computer vision model. The robot continuously tracks the target&rsquo;s position in the image and generates reactive motion commands to pursue it while avoiding obstacles &mdash; running entirely inside Gazebo.</p>
+            <p class="video-card-desc">The hexapod autonomously follows a moving object detected by the camera using a
+              YOLO-based computer vision model. The robot continuously tracks the target&rsquo;s position in the image
+              and generates reactive motion commands to pursue it while avoiding obstacles &mdash; running entirely
+              inside Gazebo.</p>
             <div class="video-card-tags">
               <span class="video-card-tag">YOLO</span>
               <span class="video-card-tag">OpenCV</span>
@@ -1121,7 +1135,10 @@
               <span class="video-card-tag">Obstacle Avoidance</span>
             </div>
             <a href="https://youtu.be/TKISpMUWDwg" target="_blank" rel="noopener" class="video-card-link">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+              </svg>
               Watch on YouTube
             </a>
           </div>
@@ -1129,18 +1146,26 @@
 
         <div class="video-card">
           <a class="video-thumb-wrap" href="https://youtu.be/Hdm6wiWA3Ro" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/Hdm6wiWA3Ro/hqdefault.jpg" alt="Social Robot &mdash; Hand Gestures Simulation Part 7" loading="lazy">
+            <img src="https://img.youtube.com/vi/Hdm6wiWA3Ro/hqdefault.jpg"
+              alt="Social Robot &mdash; Hand Gestures Simulation Part 7" loading="lazy">
             <span class="video-part-badge">Sim &middot; Part 7</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000" />
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
                 <path d="M45 24L27 14v20" fill="#fff" />
               </svg>
             </span>
           </a>
           <div class="video-card-body">
             <p class="video-card-title">Social Robot &mdash; Hand Gesture Control</p>
-            <p class="video-card-desc">The hexapod responds to hand gestures captured by the camera. Using MediaPipe landmark detection, gestures are recognized and translated into symbolic robot actions: <strong>ROCK</strong> &rarr; aggressive pose, <strong>VICTORY</strong> &rarr; celebration sequence, <strong>AL_PELO</strong> &rarr; custom expressive motion &mdash; an experimental social interaction layer running in Gazebo.</p>
+            <p class="video-card-desc">The hexapod responds to hand gestures captured by the camera. Using MediaPipe
+              landmark detection, gestures are recognized and translated into symbolic robot actions:
+              <strong>ROCK</strong> &rarr; aggressive pose, <strong>VICTORY</strong> &rarr; celebration sequence,
+              <strong>AL_PELO</strong> &rarr; custom expressive motion &mdash; an experimental social interaction layer
+              running in Gazebo.
+            </p>
             <div class="video-card-tags">
               <span class="video-card-tag">MediaPipe</span>
               <span class="video-card-tag">Hand Gestures</span>
@@ -1148,7 +1173,10 @@
               <span class="video-card-tag">Gazebo Harmonic</span>
             </div>
             <a href="https://youtu.be/Hdm6wiWA3Ro" target="_blank" rel="noopener" class="video-card-link">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+              </svg>
               Watch on YouTube
             </a>
           </div>
@@ -1158,10 +1186,15 @@
       <div class="playlist-cta playlist-cta--sim">
         <div class="playlist-cta-text">
           <strong>Full Simulation Playlist</strong>
-          <span>Gazebo startup &middot; Teleoperation &middot; Sensor pipeline &middot; Vision Follower &middot; Swarm &middot; GPS Navigation &middot; Hand Gestures</span>
+          <span>Gazebo startup &middot; Teleoperation &middot; Sensor pipeline &middot; Vision Follower &middot; Swarm
+            &middot; GPS Navigation &middot; Hand Gestures</span>
         </div>
-        <a href="https://www.youtube.com/playlist?list=PLbsO1Zy_26J4" target="_blank" rel="noopener" class="playlist-cta-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+        <a href="https://www.youtube.com/playlist?list=PLbsO1Zy_26J4" target="_blank" rel="noopener"
+          class="playlist-cta-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+          </svg>
           Watch Playlist
         </a>
       </div>
@@ -1204,18 +1237,23 @@
       <div class="video-duo">
         <div class="video-card">
           <a class="video-thumb-wrap" href="https://youtu.be/iJXCLiiwyK0" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/iJXCLiiwyK0/hqdefault.jpg" alt="Vision-Based Follower Launch &mdash; Real Robot Part 5" loading="lazy">
+            <img src="https://img.youtube.com/vi/iJXCLiiwyK0/hqdefault.jpg"
+              alt="Vision-Based Follower Launch &mdash; Real Robot Part 5" loading="lazy">
             <span class="video-part-badge">Real &middot; Part 5</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000" />
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
                 <path d="M45 24L27 14v20" fill="#fff" />
               </svg>
             </span>
           </a>
           <div class="video-card-body">
             <p class="video-card-title">Vision-Based Follower &mdash; Launch</p>
-            <p class="video-card-desc">Launching follower mode on the real physical hexapod. The robot uses a camera and a YOLO model to detect a target object and follow it in real time. Shows the full startup sequence: camera node, YOLO detector, and the follower navigation node all coming online together on real hardware.</p>
+            <p class="video-card-desc">Launching follower mode on the real physical hexapod. The robot uses a camera and
+              a YOLO model to detect a target object and follow it in real time. Shows the full startup sequence: camera
+              node, YOLO detector, and the follower navigation node all coming online together on real hardware.</p>
             <div class="video-card-tags">
               <span class="video-card-tag">YOLO</span>
               <span class="video-card-tag">OpenCV</span>
@@ -1223,7 +1261,10 @@
               <span class="video-card-tag">Raspberry Pi 4</span>
             </div>
             <a href="https://youtu.be/iJXCLiiwyK0" target="_blank" rel="noopener" class="video-card-link">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+              </svg>
               Watch on YouTube
             </a>
           </div>
@@ -1268,10 +1309,15 @@
       <div class="playlist-cta playlist-cta--real">
         <div class="playlist-cta-text">
           <strong>Full Real-Robot Playlist</strong>
-          <span>DDS launch &middot; Teleop &middot; Auto-balance &middot; Sensors &middot; Follower &middot; Swarm &middot; GPS setup &middot; Follower demo &middot; GPS demo</span>
+          <span>DDS launch &middot; Teleop &middot; Auto-balance &middot; Sensors &middot; Follower &middot; Swarm
+            &middot; GPS setup &middot; Follower demo &middot; GPS demo</span>
         </div>
-        <a href="https://www.youtube.com/playlist?list=PLBQBcoLJgSj0" target="_blank" rel="noopener" class="playlist-cta-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+        <a href="https://www.youtube.com/playlist?list=PLBQBcoLJgSj0" target="_blank" rel="noopener"
+          class="playlist-cta-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+          </svg>
           Watch Playlist
         </a>
       </div>
