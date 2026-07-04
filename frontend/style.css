@@ -2011,3 +2011,17 @@ section {
     gap: 6px;
   }
 }
+
+/* ===== TWO IMAGE GALLERY ===== */
+.gallery-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width:720px) {
+  .gallery-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
