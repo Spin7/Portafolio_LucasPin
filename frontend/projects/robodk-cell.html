@@ -860,295 +860,124 @@
     </div>
   </section>
 
+
   <!-- ══════════════════════════════════════
-       MECHANICAL DESIGN & HARDWARE
+       STATIONS
        ══════════════════════════════════════ -->
   <section class="design-section">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">Mechanical Design &amp; Hardware</span>
+        <span class="section-label-text">Stations</span>
         <span class="section-label-line"></span>
       </div>
 
-      <div class="design-grid">
+      <!-- Station 1 -->
+      <div class="design-grid" style="margin-bottom: 3rem;">
         <div class="design-text">
-          <h3>Welded Aluminum Frame</h3>
+          <h3>Station 1 &mdash; Wheel Feeder (UR3e &mdash; Robot 1)</h3>
           <p>
-            The robot structure is a <strong>custom-welded aluminum frame</strong> designed to be rigid,
-            lightweight, and easy to mount on a standard conveyor belt line.
-            The three Cartesian axes (X, Y, Z) are built with aluminum extrusion profiles and guided
-            by linear rails, ensuring smooth and repeatable motion across the 27.6&thinsp;&times;&thinsp;11&thinsp;cm
-            workspace.
-          </p>
-          <p>
-            Each axis is driven by a <strong>NEMA 17 stepper motor</strong> through a belt-and-pulley
-            transmission at <strong>7000 steps/mm</strong> resolution &mdash; providing sub-millimetre
-            positioning accuracy for reliable pick-and-place operations.
-          </p>
-
-          <h3>Hardware Architecture</h3>
-          <p>
-            The system uses a two-microcontroller architecture connected to a host PC:
+            A rotating wheel mechanism (<strong>Mi Mecanismo</strong>) holds colored cubic workpieces arranged
+            radially. <strong>Robot 1</strong> (UR3e) picks one cube at a time from the wheel using a
+            vacuum gripper (<code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">Tool1</code>),
+            placing it on <strong>Mesa1</strong> (work table) via inverse-kinematics-based TCP positioning.
           </p>
           <ul>
-            <li><strong>Arduino UNO + GRBL 0.9j</strong> &mdash; interprets G-code and drives 3&times; NEMA 17 steppers
-              via A4988 drivers</li>
-            <li><strong>Arduino Mega</strong> &mdash; dedicated end-effector controller; receives serial commands from
-              the PC</li>
-            <li><strong>A4988 drivers</strong> &mdash; microstepped current control for precise, smooth motion on each
-              axis</li>
-            <li><strong>PC (Python)</strong> &mdash; runs all vision, planning, and GUI logic; sends G-code to GRBL over
-              USB serial</li>
-            <li><strong>Smartphone camera</strong> &mdash; overhead-mounted; streams live frames to the PC vision
-              pipeline</li>
+            <li><strong>Wheel advance</strong> &mdash; rotates <strong>15°</strong> after each pick to present the next piece.</li>
+            <li><strong>IK positioning</strong> &mdash; <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">move_tool_TCP_to_Target()</code> solves inverse kinematics dynamically.</li>
+            <li><strong>Attach / detach</strong> &mdash; <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">grab_object_with_tool()</code> &amp; <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">drop_object_from_tool_to_place()</code> handle object ownership.</li>
+            <li><strong>Home position</strong> &mdash; robot returns to safe home joints after every cycle.</li>
           </ul>
         </div>
-
         <div class="design-img-col">
           <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Estructura_Soldada.jpg"
-              alt="Welded aluminum frame of the gantry robot">
-            <p class="design-caption">Welded aluminum Cartesian frame with linear rails</p>
-          </div>
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/R1_Hardware_Block_Diagram.png" alt="R1 hardware block diagram">
-            <p class="design-caption">Hardware architecture &mdash; PC, Arduino UNO (GRBL), Arduino Mega, drivers</p>
+            <img src="../static/Projects/3robotsRoboDK/Capture2.PNG"
+              alt="Station 1 — UR3e picking from the rotating wheel feeder">
+            <p class="design-caption">Station 1 &mdash; UR3e picking from the rotating wheel mechanism</p>
           </div>
         </div>
       </div>
+
+      <!-- Station 2 -->
+      <div class="design-grid" style="margin-bottom: 3rem;">
+        <div class="design-text">
+          <h3>Station 2 &mdash; Machining &amp; Conveyor Loading (ABB IRB 140 &mdash; Robot 2)</h3>
+          <p>
+            <strong>Robot 2</strong> (ABB IRB 140) operates with a <strong>dual-tool</strong> setup:
+            a gripper (<code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">Tool2_A</code>)
+            for pick-and-place and a Teknomotor ER20 spindle
+            (<code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">Tool2_M</code>)
+            for machining.
+          </p>
+          <ul>
+            <li><strong>Pick</strong> &mdash; grabs cube from Mesa1 with the gripper.</li>
+            <li><strong>Machine</strong> &mdash; switches to spindle and executes a <strong>5-waypoint milling trajectory</strong>.</li>
+            <li><strong>Random Z-spin</strong> &mdash; <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">random_spin()</code> applies a random 0°–90° rotation before release, simulating real-world orientation variability.</li>
+            <li><strong>Conveyor drop</strong> &mdash; re-grabs with gripper and drops the piece onto the belt at <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">Target_Conveyor_Input</code>.</li>
+          </ul>
+        </div>
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/3robotsRoboDK/Capture4.PNG"
+              alt="Station 2 — ABB IRB 140 machining and loading the conveyor belt">
+            <p class="design-caption">Station 2 &mdash; ABB IRB 140 machining &amp; conveyor loading</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Station 3 -->
+      <div class="design-grid" style="margin-bottom: 3rem;">
+        <div class="design-text">
+          <h3>Station 3 &mdash; Vision-Guided Palletizer (UR3e &mdash; Robot 3)</h3>
+          <p>
+            <strong>Robot 3</strong> (UR3e) monitors two virtual sensors and uses a <strong>RoboDK virtual
+            camera + OpenCV</strong> pipeline to detect each piece's color and orientation before grasping.
+          </p>
+          <ul>
+            <li><strong>Color detection</strong> &mdash; HSV masking classifies each piece as Red, Green, or Blue.</li>
+            <li><strong>Angle detection</strong> &mdash; <code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.35em;border-radius:4px;">cv2.minAreaRect()</code> on the largest contour returns the orientation angle.</li>
+            <li><strong>Wrist compensation</strong> &mdash; joint J6 is pre-rotated by the detected angle before the robot grabs the piece.</li>
+            <li><strong>Palletizer class</strong> &mdash; manages a <strong>4×4 grid</strong> per color pallet (<em>Pallet_Rojo</em>, <em>Pallet_Verde</em>, <em>Pallet_Azul</em>) with automatic Z-layer stacking.</li>
+          </ul>
+        </div>
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/3robotsRoboDK/Capture3.PNG"
+              alt="Station 3 — UR3e vision-guided palletizer sorting colored cubes">
+            <p class="design-caption">Station 3 &mdash; UR3e sorting pieces into color-coded pallets</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-width Stations overview image -->
+      <div style="margin-bottom: 2.5rem;">
+        <div class="design-img-wrap">
+          <img src="../static/Projects/3robotsRoboDK/Stations.PNG"
+            alt="Overview of all 3 stations in the RoboDK manufacturing cell"
+            style="width:100%; height:auto; display:block;">
+          <p class="design-caption">Full manufacturing cell overview &mdash; Station 1 (Feeder) &middot; Station 2 (Machining) &middot; Station 3 (Palletizer)</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- ══════════════════════════════════════
-       GRIPPER — END-EFFECTOR
+       DEMO
        ══════════════════════════════════════ -->
   <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">End-Effector &mdash; 3D-Printed Gripper</span>
+        <span class="section-label-text">Demo</span>
         <span class="section-label-line"></span>
       </div>
 
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Mechanism</h3>
-          <p>
-            The end-effector is a <strong>parallel-jaw servo gripper</strong> mounted on the Z-axis head.
-            It is actuated by a single <strong>MG995 servo</strong> that rotates between two angles
-            to open and close the jaws:
-          </p>
-          <ul>
-            <li><strong>Close (grip)</strong> &mdash; servo at 20&deg; &rarr; jaws clamp the egg</li>
-            <li><strong>Open (release)</strong> &mdash; servo at 90&deg; &rarr; jaws spread apart</li>
-          </ul>
-          <p>
-            Commands are sent from the PC via the <strong>Arduino Mega</strong> over serial at 115200 baud:
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$on</code>
-            to grip,
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$off</code>
-            to release.
-          </p>
-
-          <h3>Material &amp; Fabrication</h3>
-          <p>
-            All structural parts are <strong>FDM 3D-printed</strong> in PLA.
-            The assembly consists of eight components: rotating base, upper and lower jaws,
-            drive rods (28 mm and 50 mm), servo horn adapter, and gripper arm &mdash;
-            all designed in CAD and sliced directly to print without supports.
-          </p>
-          <p>
-            The design is fully open-source; STL files and the editable CAD source are included
-            in the project repository.
-          </p>
-        </div>
-
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Herramienta_Final_1.png"
-              alt="3D CAD model of the parallel-jaw servo gripper"
-              style="width:100%;max-height:220px;object-fit:contain;background:#f8f9fb;">
-            <p class="design-caption">CAD model &mdash; parallel-jaw servo gripper (PLA, MG995)</p>
-          </div>
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Gripper2.jpg" alt="3D-printed gripper mounted on the R1 Z-axis"
-              style="width:100%;max-height:220px;object-fit:contain;background:#f8f9fb;">
-            <p class="design-caption">Printed and assembled gripper on the robot Z-axis</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       WORKSPACE & ARUCO LOCALIZATION
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Workspace &amp; ArUco Localization</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Conveyor Belt Workspace</h3>
-          <p>
-            The robot operates over a <strong>27.6&thinsp;&times;&thinsp;11&thinsp;cm</strong> workspace that covers the
-            full
-            width of the conveyor belt. An overhead smartphone camera captures the entire workspace
-            in a single frame, allowing the vision pipeline to detect every egg without moving the camera.
-          </p>
-
-          <h3>ArUco Homography</h3>
-          <p>
-            Four <strong>ArUco fiducial markers</strong> are placed at the four corners of the belt platform.
-            At startup, the system detects these markers automatically and computes a
-            <strong>homography matrix</strong> that maps any pixel coordinate in the image to its
-            real-world position in centimetres on the workspace plane.
-          </p>
-          <p>
-            This one-time calibration step requires no manual measurement &mdash; the markers define the
-            coordinate frame entirely. Once calibrated, the system converts every YOLOv8 bounding-box
-            centre directly to a pick target in (X, Y) workspace coordinates, which are then
-            sent as G-code to GRBL.
-          </p>
-        </div>
-
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/UbicacionArUco.png"
-              alt="ArUco marker placement on the conveyor belt workspace">
-            <p class="design-caption">ArUco marker positions on the belt &mdash; define the homography coordinate frame
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       VISION & SOFTWARE
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Vision &amp; Software</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <!-- 3 short paragraphs -->
-      <div style="max-width:780px; margin-bottom:2.5rem;">
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">YOLOv8 Egg
-          Detection</h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
-          Each camera frame is processed in real time by a custom-trained <strong>YOLOv8</strong> model that classifies
-          every egg as <em>good</em> or <em>broken</em>. The model uses <strong>ByteTrack</strong> to maintain a
-          persistent
-          identity across frames, so the robot can continue tracking a target even if it is temporarily occluded.
-          Detected bounding boxes are overlaid on the live feed together with the class label and track ID.
-        </p>
-
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Homographic
-          Projection</h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
-          The centre of each detected bounding box is transformed into real-world workspace coordinates (in centimetres)
-          using a <strong>homography matrix</strong> computed from the four ArUco markers.
-          The same matrix is also used to produce a <strong>top-down perspective reconstruction</strong> of the belt,
-          giving an undistorted, metric view of the workspace that is independent of camera angle or position.
-        </p>
-
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control GUI
-        </h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:0;">
-          A <strong>PyQt5</strong> desktop application ties everything together. It shows the live annotated camera
-          feed,
-          a <strong>2D map</strong> of the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace with the robot position,
-          detected eggs,
-          and ArUco marker status drawn in real time, plus a terminal log of every command sent to the robot.
-          A <em>Run / Stop</em> button triggers the full autonomous cycle: homing, vision startup, and the
-          pick-and-place loop.
-        </p>
-      </div>
-
-      <!-- Row 1: Detection + Homography side by side -->
-      <div class="gallery-grid-2">
-
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Test1.png"
-            alt="YOLOv8 egg detection — good/broken classification with workspace coordinate assignment" loading="lazy"
-            class="gallery-img">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Detection test &mdash; good/broken egg classification &amp; coordinate assignment
-          </p>
-        </div>
-
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Reconstrucci%C3%B3n_Homografica.png"
-            alt="Top-down homographic reconstruction of the conveyor belt workspace" loading="lazy" class="gallery-img">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Homographic reconstruction &mdash; top-down workspace projection
-          </p>
-        </div>
-
-      </div>
-
-      <!-- Row 2: GUI full width -->
-      <div class="gallery-item" style="margin-bottom:2rem;">
-        <img src="../static/Projects/GantryRobot/Interfaz_Grafica.png"
-          alt="PyQt5 GUI — live camera feed, 2D workspace map and terminal log" loading="lazy"
-          style="width:100%;height:420px;object-fit:cover;display:block;">
-        <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
-          PyQt5 GUI &mdash; live camera feed, 2D workspace map &amp; terminal log
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ══════════════════════════════════════
-       FINAL IMPLEMENTATION & DEMO
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Final Implementation &amp; Demo</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <!-- 2 robot photos side by side -->
-      <div class="gallery-grid-2">
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Robot_Final_Frontal.jpg"
-            alt="R1 gantry robot — frontal view of the final build" loading="lazy"
-            style="width:100%;height:380px;object-fit:cover;display:block;">
-          <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Final build &mdash; frontal view
-          </p>
-        </div>
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Robot_Final_Lateral.jpg"
-            alt="R1 gantry robot — lateral view of the final build" loading="lazy"
-            style="width:100%;height:380px;object-fit:cover;display:block;">
-          <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Final build &mdash; lateral view
-          </p>
-        </div>
-      </div>
-
-      <!-- YouTube demo video card -->
       <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
         <div class="video-card">
-          <a class="video-thumb-wrap" href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/wMggKcSIY9M/hqdefault.jpg"
-              alt="R1 Gantry Robot &mdash; Full Autonomous Demo" loading="lazy">
+          <a class="video-thumb-wrap" href="https://youtu.be/gurtF5G5MJY" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/gurtF5G5MJY/hqdefault.jpg"
+              alt="Multi-Robot Manufacturing Cell &mdash; Full Simulation Demo" loading="lazy">
             <span class="video-part-badge">Full Demo</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
@@ -1160,20 +989,20 @@
             </span>
           </a>
           <div class="video-card-body">
-            <p class="video-card-title">R1 Gantry Robot &mdash; Full Autonomous Sorting Demo</p>
+            <p class="video-card-title">Multi-Robot Manufacturing Cell &mdash; Full Simulation Demo</p>
             <p class="video-card-desc">
-              End-to-end autonomous run on the real robot: the vision system detects and classifies eggs on the moving
-              conveyor belt, the homography maps their positions to workspace coordinates, and the gantry picks up
-              and discards defective eggs &mdash; all without human intervention.
+              End-to-end simulation run: Robot 1 feeds colored cubes from the wheel, Robot 2 machines them and loads
+              the conveyor belt, Robot 3 detects color and orientation via OpenCV and sorts pieces into the correct
+              color-coded pallets &mdash; all orchestrated by a single master Python script.
             </p>
             <div class="video-card-tags">
-              <span class="video-card-tag">YOLOv8</span>
-              <span class="video-card-tag">ArUco</span>
-              <span class="video-card-tag">GRBL</span>
-              <span class="video-card-tag">PyQt5</span>
-              <span class="video-card-tag">Arduino</span>
+              <span class="video-card-tag">RoboDK</span>
+              <span class="video-card-tag">Python</span>
+              <span class="video-card-tag">OpenCV</span>
+              <span class="video-card-tag">UR3e</span>
+              <span class="video-card-tag">ABB IRB 140</span>
             </div>
-            <a href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener" class="video-card-link">
+            <a href="https://youtu.be/gurtF5G5MJY" target="_blank" rel="noopener" class="video-card-link">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path
                   d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
@@ -1186,6 +1015,7 @@
 
     </div>
   </section>
+
 
   <footer class="footer">
     <div class="footer-inner">
