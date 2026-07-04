@@ -782,23 +782,23 @@
       <div class="stat-banner">
         <div class="stat-item">
           <span class="stat-num">3</span>
-          <span class="stat-unit">Axes</span>
-          <span class="stat-desc">X &middot; Y &middot; Z Cartesian motion</span>
+          <span class="stat-unit">Robots</span>
+          <span class="stat-desc">2&times; UR3e &middot; 1&times; ABB IRB&nbsp;140</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">YOLOv8</span>
+          <span class="stat-num">3</span>
+          <span class="stat-unit">Stations</span>
+          <span class="stat-desc">Feeder &middot; Machining &middot; Palletizer</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">OpenCV</span>
           <span class="stat-unit">Vision</span>
-          <span class="stat-desc">Real-time egg defect detection</span>
+          <span class="stat-desc">HSV color &amp; angle detection via virtual camera</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">cm</span>
-          <span class="stat-unit">Accuracy</span>
-          <span class="stat-desc">ArUco homography localization</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">27&times;11</span>
-          <span class="stat-unit">cm workspace</span>
-          <span class="stat-desc">Full coverage of conveyor belt</span>
+          <span class="stat-num">4&times;4</span>
+          <span class="stat-unit">Pallet grid</span>
+          <span class="stat-desc">Auto Z-layer stacking per color</span>
         </div>
       </div>
 
@@ -814,29 +814,34 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>Vision (PC)</strong></td>
-              <td>Python &middot; YOLOv8 &middot; OpenCV &middot; ArUco</td>
-              <td>Detects eggs via overhead camera; converts pixel coords to workspace XY via homography</td>
+              <td><strong>Simulation platform</strong></td>
+              <td>RoboDK &middot; Python (robolink / robodk)</td>
+              <td>3D environment, robot kinematics, IK solver, program execution</td>
             </tr>
             <tr>
-              <td><strong>GUI (PC)</strong></td>
-              <td>PyQt5 &middot; Python</td>
-              <td>Live camera feed, 2D workspace map (27.6&thinsp;&times;&thinsp;11&thinsp;cm), and terminal log</td>
+              <td><strong>Station 1 &mdash; Feeder</strong></td>
+              <td>UR3e &middot; vacuum gripper (Tool1)</td>
+              <td>Picks colored cubes from rotating wheel; advances wheel 15&deg; per cycle via TCP IK</td>
             </tr>
             <tr>
-              <td><strong>Motion controller</strong></td>
-              <td>Arduino UNO &middot; GRBL 0.9j</td>
-              <td>Receives G-code commands; drives 3 &times; NEMA 17 steppers via A4988 drivers (7000 steps/mm)</td>
+              <td><strong>Station 2 &mdash; Machining</strong></td>
+              <td>ABB IRB 140 &middot; dual tool (gripper + spindle)</td>
+              <td>Picks, machines (5-waypoint trajectory), applies random Z-spin, drops onto conveyor</td>
             </tr>
             <tr>
-              <td><strong>Gripper controller</strong></td>
-              <td>Arduino Mega &middot; MG995 servo</td>
-              <td>Opens/closes 3D-printed servo gripper via serial commands (<code>$on</code> / <code>$off</code>)</td>
+              <td><strong>Station 3 &mdash; Palletizer</strong></td>
+              <td>UR3e &middot; RobotiQ EPick vacuum gripper</td>
+              <td>Vision-guided pick: detects color &amp; angle via OpenCV HSV + <code>minAreaRect</code>, compensates wrist (J6), sorts into 3 color pallets</td>
             </tr>
             <tr>
-              <td><strong>Camera</strong></td>
-              <td>Smartphone &middot; overhead mount</td>
-              <td>Provides live frame stream to the PC vision pipeline over USB or Wi-Fi</td>
+              <td><strong>Computer Vision</strong></td>
+              <td>OpenCV &middot; NumPy &middot; RoboDK virtual camera</td>
+              <td>Captures frame from virtual camera; HSV masking &rarr; color ID; <code>minAreaRect</code> &rarr; orientation angle</td>
+            </tr>
+            <tr>
+              <td><strong>Conveyor belt</strong></td>
+              <td>Python simulation loop (Run_Conveyor.py)</td>
+              <td>Real-time object tracking, drop detection, fall-off handling running in background thread</td>
             </tr>
           </tbody>
         </table>
@@ -844,14 +849,12 @@
 
       <!-- System flow -->
       <div class="arch-flow">
-        <p class="arch-flow-title">Autonomous pipeline &mdash; detect, localize, pick, sort</p>
+        <p class="arch-flow-title">Master orchestration pipeline &mdash; SECUENCIA_COMPLETA</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>Detect</strong> &mdash; YOLOv8 finds each egg in the frame &nbsp;&middot;&nbsp;
-          <strong>Localize</strong> &mdash; ArUco homography maps bounding-box centre to workspace cm
-          &nbsp;&middot;&nbsp;
-          <strong>Plan</strong> &mdash; PC computes pick target and sends G-code to GRBL &nbsp;&middot;&nbsp;
-          <strong>Pick</strong> &mdash; gripper closes, Z-axis lifts &nbsp;&middot;&nbsp;
-          <strong>Sort</strong> &mdash; robot moves to discard zone and releases
+          <strong>Init</strong> &mdash; <code>POSICIONAR_ESTACIONES</code> sets all object poses &nbsp;&middot;&nbsp;
+          <strong>Background</strong> &mdash; <code>Run_Conveyor</code> &amp; <code>SECUENCIA_ESTACION3</code> start concurrently &nbsp;&middot;&nbsp;
+          <strong>Loop</strong> &mdash; <code>SECUENCIA_ESTACION1</code> picks from wheel &rarr; <code>SECUENCIA_ESTACION2</code> machines &amp; loads belt &rarr; repeat &nbsp;&middot;&nbsp;
+          <strong>Vision sort</strong> &mdash; Station 3 captures frame, detects color &amp; angle, compensates wrist, palletizes
         </p>
       </div>
     </div>
