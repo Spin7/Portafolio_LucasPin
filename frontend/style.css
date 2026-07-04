@@ -2025,3 +2025,21 @@ section {
     grid-template-columns: 1fr;
   }
 }
+
+.gallery-item-full {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.gallery-img-gui {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width:720px) {
+  .gallery-img-gui {
+    height: 280px;
+  }
+}
