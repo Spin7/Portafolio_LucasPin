@@ -162,13 +162,6 @@
     </p>
   </div>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="ai">AI / Vision</button>
-    <button class="filter-btn" data-filter="robotics">Robotics</button>
-    <button class="filter-btn" data-filter="simulation">Simulation</button>
-  </div>
-
   <section class="proj-list-section">
     <div class="proj-cards-grid">
 
@@ -271,19 +264,6 @@
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
       navLinks.classList.toggle('open');
-    });
-
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const items = document.querySelectorAll('.proj-card');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        items.forEach(item => {
-          item.style.display = (filter === 'all' || item.dataset.category === filter) ? 'flex' : 'none';
-        });
-      });
     });
   </script>
 
