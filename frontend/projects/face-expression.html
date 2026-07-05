@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Egg Sorting Gantry Robot &mdash; Lucas Pin</title>
+  <title>VideoCall Behavior Analysis &mdash; Lucas Pin</title>
   <meta name="description"
-    content="3-axis Cartesian gantry robot (R1) that autonomously detects, picks, and sorts eggs on a conveyor belt using YOLOv8 computer vision, ArUco homography, and a PyQt5 GUI.">
+    content="Real-time behavioral analysis of video-call participants using YOLO face detection, MediaPipe landmark models, and multi-region LBPH face recognition — all running locally with no cloud dependency.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
   <style>
     /* ── DESIGN TOKENS (page-level) ── */
     :root {
-      --acc1: #0e7490;
-      --acc1-light: #ecfeff;
+      --acc1: #4f46e5;
+      --acc1-light: #eef2ff;
     }
 
     /* ── HERO ── */
@@ -287,7 +287,7 @@
     .arch-flow code {
       font-family: 'Fira Code', 'Courier New', monospace;
       font-size: 0.77rem;
-      background: rgba(14, 116, 144, 0.08);
+      background: rgba(79, 70, 229, 0.08);
       padding: 0.1em 0.35em;
       border-radius: 4px;
       color: var(--primary);
@@ -430,7 +430,7 @@
     .gallery-placeholder {
       width: 100%;
       height: 300px;
-      background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+      background: linear-gradient(135deg, var(--acc1-light) 0%, #e0e7ff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -517,7 +517,7 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(14, 116, 144, 0.88);
+      background: rgba(79, 70, 229, 0.88);
       color: #fff;
       font-size: 0.68rem;
       font-weight: 700;
@@ -692,7 +692,7 @@
       <a href="../projects.html" class="breadcrumb-title">Projects</a>
       <span class="breadcrumb-sub">
         <span class="sep">/</span>
-        Egg Sorting Gantry Robot
+        VideoCall Behavior Analysis
       </span>
     </div>
   </div>
@@ -703,241 +703,59 @@
   <section class="proj-hero">
     <div class="proj-hero-inner">
       <div class="proj-hero-left">
-        <span class="proj-category-tag">Robotics &middot; Computer Vision &middot; Automation</span>
-        <h1 class="proj-title">Egg Sorting Gantry Robot</h1>
+        <span class="proj-category-tag">Computer Vision &middot; Behavioral Analytics &middot; Real-Time Systems</span>
+        <h1 class="proj-title">VideoCall Behavior Analysis</h1>
         <div class="proj-status-row">
-          <span class="project-status project-status--done">Year: 2024</span>
+          <span class="project-status project-status--done">Year: 2025</span>
         </div>
         <div class="proj-cover">
-          <img src="../static/Projects/GantryRobot/Robot_Gantry.jpg" alt="R1 Gantry robot on the egg conveyor belt"
-            class="proj-cover-img">
+          <img src="../static/Projects/VideoCallBehaviorAnalysis/Capture1.png"
+            alt="9-tile mosaic showing real-time behavioral analysis of video-call participants" class="proj-cover-img">
         </div>
       </div>
       <div class="proj-hero-right">
         <h2 class="proj-section-heading">Overview</h2>
         <p class="proj-overview">
-          <strong>R1 &mdash; Estaci&oacute;n 1</strong> is a custom-built <strong>3-axis Cartesian (gantry)
-            robot</strong>
-          that autonomously detects, picks up, and sorts eggs on a conveyor belt.
-          An overhead smartphone camera feeds live frames to a <strong>YOLOv8</strong> model; an <strong>ArUco
-            homography</strong>
-          pipeline converts pixel coordinates to workspace centimetres with cm-level accuracy.
-          A <strong>PyQt5</strong> desktop GUI shows the live camera feed, a 2D workspace map, and a real-time terminal
-          log.
-          The gripper is driven by an Arduino Mega; motion is handled by GRBL on an Arduino UNO via G-code.
+          <strong>VideoCall Behavior Analysis</strong> is a fully local system that analyses the behaviour of up
+          to nine video-call participants in real time &mdash; with no cloud dependency. A custom
+          <strong>YOLOv8</strong> face detector, exported to <strong>ONNX</strong> and running on CPU, locates
+          every face in the frame; a <strong>MediaPipe Face Landmarker</strong> (478 points) then drives eye,
+          mouth, smile/grimace and yawn detection together with iris-based gaze tracking, while a
+          <strong>MediaPipe Hand Landmarker</strong> recognises gestures such as thumbs-up and victory signs.
+          Each participant is re-identified across frames using a custom <strong>multi-region LBPH + HSV
+            descriptor</strong>, matched through cosine similarity with an <strong>SVD subspace residual</strong>
+          fallback. Every metric is smoothed with EMA filters and rendered as a live <strong>9-tile
+            mosaic</strong> with a per-person status panel.
         </p>
         <div class="proj-tech-row">
-          <span class="pill">YOLOv8</span>
+          <span class="pill">YOLOv8 (ONNX)</span>
+          <span class="pill">MediaPipe</span>
           <span class="pill">OpenCV</span>
-          <span class="pill">ArUco</span>
-          <span class="pill">PyQt5</span>
+          <span class="pill">ONNX Runtime</span>
           <span class="pill">Python</span>
-          <span class="pill">GRBL</span>
-          <span class="pill">Arduino</span>
-          <span class="pill">NEMA 17</span>
+          <span class="pill">LBPH</span>
+          <span class="pill">SVD</span>
+          <span class="pill">mss</span>
         </div>
         <div class="proj-links-block">
-          <a href="https://github.com/Spin7/cartesian-egg-sorter-yolov8.git" target="_blank" class="btn-outline">
+          <a href="https://github.com/Spin7/VideoCall_Behavior_Analysis" target="_blank" class="btn-outline">
             <i class="fab fa-github"></i>
             GitHub &rarr;
           </a>
         </div>
         <div class="proj-meta-grid">
           <div class="proj-meta-item">
-            <span class="proj-meta-label">Institution</span>
-            <span class="proj-meta-val">Universidad Nacional de Asunci&oacute;n</span>
+            <span class="proj-meta-label">Participants</span>
+            <span class="proj-meta-val">Up to 9 &middot; live mosaic grid</span>
           </div>
           <div class="proj-meta-item">
-            <span class="proj-meta-label">Context</span>
-            <span class="proj-meta-val">Robotics I Final Project &middot; Faculty of Engineering</span>
+            <span class="proj-meta-label">Runtime</span>
+            <span class="proj-meta-val">100% local &middot; CPU-only inference</span>
           </div>
           <div class="proj-meta-item" style="grid-column: 1 / -1;">
-            <span class="proj-meta-label">Collaborators</span>
-
-            <div style="margin-top: 8px;">
-              <div style="margin-bottom: 10px;">
-                <div><strong>Carlos Benitez</strong></div>
-                <div class="collaborator-contact">
-                  carlosbenitez@fiuna.edu.py ·
-                  <a href="https://www.linkedin.com/in/carlosbeni?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-                    target="_blank" class="linkedin-btn">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                  </a>
-                </div>
-              </div>
-
-              <div style="margin-bottom: 10px;">
-                <div><strong>Matteo Mart&iacutenez</strong></div>
-                <div class="collaborator-contact">
-                  matteomartinez12@gmail.com ·
-                  <a href="https://www.linkedin.com/in/matteomartinez12?utm_source=share_via&utm_content=profile&utm_medium=member_android
-" target="_blank" class="linkedin-btn">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                  </a>
-                </div>
-              </div>
-
-              <div>
-                <div><strong>Jose Hellion</strong></div>
-                <div class="collaborator-contact">
-                  jchellion@fiuna.edu.py ·
-                  <a href="https://www.linkedin.com/in/josecarloshellion?utm_source=share_via&utm_content=profile&utm_medium=member_android
-" target="_blank" class="linkedin-btn">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                  </a>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       TECHNOLOGY STACK
-       ══════════════════════════════════════ -->
-  <section class="tech-section">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Technology Stack</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <!-- Key numbers -->
-      <div class="stat-banner">
-        <div class="stat-item">
-          <span class="stat-num">3</span>
-          <span class="stat-unit">Axes</span>
-          <span class="stat-desc">X &middot; Y &middot; Z Cartesian motion</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">YOLOv8</span>
-          <span class="stat-unit">Vision</span>
-          <span class="stat-desc">Real-time egg defect detection</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">cm</span>
-          <span class="stat-unit">Accuracy</span>
-          <span class="stat-desc">ArUco homography localization</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">27&times;11</span>
-          <span class="stat-unit">cm workspace</span>
-          <span class="stat-desc">Full coverage of conveyor belt</span>
-        </div>
-      </div>
-
-      <!-- Compact spec table -->
-      <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
-        <table class="proj-table">
-          <thead>
-            <tr>
-              <th>Layer</th>
-              <th>Component</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Vision (PC)</strong></td>
-              <td>Python &middot; YOLOv8 &middot; OpenCV &middot; ArUco</td>
-              <td>Detects eggs via overhead camera; converts pixel coords to workspace XY via homography</td>
-            </tr>
-            <tr>
-              <td><strong>GUI (PC)</strong></td>
-              <td>PyQt5 &middot; Python</td>
-              <td>Live camera feed, 2D workspace map (27.6&thinsp;&times;&thinsp;11&thinsp;cm), and terminal log</td>
-            </tr>
-            <tr>
-              <td><strong>Motion controller</strong></td>
-              <td>Arduino UNO &middot; GRBL 0.9j</td>
-              <td>Receives G-code commands; drives 3 &times; NEMA 17 steppers via A4988 drivers (7000 steps/mm)</td>
-            </tr>
-            <tr>
-              <td><strong>Gripper controller</strong></td>
-              <td>Arduino Mega &middot; MG995 servo</td>
-              <td>Opens/closes 3D-printed servo gripper via serial commands (<code>$on</code> / <code>$off</code>)</td>
-            </tr>
-            <tr>
-              <td><strong>Camera</strong></td>
-              <td>Smartphone &middot; overhead mount</td>
-              <td>Provides live frame stream to the PC vision pipeline over USB or Wi-Fi</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- System flow -->
-      <div class="arch-flow">
-        <p class="arch-flow-title">Autonomous pipeline &mdash; detect, localize, pick, sort</p>
-        <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>Detect</strong> &mdash; YOLOv8 finds each egg in the frame &nbsp;&middot;&nbsp;
-          <strong>Localize</strong> &mdash; ArUco homography maps bounding-box centre to workspace cm
-          &nbsp;&middot;&nbsp;
-          <strong>Plan</strong> &mdash; PC computes pick target and sends G-code to GRBL &nbsp;&middot;&nbsp;
-          <strong>Pick</strong> &mdash; gripper closes, Z-axis lifts &nbsp;&middot;&nbsp;
-          <strong>Sort</strong> &mdash; robot moves to discard zone and releases
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       MECHANICAL DESIGN & HARDWARE
-       ══════════════════════════════════════ -->
-  <section class="design-section">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Mechanical Design &amp; Hardware</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Welded Aluminum Frame</h3>
-          <p>
-            The robot structure is a <strong>custom-welded aluminum frame</strong> designed to be rigid,
-            lightweight, and easy to mount on a standard conveyor belt line.
-            The three Cartesian axes (X, Y, Z) are built with aluminum extrusion profiles and guided
-            by linear rails, ensuring smooth and repeatable motion across the 27.6&thinsp;&times;&thinsp;11&thinsp;cm
-            workspace.
-          </p>
-          <p>
-            Each axis is driven by a <strong>NEMA 17 stepper motor</strong> through a belt-and-pulley
-            transmission at <strong>7000 steps/mm</strong> resolution &mdash; providing sub-millimetre
-            positioning accuracy for reliable pick-and-place operations.
-          </p>
-
-          <h3>Hardware Architecture</h3>
-          <p>
-            The system uses a two-microcontroller architecture connected to a host PC:
-          </p>
-          <ul>
-            <li><strong>Arduino UNO + GRBL 0.9j</strong> &mdash; interprets G-code and drives 3&times; NEMA 17 steppers
-              via A4988 drivers</li>
-            <li><strong>Arduino Mega</strong> &mdash; dedicated end-effector controller; receives serial commands from
-              the PC</li>
-            <li><strong>A4988 drivers</strong> &mdash; microstepped current control for precise, smooth motion on each
-              axis</li>
-            <li><strong>PC (Python)</strong> &mdash; runs all vision, planning, and GUI logic; sends G-code to GRBL over
-              USB serial</li>
-            <li><strong>Smartphone camera</strong> &mdash; overhead-mounted; streams live frames to the PC vision
-              pipeline</li>
-          </ul>
-        </div>
-
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Estructura_Soldada.jpg"
-              alt="Welded aluminum frame of the gantry robot">
-            <p class="design-caption">Welded aluminum Cartesian frame with linear rails</p>
-          </div>
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/R1_Hardware_Block_Diagram.png" alt="R1 hardware block diagram">
-            <p class="design-caption">Hardware architecture &mdash; PC, Arduino UNO (GRBL), Arduino Mega, drivers</p>
+            <span class="proj-meta-label">Core Pipeline</span>
+            <span class="proj-meta-val">YOLOv8 (ONNX) &rarr; MediaPipe Landmarks &rarr; Multi-region LBPH + SVD
+              identity matching</span>
           </div>
         </div>
       </div>
@@ -945,302 +763,12 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       GRIPPER — END-EFFECTOR
+       PENDIENTE: Technology Stack, Detection Modules (Eyes / Mouth /
+       Smile-Grimace / Yawn / Gaze), Hand Gestures, Identity & Face
+       Gallery, Configuration Reference, Known Limitations, Demo,
+       Footer.
        ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">End-Effector &mdash; 3D-Printed Gripper</span>
-        <span class="section-label-line"></span>
-      </div>
 
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Mechanism</h3>
-          <p>
-            The end-effector is a <strong>parallel-jaw servo gripper</strong> mounted on the Z-axis head.
-            It is actuated by a single <strong>MG995 servo</strong> that rotates between two angles
-            to open and close the jaws:
-          </p>
-          <ul>
-            <li><strong>Close (grip)</strong> &mdash; servo at 20&deg; &rarr; jaws clamp the egg</li>
-            <li><strong>Open (release)</strong> &mdash; servo at 90&deg; &rarr; jaws spread apart</li>
-          </ul>
-          <p>
-            Commands are sent from the PC via the <strong>Arduino Mega</strong> over serial at 115200 baud:
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$on</code>
-            to grip,
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">$off</code>
-            to release.
-          </p>
-
-          <h3>Material &amp; Fabrication</h3>
-          <p>
-            All structural parts are <strong>FDM 3D-printed</strong> in PLA.
-            The assembly consists of eight components: rotating base, upper and lower jaws,
-            drive rods (28 mm and 50 mm), servo horn adapter, and gripper arm &mdash;
-            all designed in CAD and sliced directly to print without supports.
-          </p>
-          <p>
-            The design is fully open-source; STL files and the editable CAD source are included
-            in the project repository.
-          </p>
-        </div>
-
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Herramienta_Final_1.png"
-              alt="3D CAD model of the parallel-jaw servo gripper"
-              style="width:100%;max-height:220px;object-fit:contain;background:#f8f9fb;">
-            <p class="design-caption">CAD model &mdash; parallel-jaw servo gripper (PLA, MG995)</p>
-          </div>
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/Gripper2.jpg" alt="3D-printed gripper mounted on the R1 Z-axis"
-              style="width:100%;max-height:220px;object-fit:contain;background:#f8f9fb;">
-            <p class="design-caption">Printed and assembled gripper on the robot Z-axis</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       WORKSPACE & ARUCO LOCALIZATION
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Workspace &amp; ArUco Localization</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Conveyor Belt Workspace</h3>
-          <p>
-            The robot operates over a <strong>27.6&thinsp;&times;&thinsp;11&thinsp;cm</strong> workspace that covers the
-            full
-            width of the conveyor belt. An overhead smartphone camera captures the entire workspace
-            in a single frame, allowing the vision pipeline to detect every egg without moving the camera.
-          </p>
-
-          <h3>ArUco Homography</h3>
-          <p>
-            Four <strong>ArUco fiducial markers</strong> are placed at the four corners of the belt platform.
-            At startup, the system detects these markers automatically and computes a
-            <strong>homography matrix</strong> that maps any pixel coordinate in the image to its
-            real-world position in centimetres on the workspace plane.
-          </p>
-          <p>
-            This one-time calibration step requires no manual measurement &mdash; the markers define the
-            coordinate frame entirely. Once calibrated, the system converts every YOLOv8 bounding-box
-            centre directly to a pick target in (X, Y) workspace coordinates, which are then
-            sent as G-code to GRBL.
-          </p>
-        </div>
-
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/GantryRobot/UbicacionArUco.png"
-              alt="ArUco marker placement on the conveyor belt workspace">
-            <p class="design-caption">ArUco marker positions on the belt &mdash; define the homography coordinate frame
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       VISION & SOFTWARE
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Vision &amp; Software</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <!-- 3 short paragraphs -->
-      <div style="max-width:780px; margin-bottom:2.5rem;">
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">YOLOv8 Egg
-          Detection</h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
-          Each camera frame is processed in real time by a custom-trained <strong>YOLOv8</strong> model that classifies
-          every egg as <em>good</em> or <em>broken</em>. The model uses <strong>ByteTrack</strong> to maintain a
-          persistent
-          identity across frames, so the robot can continue tracking a target even if it is temporarily occluded.
-          Detected bounding boxes are overlaid on the live feed together with the class label and track ID.
-        </p>
-
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Homographic
-          Projection</h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
-          The centre of each detected bounding box is transformed into real-world workspace coordinates (in centimetres)
-          using a <strong>homography matrix</strong> computed from the four ArUco markers.
-          The same matrix is also used to produce a <strong>top-down perspective reconstruction</strong> of the belt,
-          giving an undistorted, metric view of the workspace that is independent of camera angle or position.
-        </p>
-
-        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control GUI
-        </h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:0;">
-          A <strong>PyQt5</strong> desktop application ties everything together. It shows the live annotated camera
-          feed,
-          a <strong>2D map</strong> of the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace with the robot position,
-          detected eggs,
-          and ArUco marker status drawn in real time, plus a terminal log of every command sent to the robot.
-          A <em>Run / Stop</em> button triggers the full autonomous cycle: homing, vision startup, and the
-          pick-and-place loop.
-        </p>
-      </div>
-
-      <!-- Row 1: Detection + Homography side by side -->
-      <div class="gallery-grid-2">
-
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Test1.png"
-            alt="YOLOv8 egg detection — good/broken classification with workspace coordinate assignment" loading="lazy"
-            class="gallery-img">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Detection test &mdash; good/broken egg classification &amp; coordinate assignment
-          </p>
-        </div>
-
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Reconstrucci%C3%B3n_Homografica.png"
-            alt="Top-down homographic reconstruction of the conveyor belt workspace" loading="lazy" class="gallery-img">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Homographic reconstruction &mdash; top-down workspace projection
-          </p>
-        </div>
-
-      </div>
-
-      <!-- Row 2: GUI full width -->
-      <div class="gallery-item" style="margin-bottom:2rem;">
-        <img src="../static/Projects/GantryRobot/Interfaz_Grafica.png"
-          alt="PyQt5 GUI — live camera feed, 2D workspace map and terminal log" loading="lazy"
-          style="width:100%;height:420px;object-fit:cover;display:block;">
-        <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
-          PyQt5 GUI &mdash; live camera feed, 2D workspace map &amp; terminal log
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ══════════════════════════════════════
-       FINAL IMPLEMENTATION & DEMO
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Final Implementation &amp; Demo</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <!-- 2 robot photos side by side -->
-      <div class="gallery-grid-2">
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Robot_Final_Frontal.jpg"
-            alt="R1 gantry robot — frontal view of the final build" loading="lazy"
-            style="width:100%;height:380px;object-fit:cover;display:block;">
-          <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Final build &mdash; frontal view
-          </p>
-        </div>
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Robot_Final_Lateral.jpg"
-            alt="R1 gantry robot — lateral view of the final build" loading="lazy"
-            style="width:100%;height:380px;object-fit:cover;display:block;">
-          <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
-            Final build &mdash; lateral view
-          </p>
-        </div>
-      </div>
-
-      <!-- YouTube demo video card -->
-      <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
-        <div class="video-card">
-          <a class="video-thumb-wrap" href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/wMggKcSIY9M/hqdefault.jpg"
-              alt="R1 Gantry Robot &mdash; Full Autonomous Demo" loading="lazy">
-            <span class="video-part-badge">Full Demo</span>
-            <span class="video-play-btn">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
-                  fill="#ff0000" />
-                <path d="M45 24L27 14v20" fill="#fff" />
-              </svg>
-            </span>
-          </a>
-          <div class="video-card-body">
-            <p class="video-card-title">R1 Gantry Robot &mdash; Full Autonomous Sorting Demo</p>
-            <p class="video-card-desc">
-              End-to-end autonomous run on the real robot: the vision system detects and classifies eggs on the moving
-              conveyor belt, the homography maps their positions to workspace coordinates, and the gantry picks up
-              and discards defective eggs &mdash; all without human intervention.
-            </p>
-            <div class="video-card-tags">
-              <span class="video-card-tag">YOLOv8</span>
-              <span class="video-card-tag">ArUco</span>
-              <span class="video-card-tag">GRBL</span>
-              <span class="video-card-tag">PyQt5</span>
-              <span class="video-card-tag">Arduino</span>
-            </div>
-            <a href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener" class="video-card-link">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-              </svg>
-              Watch on YouTube
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <span>&copy; 2026 Lucas Pin</span>
-
-      <div class="footer-links">
-        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub">
-          <i class="fab fa-github"></i> GitHub
-        </a>
-
-        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i> LinkedIn
-        </a>
-
-        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube">
-          <i class="fab fa-youtube"></i> YouTube
-        </a>
-
-        <a href="mailto:lucaspinf@gmail.com" aria-label="Email">
-          <i class="fas fa-envelope"></i> Email
-        </a>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('hamburger').addEventListener('click', () => {
-      document.getElementById('hamburger').classList.toggle('open');
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-  </script>
 </body>
 
 </html>
