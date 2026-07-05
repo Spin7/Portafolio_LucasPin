@@ -10,6 +10,130 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    /* ── PROJECT CARDS (style aligned with individual project pages) ── */
+    .proj-list-section {
+      padding: 8px 0 64px;
+    }
+
+    .proj-cards-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+    }
+
+    .proj-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg, #fff);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .proj-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .proj-card-thumb {
+      position: relative;
+      height: 168px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 130%);
+      font-size: 3.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .proj-card-badge {
+      position: absolute;
+      top: 0.85rem;
+      left: 0.85rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      backdrop-filter: blur(2px);
+    }
+
+    .proj-card-body {
+      padding: 1.3rem 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .proj-card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.35;
+      margin: 0 0 0.5rem;
+    }
+
+    .proj-card-desc {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0 0 1rem;
+      flex: 1;
+    }
+
+    .proj-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .proj-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .proj-card-link i {
+      font-size: 0.68rem;
+      transition: transform 0.18s ease;
+    }
+
+    .proj-card:hover .proj-card-link i {
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 720px) {
+      .proj-cards-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -46,41 +170,71 @@
   </div>
 
   <section class="proj-list-section">
-    <div class="proj-list proj-list--two-col">
+    <div class="proj-cards-grid">
 
-      <a href="projects/face-expression.html" class="proj-list-item" data-category="ai">
-        <div class="proj-thumb">👥</div>
-        <div class="proj-list-body">
-          <p class="proj-list-title">Multi-Person Real-Time Behavioral Tracking System</p>
-          <p class="proj-list-sub">AI · YOLO · MediaPipe · ONNX &nbsp;·&nbsp; Real-time behavior tracking across
-            video-call participants</p>
+      <a href="projects/face-expression.html" class="proj-card" data-category="ai">
+        <div class="proj-card-thumb">
+          <span class="proj-card-badge">AI / Vision</span>
+          👥
+        </div>
+        <div class="proj-card-body">
+          <h3 class="proj-card-title">Multi-Person Real-Time Behavioral Tracking System</h3>
+          <p class="proj-card-desc">Real-time behavior tracking across video-call participants.</p>
+          <div class="proj-card-tags">
+            <span class="pill">YOLO</span>
+            <span class="pill">MediaPipe</span>
+            <span class="pill">ONNX</span>
+          </div>
+          <span class="proj-card-link">View project <i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
 
-      <a href="projects/hexapod-robot.html" class="proj-list-item" data-category="robotics">
-        <div class="proj-thumb">🤖</div>
-        <div class="proj-list-body">
-          <p class="proj-list-title">Autonomous Hexapod Robot</p>
-          <p class="proj-list-sub">Robotics · ROS2 · Gazebo · Computer Vision &nbsp;·&nbsp; Autonomous navigation and
-            simulation</p>
+      <a href="projects/hexapod-robot.html" class="proj-card" data-category="robotics">
+        <div class="proj-card-thumb">
+          <span class="proj-card-badge">Robotics</span>
+          🤖
+        </div>
+        <div class="proj-card-body">
+          <h3 class="proj-card-title">Autonomous Hexapod Robot</h3>
+          <p class="proj-card-desc">Autonomous navigation and simulation on a six-legged walking robot.</p>
+          <div class="proj-card-tags">
+            <span class="pill">ROS2</span>
+            <span class="pill">Gazebo</span>
+            <span class="pill">Computer Vision</span>
+          </div>
+          <span class="proj-card-link">View project <i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
 
-      <a href="projects/gantry-robot.html" class="proj-list-item" data-category="robotics">
-        <div class="proj-thumb">🥚</div>
-        <div class="proj-list-body">
-          <p class="proj-list-title">Egg Sorting Gantry Robot</p>
-          <p class="proj-list-sub">Robotics · Computer Vision · Python · GRBL &nbsp;·&nbsp; 3-axis gantry robot for
-            autonomous egg sorting</p>
+      <a href="projects/gantry-robot.html" class="proj-card" data-category="robotics">
+        <div class="proj-card-thumb">
+          <span class="proj-card-badge">Robotics</span>
+          🥚
+        </div>
+        <div class="proj-card-body">
+          <h3 class="proj-card-title">Egg Sorting Gantry Robot</h3>
+          <p class="proj-card-desc">3-axis gantry robot for autonomous egg detection and sorting.</p>
+          <div class="proj-card-tags">
+            <span class="pill">Computer Vision</span>
+            <span class="pill">Python</span>
+            <span class="pill">GRBL</span>
+          </div>
+          <span class="proj-card-link">View project <i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
 
-      <a href="projects/robodk-cell.html" class="proj-list-item" data-category="simulation">
-        <div class="proj-thumb">🏭</div>
-        <div class="proj-list-body">
-          <p class="proj-list-title">Industrial Cell Simulation — 3 Robots</p>
-          <p class="proj-list-sub">Simulation · RoboDK &nbsp;·&nbsp; Multi-robot coordination and offline programming
-          </p>
+      <a href="projects/robodk-cell.html" class="proj-card" data-category="simulation">
+        <div class="proj-card-thumb">
+          <span class="proj-card-badge">Simulation</span>
+          🏭
+        </div>
+        <div class="proj-card-body">
+          <h3 class="proj-card-title">Industrial Cell Simulation — 3 Robots</h3>
+          <p class="proj-card-desc">Multi-robot coordination and offline programming in a simulated cell.</p>
+          <div class="proj-card-tags">
+            <span class="pill">RoboDK</span>
+          </div>
+          <span class="proj-card-link">View project <i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
 
@@ -89,11 +243,24 @@
 
   <footer class="footer">
     <div class="footer-inner">
-      <span>© 2025 Lucas Pin</span>
+      <span>&copy; 2026 Lucas Pin</span>
+
       <div class="footer-links">
-        <a href="https://github.com/Spin7" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a>
-        <a href="mailto:lucaspinf@gmail.com">Email</a>
+        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+
+        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+
+        <a href="mailto:lucaspinf@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i> Email
+        </a>
       </div>
     </div>
   </footer>
@@ -107,7 +274,7 @@
     });
 
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const items = document.querySelectorAll('.proj-list-item');
+    const items = document.querySelectorAll('.proj-card');
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
