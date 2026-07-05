@@ -883,7 +883,7 @@
           <strong>VideoCall Behavior Analysis</strong> is a fully local system that analyses the behaviour of up
           to nine video-call participants in real time &mdash; with no cloud dependency. A custom
           <strong>YOLOv8</strong> face detector, exported to <strong>ONNX</strong> and running on CPU, locates
-          every face in the frame; a <strong>MediaPipe Face Landmarker</strong> (478 points) then drives eye,
+          every face in the frame; a <strong>MediaPipe Face Landmarker</strong> then drives eye,
           mouth, smile/grimace and yawn detection together with iris-based gaze tracking, while a
           <strong>MediaPipe Hand Landmarker</strong> recognises gestures such as thumbs-up and victory signs.
           Each participant is re-identified across frames using a custom <strong>multi-region LBPH + HSV
@@ -979,7 +979,7 @@
             </tr>
             <tr>
               <td><strong>Face Detection</strong></td>
-              <td>caritas.onnx (YOLOv8) &middot; ONNX Runtime</td>
+              <td>Custom YOLOv8 detector &middot; ONNX Runtime</td>
               <td>Custom CPU-only detector at 256&times;256 input; letterboxing, NMS and bbox decoding</td>
             </tr>
             <tr>
@@ -990,20 +990,20 @@
             </tr>
             <tr>
               <td><strong>Facial Expressions</strong></td>
-              <td>MediaPipe Face Landmarker (478 pts)</td>
+              <td>MediaPipe Face Landmarker</td>
               <td>Eye/mouth state via EAR/MAR, smile/grimace via lip curvature, sustained yawn counter, iris-based
                 gaze</td>
             </tr>
             <tr>
               <td><strong>Hand Gestures</strong></td>
-              <td>MediaPipe Hand Landmarker (21 pts)</td>
+              <td>MediaPipe Hand Landmarker</td>
               <td>Thumbs Up, Victory (peace sign), and generic hand-detected status, up to 2 hands per person</td>
             </tr>
             <tr>
               <td><strong>Gallery &amp; Persistence</strong></td>
-              <td>gallery_builder.py &middot; pickle</td>
-              <td>Folder-based, live multi-frame, or single-frame enrollment; persists to
-                <code>face_gallery2.pkl</code>
+              <td>Dedicated enrollment module &middot; local storage</td>
+              <td>Folder-based, live multi-frame, or single-frame enrollment; enrolled profiles persist locally
+                between sessions
               </td>
             </tr>
           </tbody>
@@ -1014,10 +1014,10 @@
       <div class="arch-flow">
         <p class="arch-flow-title">Per-frame pipeline &mdash; detect, identify, analyse, render</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>Detect</strong> &mdash; <code>caritas.onnx</code> (YOLOv8) locates every face in the frame
+          <strong>Detect</strong> &mdash; a custom YOLOv8 model locates every face in the frame
           &nbsp;&middot;&nbsp;
-          <strong>Identify</strong> &mdash; multi-region LBPH + HSV embedding matched against the Face Gallery
-          (cosine + SVD residual) &nbsp;&middot;&nbsp;
+          <strong>Identify</strong> &mdash; multi-region LBPH + HSV embedding matched against enrolled
+          participants (cosine + SVD residual) &nbsp;&middot;&nbsp;
           <strong>Analyse</strong> &mdash; MediaPipe Face/Hand Landmarker drives eyes, mouth, smile/grimace, yawn,
           gaze and gestures &nbsp;&middot;&nbsp;
           <strong>Smooth</strong> &mdash; every metric passes through an EMA filter to reduce flicker
@@ -1047,12 +1047,12 @@
             across frames. Three modes cover different scenarios, selectable from a CLI menu at startup.
           </p>
           <ul>
-            <li><strong>Mode A &mdash; Folder</strong> (best accuracy) &mdash; one subfolder per person under
-              <code>Face Gallery/</code>; the system detects a face in each image and builds an <strong>SVD
-                subspace</strong> per person.
+            <li><strong>Mode A &mdash; Folder</strong> (best accuracy) &mdash; organise a folder of photos per
+              person; the system detects a face in each image and builds an <strong>SVD subspace</strong> per
+              person.
             </li>
             <li><strong>Mode B &mdash; Live multi-frame</strong> (best for real-time sources) &mdash; a live
-              preview window records <strong>30 frames per person</strong> while they naturally roll and turn
+              preview window records a short burst of frames per person while they naturally roll and turn
               their head, capturing pose variation a single photo can't.</li>
             <li><strong>Mode C &mdash; Single-frame</strong> (legacy / fastest) &mdash; grabs one frame, detects
               every face, and assigns names through console prompts.</li>
@@ -1060,29 +1060,22 @@
               session.</li>
           </ul>
           <p>
-            Whichever mode is used, the gallery is saved automatically to
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">face_gallery2.pkl</code>
-            and reloaded at the next startup &mdash; enrollment only needs to happen once per person.
+            Whichever mode is used, the gallery is saved automatically and reloaded at the next startup
+            &mdash; enrollment only needs to happen once per person.
           </p>
 
           <h3>Multi-Region Descriptor &amp; Matching</h3>
           <p>
-            Each enrolled face is resized to a fixed <strong>96&times;96</strong> crop and divided into a
-            <strong>6&times;6 grid</strong> of regions. Every cell contributes a 32-bin <strong>LBP</strong>
-            texture histogram and an HSV colour histogram, blended <strong>80% texture / 20% colour</strong> into
-            a single descriptor &mdash; combining fine skin-texture detail with coarse colour cues that survive
-            small lighting changes.
+            Each enrolled face is resized to a fixed crop and divided into a small grid of regions. Every
+            region contributes a local <strong>LBP</strong> texture histogram and an HSV colour histogram,
+            blended together into a single descriptor &mdash; combining fine skin-texture detail with coarse
+            colour cues that survive small lighting changes.
           </p>
           <p>
-            At match time, the descriptor is compared against each person's stored embeddings (up to 50 per
-            person) using cosine similarity, averaging the top-3 closest matches. If the score sits near the
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">0.72</code>
-            acceptance threshold, an <strong>SVD subspace residual</strong> check (threshold
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">0.20</code>)
-            acts as a second opinion before confirming or rejecting the identity.
+            At match time, the descriptor is compared against each person's stored embeddings using cosine
+            similarity, averaging the closest matches for robustness. When the score sits near the acceptance
+            boundary, an <strong>SVD subspace residual</strong> check acts as a second opinion before confirming
+            or rejecting the identity.
           </p>
         </div>
 
@@ -1116,35 +1109,30 @@
 
       <div class="design-grid">
         <div class="design-text">
-          <h3>Face Landmarker &mdash; 478-Point Mesh</h3>
+          <h3>Face Landmarker &mdash; Facial Mesh</h3>
           <p>
-            Every face crop returned by the YOLO detector is passed to <strong>MediaPipe's Face Landmarker</strong>,
-            which fits a dense mesh of <strong>478 points</strong> &mdash; the standard 468-point face mesh plus 10
-            refined <strong>iris landmarks</strong>. The model ships as a self-contained
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">face_landmarker.task</code>
-            file (&sim;3.6&thinsp;MB), so no extra download is needed at runtime.
+            Every face crop returned by the detector is passed to <strong>MediaPipe's Face Landmarker</strong>,
+            which fits a dense facial mesh &mdash; the standard face mesh plus a set of refined
+            <strong>iris landmarks</strong>. The model ships as a lightweight, self-contained package, so no
+            extra download is needed at runtime.
           </p>
           <p>
-            <code>FaceExpressions.py</code> reads specific subsets of this mesh &mdash; the eye contours for the
-            <strong>EAR</strong> (eye-aspect ratio), the lip contour for the <strong>MAR</strong> (mouth-aspect
-            ratio) and lip curvature, and the two iris centres for gaze displacement &mdash; rather than the full
-            478 points. The Landmarker is initialised with <code>num_faces=1</code>, so only the dominant face
-            inside each cropped tile is analysed.
+            The system reads specific subsets of this mesh &mdash; the eye contours for an <strong>EAR</strong>
+            (eye-aspect ratio), the lip contour for a <strong>MAR</strong> (mouth-aspect ratio) and lip curvature,
+            and the iris centres for gaze displacement &mdash; rather than the mesh as a whole. The model is
+            configured to focus on a single, dominant face inside each cropped tile, since only one participant
+            appears per tile in the mosaic layout.
           </p>
 
-          <h3>Hand Landmarker &mdash; 21-Point Mesh</h3>
+          <h3>Hand Landmarker &mdash; Hand Mesh</h3>
           <p>
             Gesture recognition uses MediaPipe's <strong>Hand Landmarker</strong>, a lighter model that tracks
-            <strong>21 points</strong> per hand &mdash; the wrist, palm, and the three joints of each of the five
-            fingers &mdash; for up to <strong>2 hands</strong> simultaneously. It ships as
-            <code
-              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">hand_landmarker.task</code>
-            (&sim;7.8&thinsp;MB).
+            the wrist, palm, and finger joints &mdash; for up to two hands simultaneously. Like the face model,
+            it ships as a compact, self-contained package that needs no extra download.
           </p>
           <p>
-            <code>HandExpressions.py</code> compares the relative position of each fingertip to its base joint to
-            tell an extended finger from a curled one, then combines that per-finger state into a gesture:
+            The system compares the relative position of each fingertip to its base joint to tell an extended
+            finger from a curled one, then combines that per-finger state into a gesture:
             <strong>Thumbs Up</strong> (thumb extended, others curled), <strong>Victory</strong> (index and middle
             extended in a V), or a generic <strong>Detected</strong> status when a hand is present but no specific
             gesture matches.
@@ -1156,14 +1144,14 @@
             <img src="../static/Projects/VideoCall/Face_mesh.png"
               alt="MediaPipe Face Mesh — 478-point landmark reference diagram"
               style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
-            <p class="design-caption">MediaPipe Face Mesh &mdash; 478-point reference (governs eyes, mouth, iris)
+            <p class="design-caption">MediaPipe Face Mesh &mdash; landmark reference (governs eyes, mouth, iris)
             </p>
           </div>
           <div class="design-img-wrap">
             <img src="../static/Projects/VideoCall/Hand_mesh.png"
               alt="MediaPipe Hand Mesh — 21-point landmark reference diagram"
               style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
-            <p class="design-caption">MediaPipe Hand Mesh &mdash; 21-point reference (governs gesture
+            <p class="design-caption">MediaPipe Hand Mesh &mdash; landmark reference (governs gesture
               classification)</p>
           </div>
         </div>
@@ -1361,7 +1349,7 @@
             <p class="video-card-title">VideoCall Behavior Analysis &mdash; Live Demo on a Real Video Call</p>
             <p class="video-card-desc">
               Short clip of the system running on an actual video call: participants are detected and matched
-              against the enrolled Face Gallery, and each tile updates in real time with eye, mouth, focus,
+              against previously enrolled profiles, and each tile updates in real time with eye, mouth, focus,
               yawn, and hand-gesture status &mdash; all processed locally, frame by frame, with no cloud
               dependency.
             </p>
