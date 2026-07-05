@@ -1332,11 +1332,89 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       PENDIENTE: Detection Modules (Eyes / Mouth / Smile-Grimace /
-       Yawn / Gaze thresholds), Hand Gesture Logic, Configuration
-       Reference, Known Limitations, Demo, Footer.
+       DEMO
        ══════════════════════════════════════ -->
+  <section class="demo-section">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Demo</span>
+        <span class="section-label-line"></span>
+      </div>
 
+      <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://www.youtube.com/watch?v=gurtF5G5MJY" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/gurtF5G5MJY/hqdefault.jpg"
+              alt="VideoCall Behavior Analysis — live demo on a real video call" loading="lazy">
+            <span class="video-part-badge">Live Demo</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24L27 14v20" fill="#fff" />
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">VideoCall Behavior Analysis &mdash; Live Demo on a Real Video Call</p>
+            <p class="video-card-desc">
+              Short clip of the system running on an actual video call: participants are detected and matched
+              against the enrolled Face Gallery, and each tile updates in real time with eye, mouth, focus,
+              yawn, and hand-gesture status &mdash; all processed locally, frame by frame, with no cloud
+              dependency.
+            </p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">YOLOv8 (ONNX)</span>
+              <span class="video-card-tag">MediaPipe</span>
+              <span class="video-card-tag">OpenCV</span>
+              <span class="video-card-tag">Python</span>
+            </div>
+            <a href="https://www.youtube.com/watch?v=gurtF5G5MJY" target="_blank" rel="noopener"
+              class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+              </svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Lucas Pin</span>
+
+      <div class="footer-links">
+        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+
+        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+
+        <a href="mailto:lucaspinf@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('hamburger').classList.toggle('open');
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
 </body>
 
 </html>
