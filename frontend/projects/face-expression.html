@@ -940,9 +940,77 @@
   </section>
 
   <!-- ══════════════════════════════════════
+       MEDIAPIPE LANDMARKERS
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">MediaPipe Landmarkers</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="design-grid">
+        <div class="design-text">
+          <h3>Face Landmarker &mdash; 478-Point Mesh</h3>
+          <p>
+            Every face crop returned by the YOLO detector is passed to <strong>MediaPipe's Face Landmarker</strong>,
+            which fits a dense mesh of <strong>478 points</strong> &mdash; the standard 468-point face mesh plus 10
+            refined <strong>iris landmarks</strong>. The model ships as a self-contained
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">face_landmarker.task</code>
+            file (&sim;3.6&thinsp;MB), so no extra download is needed at runtime.
+          </p>
+          <p>
+            <code>FaceExpressions.py</code> reads specific subsets of this mesh &mdash; the eye contours for the
+            <strong>EAR</strong> (eye-aspect ratio), the lip contour for the <strong>MAR</strong> (mouth-aspect
+            ratio) and lip curvature, and the two iris centres for gaze displacement &mdash; rather than the full
+            478 points. The Landmarker is initialised with <code>num_faces=1</code>, so only the dominant face
+            inside each cropped tile is analysed.
+          </p>
+
+          <h3>Hand Landmarker &mdash; 21-Point Mesh</h3>
+          <p>
+            Gesture recognition uses MediaPipe's <strong>Hand Landmarker</strong>, a lighter model that tracks
+            <strong>21 points</strong> per hand &mdash; the wrist, palm, and the three joints of each of the five
+            fingers &mdash; for up to <strong>2 hands</strong> simultaneously. It ships as
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">hand_landmarker.task</code>
+            (&sim;7.8&thinsp;MB).
+          </p>
+          <p>
+            <code>HandExpressions.py</code> compares the relative position of each fingertip to its base joint to
+            tell an extended finger from a curled one, then combines that per-finger state into a gesture:
+            <strong>Thumbs Up</strong> (thumb extended, others curled), <strong>Victory</strong> (index and middle
+            extended in a V), or a generic <strong>Detected</strong> status when a hand is present but no specific
+            gesture matches.
+          </p>
+        </div>
+
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/VideoCall/Face_mesh.png"
+              alt="MediaPipe Face Mesh — 478-point landmark reference diagram"
+              style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
+            <p class="design-caption">MediaPipe Face Mesh &mdash; 478-point reference (governs eyes, mouth, iris)
+            </p>
+          </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/VideoCall/Hand_mesh.png"
+              alt="MediaPipe Hand Mesh — 21-point landmark reference diagram"
+              style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
+            <p class="design-caption">MediaPipe Hand Mesh &mdash; 21-point reference (governs gesture
+              classification)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
        PENDIENTE: Detection Modules (Eyes / Mouth / Smile-Grimace /
-       Yawn / Gaze), Hand Gestures, Configuration Reference, Known
-       Limitations, Demo, Footer.
+       Yawn / Gaze thresholds), Hand Gesture Logic, Configuration
+       Reference, Known Limitations, Demo, Footer.
        ══════════════════════════════════════ -->
 
 </body>
