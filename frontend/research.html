@@ -70,12 +70,22 @@
     }
 
     .research-line-item {
-      padding: 1.85rem 0;
-      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 1.85rem 2rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .research-line-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
     }
 
     .research-line-item:last-child {
-      border-bottom: none;
+      margin-bottom: 0;
     }
 
     .rl-title {
@@ -143,6 +153,68 @@
     .rl-link:hover i {
       transform: translateX(4px);
     }
+
+    /* ── PUBLICATIONS ── */
+    .pub-item-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+    }
+
+    .pub-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+    }
+
+    .pub-year {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .pub-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.4;
+      margin: 0 0 0.45rem;
+    }
+
+    .pub-authors {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin: 0 0 0.2rem;
+    }
+
+    .pub-venue {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--text);
+      margin: 0 0 1rem;
+    }
+
+    .pub-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .pub-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .pub-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -207,6 +279,76 @@
           <span class="rl-year">2024–2026</span>
         </div>
         <a href="research/simulacion-agentes.html" class="rl-link">Ver avances <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+
+    <div class="research-lines" style="margin-top: 4rem;">
+      <h2 class="research-lines-title">Publicaciones</h2>
+
+      <div class="research-line-item">
+        <div class="pub-item-top">
+          <span class="pub-badge">Tesis</span>
+          <span class="pub-year">2026</span>
+        </div>
+        <h3 class="pub-title">[Título del trabajo final de grado]</h3>
+        <p class="pub-authors">Pin, L.</p>
+        <p class="pub-venue">Universidad Nacional de Asunción — Facultad de Ingeniería (FIUNA)</p>
+        <div class="pub-links">
+          <a href="#" class="pub-link">PDF →</a>
+        </div>
+      </div>
+
+      <div class="research-line-item">
+        <div class="pub-item-top">
+          <span class="pub-badge">Conferencia</span>
+          <span class="pub-year">2026</span>
+        </div>
+        <h3 class="pub-title">[Título del trabajo presentado]</h3>
+        <p class="pub-authors">Pin, L., et al.</p>
+        <p class="pub-venue">CNMAC 2026</p>
+        <div class="pub-links">
+          <a href="#" class="pub-link">PDF →</a>
+        </div>
+      </div>
+
+      <div class="research-line-item">
+        <div class="pub-item-top">
+          <span class="pub-badge">Conferencia</span>
+          <span class="pub-year">2025</span>
+        </div>
+        <h3 class="pub-title">[Título del trabajo presentado]</h3>
+        <p class="pub-authors">Pin, L., et al.</p>
+        <p class="pub-venue">CNMAC 2025</p>
+        <div class="pub-links">
+          <a href="#" class="pub-link">PDF →</a>
+        </div>
+      </div>
+
+      <div class="research-line-item">
+        <div class="pub-item-top">
+          <span class="pub-badge">Conferencia</span>
+          <span class="pub-year">202X</span>
+        </div>
+        <h3 class="pub-title">[Título del trabajo presentado]</h3>
+        <p class="pub-authors">Pin, L., et al.</p>
+        <p class="pub-venue">Coloquio de la Sociedad Matemática de Paraguay</p>
+        <div class="pub-links">
+          <a href="#" class="pub-link">PDF →</a>
+        </div>
+      </div>
+
+      <div class="research-line-item">
+        <div class="pub-item-top">
+          <span class="pub-badge">Conferencia</span>
+          <span class="pub-year">202X</span>
+        </div>
+        <h3 class="pub-title">[Título del trabajo presentado]</h3>
+        <p class="pub-authors">Pin, L., et al.</p>
+        <p class="pub-venue">X Encuentro de Investigadores</p>
+        <div class="pub-links">
+          <a href="#" class="pub-link">PDF →</a>
+        </div>
       </div>
 
     </div>
