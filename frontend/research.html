@@ -6,8 +6,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Research — Lucas Pin</title>
   <meta name="description" content="Academic research, publications, and ongoing scientific work by Lucas Pin.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    /* ── PAGE: white body, gray header banner (matches projects.html / gantry-robot.html) ── */
+    body {
+      background: #fff;
+    }
+
+    .proj-page-header {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 96px 32px 56px;
+      text-align: center;
+    }
+
+    .proj-page-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 0.75rem;
+    }
+
+    .proj-page-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .proj-page-sub {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* ── BLANK CONTENT AREA — replace with page-specific sections ── */
+    .proj-list-section {
+      background: #fff;
+      padding: 64px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 200px;
+    }
+  </style>
 </head>
 
 <body>
@@ -30,140 +79,40 @@
   </nav>
 
   <!-- ===== PAGE HEADER ===== -->
-  <div class="page-header">
-    <p class="section-label">Academic</p>
-    <h1 class="section-title">Research</h1>
-    <p class="section-sub">
+  <div class="proj-page-header">
+    <p class="proj-page-eyebrow">Academic</p>
+    <h1 class="proj-page-title">Research</h1>
+    <p class="proj-page-sub">
       Publications, ongoing scientific work, and collaborative research initiatives.
     </p>
   </div>
 
-  <!-- ===== RESEARCH INTERESTS ===== -->
-  <div class="context-strip">
-    <div class="context-inner">
-      <p class="section-label">Focus Areas</p>
-      <h2 class="section-title" style="margin-bottom:32px;">Research Interests</h2>
-      <div class="interests-grid">
-        <div class="interest-card">
-          <div class="interest-icon">🧠</div>
-          <h3>Artificial Intelligence</h3>
-          <p>Machine learning, deep learning, and embedded AI for resource-constrained environments.</p>
-        </div>
-        <div class="interest-card">
-          <div class="interest-icon">🦟</div>
-          <h3>Computational Epidemiology</h3>
-          <p>Agent-based models and simulation for studying vector-borne disease dynamics.</p>
-        </div>
-        <div class="interest-card">
-          <div class="interest-icon">📡</div>
-          <h3>IoT &amp; Embedded Systems</h3>
-          <p>Low-power sensing, real-time data acquisition, and edge computing architectures.</p>
-        </div>
-        <div class="interest-card">
-          <div class="interest-icon">👁️</div>
-          <h3>Computer Vision</h3>
-          <p>Image classification, object detection, and visual inspection for field applications.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== PUBLICATIONS ===== -->
-  <section>
-    <p class="section-label">Output</p>
-    <h2 class="section-title">Publications</h2>
-    <p class="section-sub">
-      Peer-reviewed articles, conference papers, and technical reports.
-    </p>
-
-    <div class="publications-list">
-
-      <!-- Publication Item Template -->
-      <div class="pub-card">
-        <div class="pub-year">2024</div>
-        <div class="pub-body">
-          <div class="pub-type-badge pub-type--journal">Journal</div>
-          <h3 class="pub-title">
-            Publication Title Goes Here: A Study on Artificial Intelligence and Something Important
-          </h3>
-          <p class="pub-authors">Pin, L., Author B., Author C.</p>
-          <p class="pub-venue">
-            <em>Journal of Relevant Science</em>, Vol. 10, pp. 1–15, 2024.
-          </p>
-          <div class="pub-links">
-            <a href="#" class="btn-outline btn-sm">PDF →</a>
-            <a href="#" class="btn-outline btn-sm">DOI →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="pub-card">
-        <div class="pub-year">2023</div>
-        <div class="pub-body">
-          <div class="pub-type-badge pub-type--conference">Conference</div>
-          <h3 class="pub-title">
-            Another Publication Title: Results and Discussion of an Experimental Study
-          </h3>
-          <p class="pub-authors">Pin, L., Author D.</p>
-          <p class="pub-venue">
-            <em>Proceedings of International Conference on Something</em>, 2023, pp. 100–108.
-          </p>
-          <div class="pub-links">
-            <a href="#" class="btn-outline btn-sm">PDF →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="pub-card">
-        <div class="pub-year">2022</div>
-        <div class="pub-body">
-          <div class="pub-type-badge pub-type--thesis">Thesis</div>
-          <h3 class="pub-title">
-            Thesis Title: A Comprehensive Approach to Engineering Something Novel
-          </h3>
-          <p class="pub-authors">Pin, L.</p>
-          <p class="pub-venue">
-            Universidad Nacional de Asunción, Faculty of Engineering, 2022.
-          </p>
-          <div class="pub-links">
-            <a href="#" class="btn-outline btn-sm">View →</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== ONGOING WORK ===== -->
-  <section style="padding-top: 0;">
-    <p class="section-label">In Progress</p>
-    <h2 class="section-title">Ongoing Work</h2>
-    <div class="ongoing-grid">
-      <div class="ongoing-card">
-        <div class="ongoing-dot"></div>
-        <div>
-          <h3>Research Topic One</h3>
-          <p>Short description of the current research direction, methods being explored, and expected outcomes.</p>
-        </div>
-      </div>
-      <div class="ongoing-card">
-        <div class="ongoing-dot"></div>
-        <div>
-          <h3>Research Topic Two</h3>
-          <p>Short description of the current research direction, methods being explored, and expected outcomes.</p>
-        </div>
-      </div>
-    </div>
+  <!-- ===== CONTENT (blank template — add sections here) ===== -->
+  <section class="proj-list-section">
+    <!-- TODO: add research content here -->
   </section>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="footer-inner">
-      <span>© 2025 Lucas Pin</span>
+      <span>&copy; 2026 Lucas Pin</span>
+
       <div class="footer-links">
-        <a href="https://github.com/" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
-        <a href="mailto:lucas@example.com">Email</a>
+        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+
+        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+
+        <a href="mailto:lucaspinf@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i> Email
+        </a>
       </div>
     </div>
   </footer>
@@ -178,4 +127,5 @@
   </script>
 
 </body>
+
 </html>
