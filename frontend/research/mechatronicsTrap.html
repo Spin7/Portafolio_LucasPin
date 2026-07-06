@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Mechatronic Trap &mdash; Lucas Pin</title>
+  <meta name="description" content="IoT trap with embedded computer vision for automatic detection and sex classification of Aedes aegypti mosquitoes. Undergraduate thesis research at FIUNA.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    :root { --trap-green: #059669; --trap-green-light: #d1fae5; }
+    body { background: #fff; }
+    .proj-hero { background: var(--bg); border-bottom: 2px solid var(--border); padding: 96px 32px 64px; }
+    .proj-hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .proj-back-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 700; color: var(--text); text-decoration: none; margin-bottom: 1.5rem; transition: color 0.18s; }
+    .proj-back-link:hover { color: var(--primary); }
+    .proj-category-tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); background: var(--primary-light); padding: 0.3rem 0.8rem; border-radius: 20px; margin-bottom: 1rem; }
+    .proj-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: var(--dark); line-height: 1.15; margin-bottom: 1rem; }
+    .proj-status-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.4rem; }
+    .project-status { font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.7rem; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .project-status--active { background: #fef3c7; color: #92400e; }
+    .proj-year { font-size: 0.82rem; color: var(--text); font-weight: 500; }
+    .proj-cover { border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
+    .proj-cover-placeholder { width: 100%; height: 320px; background: linear-gradient(135deg, #0a2850 0%, #1e4d8c 60%, #3b82f6 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: #fff; }
+    .proj-cover-placeholder i { font-size: 3.5rem; opacity: 0.85; }
+    .proj-cover-placeholder span { font-size: 0.85rem; font-weight: 600; opacity: 0.7; letter-spacing: 0.06em; text-transform: uppercase; }
+    .proj-cover-img { width: 100%; height: auto; display: block; }
+    .proj-section-heading { font-size: 1.1rem; font-weight: 800; color: var(--dark); margin-bottom: 0.75rem; }
+    .proj-overview { font-size: 0.95rem; color: var(--text); line-height: 1.75; margin-bottom: 1.4rem; }
+    .proj-tech-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.4rem; }
+    .pill { font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.7rem; border-radius: 20px; background: var(--primary-light); color: var(--primary); white-space: nowrap; }
+    .proj-links-block { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.4rem; }
+    .btn-outline { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1.1rem; border: 2px solid var(--primary); border-radius: 8px; font-size: 0.82rem; font-weight: 700; color: var(--primary); text-decoration: none; transition: background 0.18s, color 0.18s; }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    .proj-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .proj-meta-item { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.65rem 0.85rem; }
+    .proj-meta-label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text); margin-bottom: 0.2rem; }
+    .proj-meta-val { font-size: 0.82rem; font-weight: 600; color: var(--dark); }
+    .content-section { padding: 64px 0; }
+    .content-section--gray { background: var(--bg); }
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+    .section-label { display: flex; align-items: center; gap: 0.75rem; padding-bottom: 28px; }
+    .section-label-line { flex: 1; height: 1px; background: var(--border); }
+    .section-label-text { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text); white-space: nowrap; }
+    .section-intro { font-size: 0.95rem; color: var(--text); line-height: 1.75; max-width: 740px; margin-bottom: 2rem; }
+    .timeline { position: relative; padding-left: 2rem; border-left: 2px solid var(--border); }
+    .timeline-item { position: relative; margin-bottom: 2.2rem; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot { position: absolute; left: -2.55rem; top: 0.25rem; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--primary); }
+    .timeline-dot--done { background: var(--trap-green); box-shadow: 0 0 0 2px var(--trap-green); }
+    .timeline-dot--active { background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 2px #f59e0b; } 50% { box-shadow: 0 0 0 5px rgba(245,158,11,0.25); } }
+    .timeline-date { font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .timeline-title { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 0.4rem; }
+    .timeline-desc { font-size: 0.88rem; color: var(--text); line-height: 1.7; }
+    .timeline-badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 0.5rem; }
+    .timeline-badge--done { background: var(--trap-green-light); color: var(--trap-green); }
+    .timeline-badge--active { background: #fef3c7; color: #92400e; }
+    .timeline-badge--pending { background: var(--bg); color: var(--text); }
+    .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+    .comp-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+    .comp-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .comp-card-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.1rem; margin-bottom: 1rem; }
+    .comp-card-title { font-size: 0.92rem; font-weight: 800; color: var(--dark); margin-bottom: 0.35rem; }
+    .comp-card-desc { font-size: 0.82rem; color: var(--text); line-height: 1.65; }
+    .pub-list { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .pub-row { display: flex; gap: 1.5rem; padding: 1.3rem 0; }
+    .pub-row-year { flex: 0 0 56px; font-size: 0.9rem; font-weight: 800; color: var(--dark); padding-top: 0.15rem; }
+    .pub-row-body { flex: 1; min-width: 0; }
+    .pub-row-title { font-size: 1rem; font-weight: 800; color: var(--dark); line-height: 1.4; margin: 0 0 0.4rem; }
+    .pub-row-meta { font-size: 0.85rem; color: var(--text); margin: 0 0 0.5rem; }
+    .pub-row-link { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .pub-row-link:hover { text-decoration: underline; }
+    @media (max-width: 768px) {
+      .proj-hero-inner { grid-template-columns: 1fr; gap: 32px; }
+      .proj-meta-grid { grid-template-columns: 1fr; }
+      .comp-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a href="../home.html" class="nav-logo">
+      <span class="nav-logo-icon">LP</span>
+      Lucas Pin
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="../home.html">Home</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../research.html" class="active">Research</a>
+      <a href="../teaching.html">Teaching</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+
+      <!-- Left: cover -->
+      <div>
+        <a href="../research.html" class="proj-back-link">
+          <i class="fas fa-arrow-left"></i> Back to Research
+        </a>
+        <div class="proj-cover">
+          <!-- Replace with actual image when available:
+          <img class="proj-cover-img" src="../../static/Research/MechatronicTrap/trap_cover.jpg" alt="Smart Mechatronic Trap"> -->
+          <div class="proj-cover-placeholder">
+            <i class="fas fa-mosquito"></i>
+            <span>Smart Mechatronic Trap</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: meta -->
+      <div>
+        <span class="proj-category-tag">Undergraduate Thesis &middot; FIUNA</span>
+        <h1 class="proj-title">Smart Mechatronic Trap</h1>
+
+        <div class="proj-status-row">
+          <span class="project-status project-status--active">In Progress</span>
+          <span class="proj-year">2024 &ndash; 2026</span>
+        </div>
+
+        <p class="proj-section-heading">Overview</p>
+        <p class="proj-overview">
+          An IoT-connected mechatronic trap designed for the automatic capture, detection, and sex
+          classification of <em>Aedes aegypti</em> mosquitoes. The system integrates embedded computer
+          vision (YOLO-based models) with custom hardware to enable real-time, field-deployable
+          mosquito monitoring &mdash; part of the broader Smart Mosquito Monitoring System thesis at FIUNA.
+        </p>
+
+        <div class="proj-tech-row">
+          <span class="pill">Computer Vision</span>
+          <span class="pill">YOLO</span>
+          <span class="pill">Raspberry Pi</span>
+          <span class="pill">IoT</span>
+          <span class="pill">Python</span>
+          <span class="pill">3D Printing</span>
+          <span class="pill">Embedded Systems</span>
+          <span class="pill">Knowledge Distillation</span>
+        </div>
+
+        <div class="proj-links-block">
+          <a href="https://doi.org/10.1109/CLEI67442.2025.11420726" target="_blank" rel="noopener" class="btn-outline">
+            <i class="fas fa-file-alt"></i> IEEE Publication
+          </a>
+        </div>
+
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Institution</span>
+            <span class="proj-meta-val">FIUNA</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Period</span>
+            <span class="proj-meta-val">2024 &ndash; 2026</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Field</span>
+            <span class="proj-meta-val">Mechatronics / CV</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Status</span>
+            <span class="proj-meta-val">In Progress</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SYSTEM COMPONENTS ===== -->
+  <section class="content-section content-section--gray">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-text">System Architecture</span>
+        <span class="section-label-line"></span>
+      </div>
+      <p class="section-intro">
+        The trap is composed of integrated hardware and software modules that work together to
+        autonomously capture, image, and classify mosquitoes in field conditions.
+      </p>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="comp-card-icon"><i class="fas fa-camera"></i></div>
+          <p class="comp-card-title">Vision Module</p>
+          <p class="comp-card-desc">High-resolution camera with controlled lighting for consistent mosquito imaging inside the capture chamber, feeding frames to the on-device inference pipeline.</p>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-icon"><i class="fas fa-microchip"></i></div>
+          <p class="comp-card-title">Edge Inference</p>
+          <p class="comp-card-desc">YOLO-based detection and sex-classification models optimized via Knowledge Distillation to run in real-time on a Raspberry Pi embedded in the trap.</p>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-icon"><i class="fas fa-fan"></i></div>
+          <p class="comp-card-title">Capture Mechanism</p>
+          <p class="comp-card-desc">Custom 3D-printed housing with an electromechanical system that directs attracted mosquitoes into the imaging chamber without damaging specimens.</p>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-icon"><i class="fas fa-wifi"></i></div>
+          <p class="comp-card-title">IoT Connectivity</p>
+          <p class="comp-card-desc">Wireless transmission of detection counts, sex-ratio, and event images to a central dashboard for remote monitoring and population tracking.</p>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-icon"><i class="fas fa-battery-three-quarters"></i></div>
+          <p class="comp-card-title">Power Management</p>
+          <p class="comp-card-desc">Low-power design targeting field autonomy with battery operation and optional solar charging for extended outdoor deployments.</p>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-icon"><i class="fas fa-database"></i></div>
+          <p class="comp-card-title">Data Pipeline</p>
+          <p class="comp-card-desc">Structured logging of detection events with timestamps, GPS coordinates, and classification confidence for downstream epidemiological analysis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROGRESS TIMELINE ===== -->
+  <section class="content-section">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-text">Research Progress</span>
+        <span class="section-label-line"></span>
+      </div>
+      <p class="section-intro">Milestones achieved and upcoming steps in the development of the Smart Mechatronic Trap.</p>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <span class="timeline-dot timeline-dot--done"></span>
+          <p class="timeline-date">2024 &mdash; Q1</p>
+          <p class="timeline-title">Problem Definition &amp; Dataset Construction <span class="timeline-badge timeline-badge--done">Done</span></p>
+          <p class="timeline-desc">Defined the mosquito monitoring problem, surveyed related work, and built an annotated image dataset of <em>Aedes aegypti</em> males and females for model training.</p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-dot timeline-dot--done"></span>
+          <p class="timeline-date">2024 &mdash; Q3</p>
+          <p class="timeline-title">YOLO Model Training &amp; Optimization <span class="timeline-badge timeline-badge--done">Done</span></p>
+          <p class="timeline-desc">Trained and benchmarked multiple YOLO variants for detection and sex classification. Applied Knowledge Distillation to compress models for edge deployment on Raspberry Pi.</p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-dot timeline-dot--done"></span>
+          <p class="timeline-date">2025 &mdash; Q1</p>
+          <p class="timeline-title">IEEE CLEI Publication <span class="timeline-badge timeline-badge--done">Done</span></p>
+          <p class="timeline-desc">Published &ldquo;Towards Real-Time Mosquito Counting Using YOLO Models and Knowledge Distillation&rdquo; at IEEE CLEI 2025, validating the edge inference approach.</p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-dot timeline-dot--active"></span>
+          <p class="timeline-date">2025 &mdash; Q2 &middot; Current</p>
+          <p class="timeline-title">Hardware Prototype Development <span class="timeline-badge timeline-badge--active">In Progress</span></p>
+          <p class="timeline-desc">Designing and 3D-printing the trap enclosure, integrating the vision module, and assembling the capture mechanism for laboratory validation.</p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2025 &mdash; Q4</p>
+          <p class="timeline-title">Field Testing &amp; Validation <span class="timeline-badge timeline-badge--pending">Upcoming</span></p>
+          <p class="timeline-desc">Deploy prototypes in field environments, collect real-world data, and validate detection accuracy and IoT connectivity under operational conditions.</p>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <p class="timeline-date">2026</p>
+          <p class="timeline-title">Thesis Defense &amp; Final Documentation <span class="timeline-badge timeline-badge--pending">Upcoming</span></p>
+          <p class="timeline-desc">Complete the undergraduate thesis document, finalize system validation results, and present the full Smart Mosquito Monitoring System at FIUNA.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RELATED PUBLICATIONS ===== -->
+  <section class="content-section content-section--gray">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-text">Related Publications</span>
+        <span class="section-label-line"></span>
+      </div>
+      <div class="pub-list">
+        <div class="pub-row">
+          <div class="pub-row-year">2025</div>
+          <div class="pub-row-body">
+            <h3 class="pub-row-title">Towards Real-Time Mosquito Counting Using YOLO Models and Knowledge Distillation</h3>
+            <p class="pub-row-meta">IEEE CLEI &middot; Oct 9, 2025</p>
+            <a href="https://doi.org/10.1109/CLEI67442.2025.11420726" target="_blank" rel="noopener" class="pub-row-link">See publication &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Lucas Pin</span>
+      <div class="footer-links">
+        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i> YouTube</a>
+        <a href="mailto:lucaspinf@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i> Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>
