@@ -229,9 +229,16 @@
       border-top: 1px solid var(--border);
     }
 
+    .cong-row-media {
+      flex: 0 0 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
     .cong-row-image {
-      flex: 0 0 160px;
-      height: 120px;
+      width: 100%;
+      height: 190px;
       border-radius: var(--radius-lg);
       overflow: hidden;
       background: var(--bg);
@@ -251,6 +258,21 @@
       justify-content: center;
       color: var(--border);
       font-size: 1.8rem;
+    }
+
+    .cong-row-caption {
+      font-size: 0.78rem;
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--text);
+      text-align: center;
+      margin: 0;
+      padding: 0 0.25rem;
+    }
+
+    /* zigzag: filas pares con la imagen a la derecha */
+    .cong-list .cong-row:nth-child(even) {
+      flex-direction: row-reverse;
     }
 
     .cong-row-content {
@@ -308,13 +330,19 @@
     }
 
     @media (max-width: 600px) {
-      .cong-row {
+
+      .cong-list .cong-row,
+      .cong-list .cong-row:nth-child(even) {
         flex-direction: column;
+      }
+
+      .cong-row-media {
+        width: 100%;
+        flex: none;
       }
 
       .cong-row-image {
         width: 100%;
-        flex: none;
         height: 180px;
       }
     }
@@ -436,10 +464,13 @@
       <div class="cong-list">
 
         <div class="cong-row">
-          <div class="cong-row-image">
-            <img src="../static/Researh/CongressPaticipations/SCP_oral_presentation.jpg"
-              alt="Presentación oral en el X Congreso de Investigadores de la Sociedad Científica del Paraguay (SCP)"
-              loading="lazy">
+          <div class="cong-row-media">
+            <div class="cong-row-image">
+              <img src="../static/Researh/CongressPaticipations/SCP_oral_presentation.jpg"
+                alt="Presentación oral en el X Congreso de Investigadores de la Sociedad Científica del Paraguay (SCP)"
+                loading="lazy">
+            </div>
+            <p class="cong-row-caption">Presentación oral en el X Congreso de Investigadores de la SCP, 2025.</p>
           </div>
           <div class="cong-row-content">
             <div class="cong-row-top">
@@ -455,8 +486,10 @@
         </div>
 
         <div class="cong-row">
-          <div class="cong-row-image cong-row-image--placeholder">
-            <i class="fas fa-image"></i>
+          <div class="cong-row-media">
+            <div class="cong-row-image cong-row-image--placeholder">
+              <i class="fas fa-image"></i>
+            </div>
           </div>
           <div class="cong-row-content">
             <div class="cong-row-top">
@@ -470,8 +503,10 @@
         </div>
 
         <div class="cong-row">
-          <div class="cong-row-image cong-row-image--placeholder">
-            <i class="fas fa-image"></i>
+          <div class="cong-row-media">
+            <div class="cong-row-image cong-row-image--placeholder">
+              <i class="fas fa-image"></i>
+            </div>
           </div>
           <div class="cong-row-content">
             <div class="cong-row-top">
@@ -485,8 +520,10 @@
         </div>
 
         <div class="cong-row">
-          <div class="cong-row-image cong-row-image--placeholder">
-            <i class="fas fa-image"></i>
+          <div class="cong-row-media">
+            <div class="cong-row-image cong-row-image--placeholder">
+              <i class="fas fa-image"></i>
+            </div>
           </div>
           <div class="cong-row-content">
             <div class="cong-row-top">
