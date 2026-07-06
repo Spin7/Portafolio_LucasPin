@@ -212,6 +212,112 @@
     .pub-row-link:hover {
       text-decoration: underline;
     }
+
+    /* ── CONGRESS PARTICIPATIONS: photo + year/type/title/venue/link ── */
+    .cong-list {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cong-row {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+
+    .cong-row+.cong-row {
+      border-top: 1px solid var(--border);
+    }
+
+    .cong-row-image {
+      flex: 0 0 160px;
+      height: 120px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .cong-row-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cong-row-image--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border);
+      font-size: 1.8rem;
+    }
+
+    .cong-row-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cong-row-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .cong-row-year {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .cong-row-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.22rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .cong-row-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.4;
+      margin: 0 0 0.35rem;
+    }
+
+    .cong-row-venue {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin: 0 0 0.5rem;
+    }
+
+    .cong-row-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .cong-row-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .cong-row {
+        flex-direction: column;
+      }
+
+      .cong-row-image {
+        width: 100%;
+        flex: none;
+        height: 180px;
+      }
+    }
   </style>
 </head>
 
@@ -327,32 +433,69 @@
     <div class="research-lines">
       <h2 class="research-lines-title">Participaciones en Congresos</h2>
 
-      <div class="pub-list">
+      <div class="cong-list">
 
-        <div class="pub-row">
-          <div class="pub-row-year">2026</div>
-          <div class="pub-row-body">
-            <h3 class="pub-row-title">[Título del trabajo presentado]</h3>
-            <p class="pub-row-meta">[Tipo] · CNMAC 2026 · [Ubicación]</p>
-            <a href="#" class="pub-row-link">See publication →</a>
+        <div class="cong-row">
+          <div class="cong-row-image">
+            <img src="../static/Researh/CongressPaticipations/SCP_oral_presentation.jpg"
+              alt="Presentación oral en el X Congreso de Investigadores de la Sociedad Científica del Paraguay (SCP)"
+              loading="lazy">
+          </div>
+          <div class="cong-row-content">
+            <div class="cong-row-top">
+              <span class="cong-row-year">2025</span>
+              <span class="cong-row-type">Presentación Oral</span>
+            </div>
+            <h3 class="cong-row-title">Modelado espacio-temporal de poblaciones de mosquitos mediante simulación
+              basada en agentes para estrategias de control del dengue</h3>
+            <p class="cong-row-venue">X Congreso de Investigadores de la Sociedad Científica del Paraguay (SCP)</p>
+            <a href="https://www.instagram.com/p/DQrFPmAjYbR/?igsh=MXRicGxicnJhZHU3MQ%3D%3D" target="_blank"
+              rel="noopener" class="cong-row-link">See more →</a>
           </div>
         </div>
 
-        <div class="pub-row">
-          <div class="pub-row-year">202X</div>
-          <div class="pub-row-body">
-            <h3 class="pub-row-title">[Título del trabajo presentado]</h3>
-            <p class="pub-row-meta">[Tipo] · Coloquio de la Sociedad Matemática de Paraguay · [Ubicación]</p>
-            <a href="#" class="pub-row-link">See publication →</a>
+        <div class="cong-row">
+          <div class="cong-row-image cong-row-image--placeholder">
+            <i class="fas fa-image"></i>
+          </div>
+          <div class="cong-row-content">
+            <div class="cong-row-top">
+              <span class="cong-row-year">2026</span>
+              <span class="cong-row-type">[Tipo]</span>
+            </div>
+            <h3 class="cong-row-title">[Título de la presentación]</h3>
+            <p class="cong-row-venue">CNMAC 2026 · [Ubicación]</p>
+            <a href="#" class="cong-row-link">See more →</a>
           </div>
         </div>
 
-        <div class="pub-row">
-          <div class="pub-row-year">202X</div>
-          <div class="pub-row-body">
-            <h3 class="pub-row-title">[Título del trabajo presentado]</h3>
-            <p class="pub-row-meta">[Tipo] · X Encuentro de Investigadores · [Ubicación]</p>
-            <a href="#" class="pub-row-link">See publication →</a>
+        <div class="cong-row">
+          <div class="cong-row-image cong-row-image--placeholder">
+            <i class="fas fa-image"></i>
+          </div>
+          <div class="cong-row-content">
+            <div class="cong-row-top">
+              <span class="cong-row-year">202X</span>
+              <span class="cong-row-type">[Tipo]</span>
+            </div>
+            <h3 class="cong-row-title">[Título de la presentación]</h3>
+            <p class="cong-row-venue">Coloquio de la Sociedad Matemática de Paraguay · [Ubicación]</p>
+            <a href="#" class="cong-row-link">See more →</a>
+          </div>
+        </div>
+
+        <div class="cong-row">
+          <div class="cong-row-image cong-row-image--placeholder">
+            <i class="fas fa-image"></i>
+          </div>
+          <div class="cong-row-content">
+            <div class="cong-row-top">
+              <span class="cong-row-year">202X</span>
+              <span class="cong-row-type">[Tipo]</span>
+            </div>
+            <h3 class="cong-row-title">[Título de la presentación]</h3>
+            <p class="cong-row-venue">X Encuentro de Investigadores · [Ubicación]</p>
+            <a href="#" class="cong-row-link">See more →</a>
           </div>
         </div>
 
