@@ -29,35 +29,6 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* Real figure (not a placeholder) */
-    .acad-figure {
-      margin: 1.6rem 0;
-      text-align: center;
-    }
-
-    .acad-figure img {
-      max-width: 100%;
-      height: auto;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-    }
-
-    .acad-body ol {
-      margin: 0 0 1.1rem 1.3rem;
-      padding: 0;
-    }
-
-    .acad-body ol li {
-      font-size: 0.94rem;
-      line-height: 1.8;
-      color: var(--text);
-      margin-bottom: 0.35rem;
-    }
-
-    .acad-body ol li strong {
-      color: var(--dark);
-    }
-
     /* Alternate section background (gray) */
     .acad-section-alt {
       background: var(--bg);
@@ -1175,87 +1146,6 @@
           low-latency edge inference, and (iii)&nbsp;an end-to-end IoT stack for cloud monitoring, all within a
           single low-cost embedded platform. Closing this gap is the core contribution of the present work.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
-       SECTION III — MECHANICAL DESIGN
-       ══════════════════════════════════════ -->
-  <section class="acad-section">
-    <div class="acad-section-inner">
-      <div class="acad-section-head">
-        <span class="acad-section-num">III.</span>
-        <span class="acad-section-title">Mechanical Design</span>
-      </div>
-
-      <div class="acad-body">
-        <h4>Biological Lure</h4>
-        <p>
-          The attractant reproduces the CO&#8322; profile of human respiration &mdash; the primary
-          host-location cue for <em>Ae.&nbsp;aegypti</em> &mdash; through yeast fermentation in a gelified
-          sucrose medium. The gel is prepared from water, sugar, and neutral gelatin, activated with baker's
-          yeast, and sealed into a 1.5&nbsp;L container connected to the capture duct. Once activated, the
-          reaction releases CO&#8322; continuously at 4.5&ndash;9&nbsp;g/day, for a total of 40&ndash;70&nbsp;g
-          over an 8-day cycle before the batch is exhausted and must be reactivated. Because the
-          fermentation rate is temperature-dependent, CO&#8322; output naturally peaks during warmer hours
-          &mdash; which coincides with periods of highest mosquito host-seeking activity &mdash; and slows
-          during cooler nights, helping the batch last through its full cycle.
-        </p>
-
-        <h4>Enclosure and Airflow</h4>
-        <p>
-          The trap enclosure is a 220&times;160&times;45&nbsp;mm&sup3; rectangular prism, 3D-printed in PLA
-          for its ease of fabrication, mechanical durability, and low mass. A transparent acrylic front plate,
-          secured with 3&nbsp;mm screws, allows unobstructed optical inspection of the capture zone. Capture is
-          driven by negative pressure: a central 20&times;20&nbsp;mm square duct runs vertically through the
-          unit, with a conical transition narrowing a 72&nbsp;mm circular inlet down to the duct cross-section,
-          and a 92&nbsp;mm PC fan (40&nbsp;CFM nominal) generating suction at the base. Under the estimated
-          operating point (~15% of nominal flow due to duct restriction), inlet velocity is a gentle
-          &sim;0.69&nbsp;m/s &mdash; enough to draw insects in without deterring their approach &mdash; while
-          duct velocity accelerates to &sim;7.05&nbsp;m/s, above the mosquito's typical flight speed
-          (1.0&ndash;1.5&nbsp;m/s) and sufficient to prevent escape once inside.
-        </p>
-
-        <div class="acad-figure">
-          <img src="../static/Research/MechatronicsTrap/Trampa_Thesis1.png"
-            alt="3D model of the trap with labeled principal components">
-        </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Fig.&nbsp;2.</strong> 3D
-          model of the trap with its principal components labeled: entrance, camera and lighting support,
-          rotary sorting mechanism, sex-segregated compartments&nbsp;A (female) and&nbsp;B (male), and the fan
-          connection at the base.</p>
-
-        <h4>Rotary Sorting Mechanism</h4>
-        <p>
-          At the mid-section of the duct, a 140&nbsp;mm-diameter rotating cylinder is mounted perpendicular to
-          the airflow axis. A hollow sliding inner tube, capped at its upstream end with a 250&nbsp;&micro;m
-          nylon mosquito mesh, holds the specimen in the imaging position; its downstream end is left open to
-          allow gravity ejection into the corresponding compartment after classification. A continuous-rotation
-          servomotor (HK15138), mounted at the rear of the enclosure, drives the cylinder, while three embedded
-          neodymium magnets and a Hall-effect sensor (A3144) provide closed-loop feedback at each of the three
-          fixed angular stops. The full capture-to-reset sequence takes approximately 2.1&nbsp;s:
-        </p>
-
-        <ol>
-          <li><strong>Capture</strong> &mdash; the fan draws the mosquito through the inlet and into the
-            cylinder, where airflow pins it against the mesh.</li>
-          <li><strong>Identification</strong> &mdash; the specimen is illuminated and imaged against the white
-            PLA background; the vision pipeline classifies it by sex.</li>
-          <li><strong>Segregation</strong> &mdash; the servo rotates the cylinder to align its inner duct with
-            the corresponding compartment.</li>
-          <li><strong>Gravity ejection</strong> &mdash; the inner tube slides down under gravity, acting as a
-            plunger that pushes the mosquito into the selected compartment.</li>
-          <li><strong>Reset</strong> &mdash; the cylinder and inner tube return to the capture position, ready
-            for the next cycle.</li>
-        </ol>
-
-        <div class="acad-figure">
-          <img src="../static/Research/MechatronicsTrap/trampa3.PNG"
-            alt="Rear view of the 3D model showing the servo motor and sorting mechanism">
-        </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Fig.&nbsp;3.</strong> Rear
-          view of the 3D model, showing the servomotor mount and the sorting-mechanism linkage.</p>
       </div>
     </div>
   </section>
