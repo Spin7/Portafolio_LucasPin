@@ -1389,32 +1389,121 @@
       </div>
 
       <div class="acad-body">
+        <h4>Strategy</h4>
         <p>
-          The vision system follows a two-stage cascaded design: a single-class detector first localises each
-          specimen in the frame, and a lightweight binary classifier then determines its sex from the cropped
-          region. Decoupling the two tasks avoids the class-confusion artefacts of a multi-class detector
-          working at small scale, and allows each stage to be optimised, retrained, or replaced independently.
-          Both stages are exported to ONNX for CPU-only inference on the Raspberry&nbsp;Pi&nbsp;5.
+          The system targets automated sex classification of <em>Ae.&nbsp;aegypti</em> on edge hardware &mdash;
+          a task distinct from the species-level detection or discrimination addressed by most prior smart
+          traps. It adopts a two-stage cascaded architecture: a single-class YOLOv8 detector first localises
+          each specimen in the frame, following the real-time detection scheme validated on Raspberry&nbsp;Pi
+          by Oliveira&nbsp;and&nbsp;Mafra; a MobileNetV3&nbsp;Large classifier then discriminates the sex of
+          each detected specimen, building on the capacity of CNNs to capture fine morphological features
+          demonstrated by Park&nbsp;et&nbsp;al. Both models are exported to ONNX for efficient inference on the
+          embedded device. Decoupling detection from classification allows each component to be optimised
+          independently and gives the system natural scalability: a third species-discrimination stage could
+          later be added at only marginal training and inference cost, since it would operate exclusively on
+          detections already filtered by the first two stages. Training and metric evaluation were carried out
+          on a workstation with an Intel Core&nbsp;i7 (14th&nbsp;gen) CPU and an NVIDIA GeForce&nbsp;RTX&nbsp;5060
+          Laptop GPU; inference times on the embedded device itself are reported at the end of this section.
         </p>
 
-        <h4>Stage 1 &mdash; Detection (YOLOv8s)</h4>
+        <h4>YOLOv8 Detection Model</h4>
         <p>
-          The detector was trained on <strong>22,309 images</strong> under a single <em>mosquito</em> class,
-          combining Roboflow Universe data with manually annotated field captures (three augmented variants per
-          image; 87.5&nbsp;/&nbsp;6.3&nbsp;/&nbsp;6.2 train/val/test split). Hyperparameters were tuned with
-          Optuna (TPE sampler, 100&nbsp;trials of 15&nbsp;epochs), and the best configuration was retrained for
-          200&nbsp;epochs, reaching <strong>mAP@50&nbsp;=&nbsp;0.975</strong> with precision and recall of 0.954
-          on the held-out test set.
+          <strong>Dataset.</strong> The detection dataset combines Roboflow&nbsp;Universe imagery with
+          manually annotated field captures under a single <em>mosquito</em> class &mdash; a choice that
+          simplifies the model and its later ONNX export. Three augmented variants were generated per image
+          (90&deg; rotations, brightness &plusmn;19%, pixel noise up to 1.45%), yielding
+          <strong>22,309 images</strong> in total (87.5% train&nbsp;/&nbsp;6.3% validation&nbsp;/&nbsp;6.2%
+          test; 17,140 labelled instances of the mosquito class).
+        </p>
+        <p>
+          <strong>Training.</strong> Hyperparameters (learning rate, momentum, weight decay, warm-up epochs,
+          loss-term weights, and augmentation strength) were tuned with Optuna's TPE sampler over
+          100&nbsp;trials of 15&nbsp;epochs each, maximising mAP@50 on the validation set; the best trial
+          (mAP@50&nbsp;=&nbsp;0.963) was reached at trial&nbsp;43. The final model was then fine-tuned for
+          200&nbsp;epochs (256&times;256 images, batch&nbsp;16, GPU, early-stopping patience&nbsp;20, mosaic
+          augmentation disabled in the last 10&nbsp;epochs), with deterministic seeding for reproducibility.
+          Training and validation losses decreased steadily with no sign of overfitting, and the model reached
+          <strong>mAP@50&nbsp;=&nbsp;0.975</strong> (precision&nbsp;=&nbsp;recall&nbsp;=&nbsp;0.954,
+          mAP@50-95&nbsp;=&nbsp;0.734) on the held-out test set, with a low false-negative count
+          (1,068&nbsp;TP&nbsp;/&nbsp;57&nbsp;FP&nbsp;/&nbsp;30&nbsp;FN) &mdash; an important property for a
+          monitoring application where missed detections are especially costly.
+        </p>
+        <p>
+          <strong>ONNX Export.</strong> The trained PyTorch model was exported to ONNX (opset&nbsp;12, fixed
+          256&times;256 input, static axes) to decouple inference from the training framework and enable
+          CPU-optimised execution on the embedded target. Re-evaluated on the same test set, the ONNX graph
+          scored precision&nbsp;=&nbsp;0.947 and recall&nbsp;=&nbsp;0.939 &mdash; a small, expected drop from
+          the native PyTorch model, consistent with the graph-conversion process and well within acceptable
+          bounds for real-time deployment.
         </p>
 
-        <h4>Stage 2 &mdash; Sex Classification (MobileNetV3 Large)</h4>
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Time (ms)</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>mAP@50</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PyTorch CPU</td>
+                <td>20.47</td>
+                <td>0.968</td>
+                <td>0.957</td>
+                <td>0.975</td>
+              </tr>
+              <tr>
+                <td>PyTorch GPU</td>
+                <td>7.34</td>
+                <td>0.968</td>
+                <td>0.957</td>
+                <td>0.975</td>
+              </tr>
+              <tr class="ours-row">
+                <td>ONNX CPU</td>
+                <td>9.05</td>
+                <td>0.947</td>
+                <td>0.939</td>
+                <td>0.920</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;III.</strong>
+          YOLOv8s inference latency and detection metrics across execution modes. ONNX CPU is the mode deployed
+          on the Raspberry&nbsp;Pi&nbsp;5, cutting CPU latency by 55% relative to native PyTorch while closing
+          most of the gap to GPU-accelerated inference.</p>
+
+        <h4>MobileNetV3 Classification Model</h4>
         <p>
-          The classification dataset was derived by cropping each detected specimen, yielding
-          <strong>5,343 single-specimen images</strong> (4,403&nbsp;train&nbsp;/&nbsp;493&nbsp;val&nbsp;/
-          447&nbsp;test, near-balanced 50.8% female&nbsp;/&nbsp;49.2% male). MobileNetV3&nbsp;Large was
-          fine-tuned from ImageNet weights with class-weighted cross-entropy and label smoothing, reaching
-          <strong>97.31% accuracy</strong> on the test set &mdash; only 4 false negatives on females and 8 on
-          males across all 447 samples.
+          <strong>Dataset.</strong> The classification dataset originates from mosquito images labelled by
+          sex in the prior FIUNA thesis of Balbuena&nbsp;Duarte and Barrios&nbsp;Pereira, provided by the
+          IICS. Cropping each annotated bounding box into an individual, centred specimen image &mdash; via a
+          script that validates crop bounds and discards invalid regions &mdash; converted the original
+          2,571-image detection-style dataset into <strong>5,343 single-specimen images</strong> (4,403
+          train&nbsp;/&nbsp;493 validation&nbsp;/&nbsp;447&nbsp;test). Extensive augmentation (flips,
+          90&deg;/180&deg; and random &plusmn;45&deg; rotations, shear, saturation/brightness/exposure jitter,
+          slight blur) was applied to the training split only. The training and validation splits are
+          moderately imbalanced toward the female class (61.9% and 64.7% respectively), while the test split
+          is near-balanced (50.8% female&nbsp;/&nbsp;49.2% male) for an unbiased evaluation.
+        </p>
+        <p>
+          <strong>Training.</strong> MobileNetV3&nbsp;Large was initialised from ImageNet weights (transfer
+          learning), with its classification head replaced by a two-output linear layer. Images were resized to
+          160&times;160 (batch&nbsp;32) and trained with AdamW (lr&nbsp;=&nbsp;3&times;10<sup>-4</sup>, weight
+          decay&nbsp;10<sup>-4</sup>), a cosine-annealing learning-rate schedule, and cross-entropy loss with
+          inverse-frequency class weights and label smoothing (&alpha;&nbsp;=&nbsp;0.1) to counteract the class
+          imbalance and reduce overconfidence. Training ran for up to 50&nbsp;epochs with early stopping
+          (patience&nbsp;10), retaining the checkpoint with the best validation accuracy.
+        </p>
+        <p>
+          On the test set, the model reached <strong>97.31% accuracy</strong>, with only 4&nbsp;false negatives
+          on females and 8&nbsp;on males across all 447&nbsp;samples &mdash; a balanced result with no
+          systematic bias toward either class.
         </p>
 
         <div class="acad-table-wrap">
@@ -1451,18 +1540,68 @@
             </tbody>
           </table>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;III.</strong>
-          MobileNetV3 Large sex-classification metrics on the test set.</p>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
+          MobileNetV3 Large sex-classification metrics on the test set (PyTorch).</p>
 
-        <h4>End-to-End Inference Flow</h4>
-        <p>Each camera frame is processed through the following sequential stages:</p>
+        <p>
+          <strong>ONNX Export.</strong> Following the same procedure as the detector, the trained model
+          (<code>best_model.pth</code>) was exported to ONNX &mdash; opset&nbsp;13, with a dynamic batch axis
+          and constant folding enabled for graph optimisation, unlike the detector's static-axis export.
+          Re-evaluated on the same 447-sample test set, the ONNX graph produced <strong>zero prediction
+            disagreements</strong> with the PyTorch model (maximum logit difference of just 0.0022, attributable
+          to floating-point rounding across runtimes) &mdash; identical precision, recall, and F1.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Time (ms)</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PyTorch CPU</td>
+                <td>20.83</td>
+                <td>0.973</td>
+                <td>0.981</td>
+                <td>0.972</td>
+              </tr>
+              <tr>
+                <td>PyTorch GPU</td>
+                <td>11.26</td>
+                <td>0.973</td>
+                <td>0.981</td>
+                <td>0.972</td>
+              </tr>
+              <tr class="ours-row">
+                <td>ONNX CPU</td>
+                <td>5.83</td>
+                <td>0.973</td>
+                <td>0.981</td>
+                <td>0.972</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;V.</strong>
+          MobileNetV3 Large inference latency across execution modes. ONNX CPU is 72% faster than PyTorch CPU
+          with no accuracy degradation &mdash; even outperforming PyTorch GPU.</p>
+
+        <h4>Cascade Model</h4>
+        <p>Each camera frame is processed end-to-end through the following sequential stages:</p>
         <ol>
           <li><strong>Letterbox resize</strong> &mdash; the frame is resized to 256&times;256 preserving aspect
             ratio via symmetric padding.</li>
           <li><strong>Detection</strong> &mdash; the YOLOv8s ONNX graph predicts bounding boxes with confidence
             scores.</li>
-          <li><strong>Decode &amp; NMS</strong> &mdash; predictions are filtered (confidence&nbsp;&ge;&nbsp;0.125)
-            and deduplicated via Non-Maximum Suppression (IoU&nbsp;=&nbsp;0.45).</li>
+          <li><strong>Decode &amp; NMS</strong> &mdash; predictions are filtered
+            (confidence&nbsp;&ge;&nbsp;0.125) and deduplicated via Non-Maximum Suppression
+            (IoU&nbsp;=&nbsp;0.45).</li>
           <li><strong>ROI extraction</strong> &mdash; each surviving box is cropped from the original,
             un-resized frame.</li>
           <li><strong>Crop preprocessing</strong> &mdash; every crop is resized to 160&times;160 and normalised
@@ -1472,78 +1611,6 @@
           <li><strong>Argmax</strong> &mdash; the higher-scoring class is assigned as the final sex label.</li>
         </ol>
 
-        <h4>ONNX Export &amp; Edge Latency</h4>
-        <p>
-          Both models were benchmarked in three execution modes on a development workstation (PyTorch CPU,
-          PyTorch GPU, and the exported ONNX graph on CPU) before deployment. ONNX Runtime cuts YOLOv8s CPU
-          latency by 55% (20.47&nbsp;ms&nbsp;&rarr;&nbsp;9.05&nbsp;ms), with a marginal accuracy trade-off
-          (&minus;2.1&nbsp;pp precision, &minus;5.5&nbsp;pp mAP@50). The classifier fares even better: ONNX is
-          72% faster than PyTorch CPU (20.83&nbsp;ms&nbsp;&rarr;&nbsp;5.83&nbsp;ms) with
-          <strong>zero accuracy degradation</strong> &mdash; identical precision, recall, and F1 across all
-          three modes.
-        </p>
-
-        <div class="acad-table-wrap">
-          <table class="acad-table">
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Mode</th>
-                <th>Time (ms)</th>
-                <th>Key metric</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>YOLOv8s</td>
-                <td>PyTorch CPU</td>
-                <td>20.47</td>
-                <td>mAP@50 0.975</td>
-              </tr>
-              <tr>
-                <td>YOLOv8s</td>
-                <td>PyTorch GPU</td>
-                <td>7.34</td>
-                <td>mAP@50 0.975</td>
-              </tr>
-              <tr>
-                <td>YOLOv8s</td>
-                <td>ONNX CPU</td>
-                <td>9.05</td>
-                <td>mAP@50 0.920</td>
-              </tr>
-              <tr>
-                <td>MobileNetV3</td>
-                <td>PyTorch CPU</td>
-                <td>20.83</td>
-                <td>F1 0.972</td>
-              </tr>
-              <tr>
-                <td>MobileNetV3</td>
-                <td>PyTorch GPU</td>
-                <td>11.26</td>
-                <td>F1 0.972</td>
-              </tr>
-              <tr class="ours-row">
-                <td>MobileNetV3</td>
-                <td>ONNX CPU</td>
-                <td>5.83</td>
-                <td>F1 0.972</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
-          PyTorch vs. ONNX Runtime latency and accuracy (development workstation).</p>
-
-        <p>
-          On the Raspberry&nbsp;Pi&nbsp;5 itself, the full cascade runs at <strong>133.53&nbsp;ms per frame
-            (&asymp;7.5&nbsp;FPS)</strong>: the YOLOv8s detector accounts for 101.11&nbsp;ms (75.7% of the
-          budget), the MobileNetV3 classifier for 14.77&nbsp;ms (11.1%), and pre/post-processing &mdash;
-          letterboxing, NMS, ROI cropping, normalisation &mdash; for the remaining 17.65&nbsp;ms. This
-          comfortably meets the trap's real-time image-acquisition requirement.
-        </p>
-
         <div class="acad-img-placeholder">
           <i class="fas fa-image"></i>
           <span class="ph-text">Ejemplo de salida de la cascada sobre un frame multi-especimen (ej.
@@ -1552,20 +1619,61 @@
         <p class="acad-fig-caption"><strong>Fig.&nbsp;6.</strong> Representative cascade output: YOLOv8s
           bounding boxes followed by MobileNetV3 sex labels for each detected specimen.</p>
 
-        <h4>Cascade Evaluation &amp; Field Validation</h4>
         <p>
           Evaluated end-to-end on the classifier's 447-image test set, the cascade reaches a
           <strong>conditional classification precision of 94.69%</strong> (321 correct out of 339 valid
           detections) &mdash; close to the classifier's isolated 97.31%, confirming that MobileNetV3 remains
-          robust on automatically generated crops. Detection recall is lower in this setting (75.84% vs.\
-          93.9% on the detector's native test set), a gap attributable to domain shift between the detector's
-          multi-object training images and the classifier's tight single-specimen crops, rather than any
-          architectural limitation.
+          robust on automatically generated crops; the residual 2.6-point gap reflects geometric imperfections
+          in YOLO-generated crops rather than any degradation of the classifier itself. Detection recall is
+          markedly lower in this setting (75.84% vs. 93.9% on the detector's own native test set) &mdash; both
+          models are evaluated on the same 447 single-specimen crops, a distribution the detector never saw
+          during training, unlike the classifier, which is evaluated on its native domain. The resulting
+          overall system precision of 71.81% therefore points to the detector's training set as the main
+          avenue for improvement, rather than to any architectural limitation of the cascade.
         </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Time (ms)</th>
+                <th>FPS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>YOLOv8s detector</td>
+                <td>101.11</td>
+                <td>9.89</td>
+              </tr>
+              <tr>
+                <td>MobileNetV3 classifier</td>
+                <td>14.77</td>
+                <td>67.70</td>
+              </tr>
+              <tr>
+                <td>Pre/post-processing</td>
+                <td>17.65</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Full cascade</td>
+                <td>133.53</td>
+                <td>7.49</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VI.</strong>
+          ONNX inference latency measured directly on the Raspberry&nbsp;Pi&nbsp;5 (CPU). The detector accounts
+          for 75.7% of total latency; the classifier adds only 11.1%, confirming its lightweight footprint as
+          the second stage.</p>
+
         <p>
           The complete system was field-deployed autonomously for six consecutive days (Barrio&nbsp;Ycu&aacute;
           Sat&iacute;, Asunci&oacute;n, Paraguay) on wild <em>Ae.&nbsp;aegypti</em> populations, capturing
-          21&nbsp;events (16 female, 5&nbsp;male) with 2&nbsp;false positives &mdash; a field precision of
+          21&nbsp;events (16&nbsp;female, 5&nbsp;male) with 2&nbsp;false positives &mdash; a field precision of
           <strong>90.5%</strong> without any environment-specific retraining. A temperature drop from
           30&deg;C to 18&deg;C on days&nbsp;4&ndash;6 produced an observable reduction in capture rate,
           consistent with known <em>Aedes</em> activity patterns, and all detection events were streamed to
