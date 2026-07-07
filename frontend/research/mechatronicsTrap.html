@@ -29,6 +29,50 @@
       font-family: 'Inter', sans-serif;
     }
 
+    /* Alternate section background (gray) */
+    .acad-section-alt {
+      background: var(--bg);
+    }
+
+    /* Academic booktabs-style table */
+    .acad-table-wrap {
+      overflow-x: auto;
+      margin: 0.5rem 0 1.6rem;
+    }
+
+    .acad-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .acad-table th {
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      font-weight: 700;
+      color: var(--dark);
+      font-size: 0.78rem;
+      border-top: 2px solid var(--dark);
+      border-bottom: 1px solid var(--dark);
+    }
+
+    .acad-table td {
+      padding: 0.55rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    .acad-table tr:last-child td {
+      border-bottom: 2px solid var(--dark);
+    }
+
+    .acad-table .ours-row td {
+      font-weight: 700;
+      color: var(--dark);
+      background: rgba(14, 116, 144, 0.06);
+    }
+
     /* Numbered section headings, paper-style (I, II, III...) */
     .acad-section {
       background: #fff;
@@ -944,12 +988,6 @@
             </div>
           </div>
 
-          <div class="acad-img-placeholder">
-            <i class="fas fa-image"></i>
-            <span class="ph-text">Foto del prototipo final ensamblado (ej. Trampa_caja_abierta.jpg)</span>
-          </div>
-          <p class="acad-fig-caption"><strong>Fig. 1.</strong> Final assembled prototype of the smart mechatronic
-            trap.</p>
         </div>
 
         <!-- Right column: Resumen (Problem + Proposed approach) -->
@@ -979,6 +1017,135 @@
           </p>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION II — RELATED WORK
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">II.</span>
+        <span class="acad-section-title">Related Work</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          <em>Commercial systems.</em> Devices such as the BG-Counter detect insect activity through optical and
+          infrared sensors with remote data transmission, but rely on classical signal processing rather than
+          deep learning, and are not capable of physically segregating specimens by sex.
+        </p>
+
+        <p>
+          <em>Computer-vision approaches.</em> Park et&nbsp;al. compared VGG-16, ResNet-50, and SqueezeNet on a
+          Jetson&nbsp;TX2 platform, showing via Grad-CAM heatmaps that CNNs localize the same morphological
+          discriminators (thorax, abdomen) used by expert entomologists. Lee et&nbsp;al. extended this by fusing
+          RGB and UV-fluorescent images through a Swin-Transformer&nbsp;+&nbsp;Faster&nbsp;R-CNN pipeline on a
+          Jetson&nbsp;AGX&nbsp;Xavier, though their physical trap was not designed for sex-based sorting or
+          edge-only deployment. Wilkes et&nbsp;al. demonstrated that commodity CMOS sensors can be chemically
+          modified to capture UV imagery for roughly USD&nbsp;25, confirming that low-cost hardware is viable
+          for mosquito imaging.
+        </p>
+
+        <p>
+          <em>Smart-trap systems.</em> Liu et&nbsp;al. deployed a rotating-cylinder sorting mechanism on a
+          Raspberry&nbsp;Pi&nbsp;3 with SqueezeNet, demonstrating the feasibility of lightweight classifiers with
+          physical specimen routing, but without ONNX runtime optimization or end-to-end IoT monitoring. Oliveira
+          et&nbsp;al. integrated YOLOv7 on a Raspberry&nbsp;Pi&nbsp;4 with multi-duct wind selection and LoRaWAN
+          cloud connectivity, enabling real-time monitoring and selective release, but without sex classification
+          or physical sex-sorted retention. Paul et&nbsp;al. validated low-cost fluorescent markers for
+          mark&ndash;release&ndash;recapture studies, confirming that field entomology workflows can rely on
+          accessible materials, though their approach requires off-device microscopy and provides no AI-based
+          inference.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Work</th>
+                <th>Inference Device</th>
+                <th>AI Model</th>
+                <th>Physical Trap</th>
+                <th>Sex Sorting</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Wilkes (2016)</td>
+                <td>Raspberry Pi</td>
+                <td>None (RAW)</td>
+                <td>No</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Park (2020)</td>
+                <td>Jetson TX2</td>
+                <td>VGG-16 / ResNet</td>
+                <td>No</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Lee (2023)</td>
+                <td>Jetson AGX Xavier</td>
+                <td>Swin-T + F-RCNN</td>
+                <td>Yes</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Liu (2023)</td>
+                <td>Raspberry Pi 3</td>
+                <td>SqueezeNet</td>
+                <td>Yes</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Oliveira (2024)</td>
+                <td>Raspberry Pi 4</td>
+                <td>YOLOv7</td>
+                <td>Yes</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Paul (2024)</td>
+                <td>None</td>
+                <td>None</td>
+                <td>No</td>
+                <td>No</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Ours</td>
+                <td>RPi 5 (ONNX)</td>
+                <td>YOLOv8 + MobileNetV3</td>
+                <td>Yes</td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table I.</strong> Summary
+          of closely related works.</p>
+
+        <p>
+          <em>Institutional context (FIUNA).</em> The present work also builds on a local line of undergraduate
+          theses at FIUNA oriented toward mosquito detection and classification. Honge&nbsp;Kudo (2025) developed
+          the first functional mechatronic prototype, combining vacuum-turbine suction with a rotating cylinder
+          for physical separation and acoustic sensing (microphone&nbsp;+&nbsp;STFT), though capture was still
+          manually triggered. Zichner&nbsp;von&nbsp;Schmeling (2026) replaced audio sensing with an infrared
+          wingbeat-frequency sensor (OPT101) immune to ambient noise, adding a custom PCB and BLDC-driven
+          suction. Balbuena&nbsp;Duarte and Barrios&nbsp;Pereira (2026) introduced visual sex classification with
+          YOLOv8, a servo-controlled iris capture mechanism, and a fermentation-based CO&#8322; lure, explicitly
+          recommending migration to on-device edge AI and IoT connectivity as future work.
+        </p>
+
+        <p>
+          None of the reviewed works &mdash; international or institutional &mdash; simultaneously provides
+          (i)&nbsp;sex-based physical sorting, (ii)&nbsp;a cascaded deep-learning pipeline exported to ONNX for
+          low-latency edge inference, and (iii)&nbsp;an end-to-end IoT stack for cloud monitoring, all within a
+          single low-cost embedded platform. Closing this gap is the core contribution of the present work.
+        </p>
       </div>
     </div>
   </section>
