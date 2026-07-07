@@ -42,6 +42,25 @@
       border: 1px solid var(--border);
     }
 
+    /* Two figures side by side */
+    .acad-figure-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6rem;
+      margin: 1.6rem 0;
+      align-items: start;
+    }
+
+    .acad-figure-grid .acad-figure {
+      margin: 0;
+    }
+
+    @media (max-width: 700px) {
+      .acad-figure-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .acad-body ol {
       margin: 0 0 1.1rem 1.3rem;
       padding: 0;
@@ -1217,15 +1236,6 @@
           (1.0&ndash;1.5&nbsp;m/s) and sufficient to prevent escape once inside.
         </p>
 
-        <div class="acad-figure">
-          <img src="../static/Researh/MechatronicsTrap/Trampa_Thesis1.png"
-            alt="3D model of the trap with labeled principal components">
-        </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Fig.&nbsp;2.</strong> 3D
-          model of the trap with its principal components labeled: entrance, camera and lighting support,
-          rotary sorting mechanism, sex-segregated compartments&nbsp;A (female) and&nbsp;B (male), and the fan
-          connection at the base.</p>
-
         <h4>Rotary Sorting Mechanism</h4>
         <p>
           At the mid-section of the duct, a 140&nbsp;mm-diameter rotating cylinder is mounted perpendicular to
@@ -1250,12 +1260,22 @@
             for the next cycle.</li>
         </ol>
 
-        <div class="acad-figure">
-          <img src="../static/Researh/MechatronicsTrap/Trampa_Thesis1.png"
-            alt="Rear view of the 3D model showing the servo motor and sorting mechanism">
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Trampa_Thesis1.png"
+              alt="3D model of the trap with labeled principal components">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;2.</strong> Front view with
+              labeled components: entrance, camera and lighting support, rotary sorting mechanism,
+              sex-segregated compartments&nbsp;A (female) and&nbsp;B (male), and the fan connection at the
+              base.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/trampa3.PNG"
+              alt="Rear view of the 3D model showing the servo motor and sorting mechanism">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;3.</strong> Rear view showing
+              the servomotor mount and the sorting-mechanism linkage.</p>
+          </div>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Fig.&nbsp;3.</strong> Rear
-          view of the 3D model, showing the servomotor mount and the sorting-mechanism linkage.</p>
       </div>
     </div>
   </section>
