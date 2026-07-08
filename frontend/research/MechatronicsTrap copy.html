@@ -29,7 +29,96 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* Alternate section background (gray) */
+    /* Real figure (not a placeholder) */
+    .acad-figure {
+      margin: 1.6rem 0;
+      text-align: center;
+    }
+
+    .acad-figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    /* Two figures side by side */
+    .acad-figure-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.6rem;
+      margin: 1.6rem 0;
+      align-items: start;
+    }
+
+    .acad-figure-grid .acad-figure {
+      margin: 0;
+    }
+
+    @media (max-width: 700px) {
+      .acad-figure-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Three figures in a row */
+    .acad-figure-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.6rem;
+      margin: 1.6rem 0;
+      align-items: start;
+    }
+
+    .acad-figure-grid-3 .acad-figure {
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .acad-figure-grid-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .acad-figure-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .acad-body ol {
+      margin: 0 0 1.1rem 1.3rem;
+      padding: 0;
+    }
+
+    .acad-body ol li {
+      font-size: 0.94rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .acad-body ol li strong {
+      color: var(--dark);
+    }
+
+    .acad-body ul {
+      margin: 0 0 1.1rem 1.3rem;
+      padding: 0;
+    }
+
+    .acad-body ul li {
+      font-size: 0.94rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .acad-body ul li strong {
+      color: var(--dark);
+    }
+
+    /* Alternate section background (gray) — matches header's var(--bg) */
     .acad-section-alt {
       background: var(--bg);
     }
@@ -1146,6 +1235,1297 @@
           low-latency edge inference, and (iii)&nbsp;an end-to-end IoT stack for cloud monitoring, all within a
           single low-cost embedded platform. Closing this gap is the core contribution of the present work.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION III — MECHANICAL DESIGN
+       ══════════════════════════════════════ -->
+  <section class="acad-section">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">III.</span>
+        <span class="acad-section-title">Mechanical Design</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Biological Lure</h4>
+        <p>
+          The attractant reproduces the CO&#8322; profile of human respiration &mdash; the primary
+          host-location cue for <em>Ae.&nbsp;aegypti</em> &mdash; through yeast fermentation in a gelified
+          sucrose medium. The gel is prepared from water, sugar, and neutral gelatin, activated with baker's
+          yeast, and sealed into a 1.5&nbsp;L container connected to the capture duct. Once activated, the
+          reaction releases CO&#8322; continuously at 4.5&ndash;9&nbsp;g/day, for a total of 40&ndash;70&nbsp;g
+          over an 8-day cycle before the batch is exhausted and must be reactivated. Because the
+          fermentation rate is temperature-dependent, CO&#8322; output naturally peaks during warmer hours
+          &mdash; which coincides with periods of highest mosquito host-seeking activity &mdash; and slows
+          during cooler nights, helping the batch last through its full cycle.
+        </p>
+
+        <h4>Enclosure and Airflow</h4>
+        <p>
+          The trap enclosure is a 220&times;160&times;45&nbsp;mm&sup3; rectangular prism, 3D-printed in PLA
+          for its ease of fabrication, mechanical durability, and low mass. A transparent acrylic front plate,
+          secured with 3&nbsp;mm screws, allows unobstructed optical inspection of the capture zone. Capture is
+          driven by negative pressure: a central 20&times;20&nbsp;mm square duct runs vertically through the
+          unit, with a conical transition narrowing a 72&nbsp;mm circular inlet down to the duct cross-section,
+          and a 92&nbsp;mm PC fan (40&nbsp;CFM nominal) generating suction at the base. Under the estimated
+          operating point (~15% of nominal flow due to duct restriction), inlet velocity is a gentle
+          &sim;0.69&nbsp;m/s &mdash; enough to draw insects in without deterring their approach &mdash; while
+          duct velocity accelerates to &sim;7.05&nbsp;m/s, above the mosquito's typical flight speed
+          (1.0&ndash;1.5&nbsp;m/s) and sufficient to prevent escape once inside.
+        </p>
+
+        <h4>Rotary Sorting Mechanism</h4>
+        <p>
+          At the mid-section of the duct, a 140&nbsp;mm-diameter rotating cylinder is mounted perpendicular to
+          the airflow axis. A hollow sliding inner tube, capped at its upstream end with a 250&nbsp;&micro;m
+          nylon mosquito mesh, holds the specimen in the imaging position; its downstream end is left open to
+          allow gravity ejection into the corresponding compartment after classification. A continuous-rotation
+          servomotor (HK15138), mounted at the rear of the enclosure, drives the cylinder, while three embedded
+          neodymium magnets and a Hall-effect sensor (A3144) provide closed-loop feedback at each of the three
+          fixed angular stops. The full capture-to-reset sequence takes approximately 2.1&nbsp;s:
+        </p>
+
+        <ol>
+          <li><strong>Capture</strong> &mdash; the fan draws the mosquito through the inlet and into the
+            cylinder, where airflow pins it against the mesh.</li>
+          <li><strong>Identification</strong> &mdash; the specimen is illuminated and imaged against the white
+            PLA background; the vision pipeline classifies it by sex.</li>
+          <li><strong>Segregation</strong> &mdash; the servo rotates the cylinder to align its inner duct with
+            the corresponding compartment.</li>
+          <li><strong>Gravity ejection</strong> &mdash; the inner tube slides down under gravity, acting as a
+            plunger that pushes the mosquito into the selected compartment.</li>
+          <li><strong>Reset</strong> &mdash; the cylinder and inner tube return to the capture position, ready
+            for the next cycle.</li>
+        </ol>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Trampa_Thesis1.png"
+              alt="3D model of the trap with labeled principal components">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;2.</strong> Front view with
+              labeled components: entrance, camera and lighting support, rotary sorting mechanism,
+              sex-segregated compartments&nbsp;A (female) and&nbsp;B (male), and the fan connection at the
+              base.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/trampa3.PNG"
+              alt="Rear view of the 3D model showing the servo motor and sorting mechanism">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;3.</strong> Rear view showing
+              the servomotor mount and the sorting-mechanism linkage.</p>
+          </div>
+        </div>
+
+        <h4>Electronic Architecture &amp; Hardware</h4>
+        <p>
+          The electronics follow a master&ndash;slave architecture. A Raspberry&nbsp;Pi&nbsp;5 acts as the
+          master: it captures the frame through the Camera Module&nbsp;3&nbsp;NoIR, runs the
+          detection&ndash;classification pipeline, and sends the resulting sorting order (compartment&nbsp;A or
+          B) to an Arduino&nbsp;UNO&nbsp;R3 over UART. The Arduino acts as the real-time slave, translating that
+          order into a PWM command for the HK15138 servo and logic signals for the relay and status LEDs, while
+          continuously reading back the BME280 environmental sensor and the A3144 Hall sensor used for rotor
+          position feedback.
+        </p>
+        <p>
+          Power is organized into two isolated domains. The raw 12&nbsp;V input is switched directly to the
+          92&nbsp;mm fan through a relay, keeping that noisier, higher-current load off the control electronics;
+          an LM2596 step-down converter derives a regulated 5&nbsp;V rail from the same 12&nbsp;V source to
+          power the Arduino, servo, and relay logic. The Raspberry&nbsp;Pi&nbsp;5 is powered independently
+          through its own USB-C supply, which prevents brownouts or resets caused by the current draw of the
+          fan and servo.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Model</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Master SBC</td>
+                <td>Raspberry Pi 5</td>
+                <td>Inference + IoT client</td>
+              </tr>
+              <tr>
+                <td>Slave MCU</td>
+                <td>Arduino UNO R3</td>
+                <td>Actuator control</td>
+              </tr>
+              <tr>
+                <td>Camera</td>
+                <td>RPi Cam. Module 3 NoIR</td>
+                <td>Image acquisition</td>
+              </tr>
+              <tr>
+                <td>Servo</td>
+                <td>HK15138 (360&deg;)</td>
+                <td>Rotary sorting</td>
+              </tr>
+              <tr>
+                <td>Fan</td>
+                <td>PC 92&nbsp;mm, 40&nbsp;CFM</td>
+                <td>Suction airflow</td>
+              </tr>
+              <tr>
+                <td>Position sensor</td>
+                <td>Hall A3144</td>
+                <td>Rotor feedback</td>
+              </tr>
+              <tr>
+                <td>Env. sensor</td>
+                <td>BME280</td>
+                <td>Temp. / humidity</td>
+              </tr>
+              <tr>
+                <td>Power regulator</td>
+                <td>LM2596</td>
+                <td>12&nbsp;V &rarr; 5&nbsp;V</td>
+              </tr>
+              <tr>
+                <td>Fan switch</td>
+                <td>5&nbsp;V relay module</td>
+                <td>12&nbsp;V fan control</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;II.</strong>
+          Key hardware components.</p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/diagrama_bloque_eng.png"
+              alt="Hardware block diagram of the trap">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;4.</strong> Hardware block
+              diagram showing the four functional subsystems: master processor, slave controller, power
+              management, and physical interface.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Diagrama_Electrico_bb.png"
+              alt="Electrical wiring diagram of the trap">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;5.</strong> Electrical wiring
+              diagram. Two power domains are clearly separated: 12&nbsp;V (fan, via relay) and 5&nbsp;V regulated
+              (Arduino, servo, relay logic); the Raspberry&nbsp;Pi&nbsp;5 is powered independently via
+              USB-C.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION IV — DETECTION & SEX CLASSIFICATION PIPELINE
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">IV.</span>
+        <span class="acad-section-title">Detection &amp; Sex Classification Pipeline</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Strategy</h4>
+        <p>
+          The system targets automated sex classification of <em>Ae.&nbsp;aegypti</em> on edge hardware &mdash;
+          a task distinct from the species-level detection or discrimination addressed by most prior smart
+          traps. It adopts a two-stage cascaded architecture: a single-class YOLOv8 detector first localises
+          each specimen in the frame, following the real-time detection scheme validated on Raspberry&nbsp;Pi
+          by Oliveira&nbsp;and&nbsp;Mafra; a MobileNetV3&nbsp;Large classifier then discriminates the sex of
+          each detected specimen, building on the capacity of CNNs to capture fine morphological features
+          demonstrated by Park&nbsp;et&nbsp;al. Both models are exported to ONNX for efficient inference on the
+          embedded device. Decoupling detection from classification allows each component to be optimised
+          independently and gives the system natural scalability: a third species-discrimination stage could
+          later be added at only marginal training and inference cost, since it would operate exclusively on
+          detections already filtered by the first two stages. Training and metric evaluation were carried out
+          on a workstation with an Intel Core&nbsp;i7 (14th&nbsp;gen) CPU and an NVIDIA GeForce&nbsp;RTX&nbsp;5060
+          Laptop GPU; inference times on the embedded device itself are reported at the end of this section.
+        </p>
+
+        <h4>YOLOv8 Detection Model</h4>
+        <p>
+          <strong>Dataset.</strong> The detection dataset combines Roboflow&nbsp;Universe imagery with
+          manually annotated field captures under a single <em>mosquito</em> class &mdash; a choice that
+          simplifies the model and its later ONNX export. Three augmented variants were generated per image
+          (90&deg; rotations, brightness &plusmn;19%, pixel noise up to 1.45%), yielding
+          <strong>22,309 images</strong> in total (87.5% train&nbsp;/&nbsp;6.3% validation&nbsp;/&nbsp;6.2%
+          test; 17,140 labelled instances of the mosquito class).
+        </p>
+        <p>
+          <strong>Hyperparameter Search.</strong> Hyperparameters (learning rate, momentum, weight decay,
+          warm-up epochs, loss-term weights, and augmentation strength) were tuned with Optuna's TPE sampler
+          over 100&nbsp;trials of 15&nbsp;epochs each, maximising mAP@50 on the validation set; the best trial
+          (mAP@50&nbsp;=&nbsp;0.963) was reached at trial&nbsp;43, confirming strong achievable performance
+          ahead of the final training run.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/opt_history.png"
+              alt="Optuna hyperparameter optimisation history over 100 trials">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;6.</strong> Optuna
+              optimisation history over 100&nbsp;TPE trials; the mAP@50 objective on the validation set
+              stabilises after trial&nbsp;43, the best-performing configuration.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/param_importance.png"
+              alt="Relative hyperparameter importance estimated by Optuna">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;7.</strong> Relative
+              hyperparameter importance estimated by Optuna across the 100&nbsp;search trials, showing each
+              parameter's contribution to the variation in validation mAP@50.</p>
+          </div>
+        </div>
+
+        <p>
+          <strong>PyTorch Results.</strong> Using the optimal configuration, the final YOLOv8s model was
+          fine-tuned for 200&nbsp;epochs (256&times;256 images, batch&nbsp;16, GPU, early-stopping
+          patience&nbsp;20, mosaic augmentation disabled in the last 10&nbsp;epochs), with deterministic
+          seeding for reproducibility. Training and validation losses decreased steadily with no sign of
+          overfitting, and the model reached <strong>mAP@50&nbsp;=&nbsp;0.975</strong>
+          (precision&nbsp;=&nbsp;recall&nbsp;=&nbsp;0.954, mAP@50-95&nbsp;=&nbsp;0.734) on the held-out test
+          set, with a low false-negative count (1,068&nbsp;TP&nbsp;/&nbsp;57&nbsp;FP&nbsp;/&nbsp;30&nbsp;FN)
+          &mdash; an important property for a monitoring application where missed detections are especially
+          costly.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/trainer_curves_yolo.png"
+            alt="YOLOv8s training curves over 200 epochs">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;8.</strong> YOLOv8s training
+            curves &mdash; box, classification, and DFL losses alongside precision, recall, and mAP@50 &mdash;
+            over 200&nbsp;epochs, showing steady convergence with no divergence between training and
+            validation splits.</p>
+        </div>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Precision</td>
+                <td>0.954</td>
+              </tr>
+              <tr>
+                <td>Recall</td>
+                <td>0.954</td>
+              </tr>
+              <tr>
+                <td>mAP@50</td>
+                <td>0.975</td>
+              </tr>
+              <tr class="ours-row">
+                <td>mAP@50-95</td>
+                <td>0.734</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
+          YOLOv8s detection metrics on the held-out test set after 200&nbsp;epochs of fine-tuning (PyTorch).</p>
+
+        <p>
+          <strong>ONNX Export.</strong> The trained PyTorch model was exported to ONNX (opset&nbsp;12, fixed
+          256&times;256 input, static axes) to decouple inference from the training framework and enable
+          CPU-optimised execution on the embedded target. Re-evaluated on the same test set, the ONNX graph
+          scored precision&nbsp;=&nbsp;0.947 and recall&nbsp;=&nbsp;0.939 &mdash; a small, expected drop from
+          the native PyTorch model, consistent with the graph-conversion process and well within acceptable
+          bounds for real-time deployment.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Time (ms)</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>mAP@50</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PyTorch CPU</td>
+                <td>20.47</td>
+                <td>0.968</td>
+                <td>0.957</td>
+                <td>0.975</td>
+              </tr>
+              <tr>
+                <td>PyTorch GPU</td>
+                <td>7.34</td>
+                <td>0.968</td>
+                <td>0.957</td>
+                <td>0.975</td>
+              </tr>
+              <tr class="ours-row">
+                <td>ONNX CPU</td>
+                <td>9.05</td>
+                <td>0.947</td>
+                <td>0.939</td>
+                <td>0.920</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;V.</strong>
+          YOLOv8s inference latency and detection metrics across execution modes. ONNX CPU is the mode deployed
+          on the Raspberry&nbsp;Pi&nbsp;5, cutting CPU latency by 55% relative to native PyTorch while closing
+          most of the gap to GPU-accelerated inference.</p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/yolo_pt_vs_onnx.jpg"
+            alt="Per-sample inference time comparison, PyTorch GPU vs ONNX CPU">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;9.</strong> Per-sample
+            inference-time distribution for YOLOv8s: PyTorch&nbsp;GPU vs.&nbsp;ONNX&nbsp;CPU. ONNX/CPU achieves
+            a mean latency of 9.05&nbsp;ms (&sigma;&nbsp;=&nbsp;0.67&nbsp;ms), closely approaching the
+            7.34&nbsp;ms (&sigma;&nbsp;=&nbsp;0.99&nbsp;ms) of GPU-accelerated inference &mdash; near-GPU
+            performance without hardware acceleration.</p>
+        </div>
+
+        <h4>MobileNetV3 Classification Model</h4>
+        <p>
+          <strong>Dataset.</strong> The classification dataset originates from mosquito images labelled by
+          sex in the prior FIUNA thesis of Balbuena&nbsp;Duarte and Barrios&nbsp;Pereira, provided by the
+          IICS. Cropping each annotated bounding box into an individual, centred specimen image &mdash; via a
+          script that validates crop bounds and discards invalid regions &mdash; converted the original
+          2,571-image detection-style dataset into <strong>5,343 single-specimen images</strong> (4,403
+          train&nbsp;/&nbsp;493 validation&nbsp;/&nbsp;447&nbsp;test). Extensive augmentation (flips,
+          90&deg;/180&deg; and random &plusmn;45&deg; rotations, shear, saturation/brightness/exposure jitter,
+          slight blur) was applied to the training split only. The training and validation splits are
+          moderately imbalanced toward the female class (61.9% and 64.7% respectively), while the test split
+          is near-balanced (50.8% female&nbsp;/&nbsp;49.2% male) for an unbiased evaluation.
+        </p>
+        <p>
+          <strong>Training.</strong> MobileNetV3&nbsp;Large was initialised from ImageNet weights (transfer
+          learning), with its classification head replaced by a two-output linear layer. Images were resized to
+          160&times;160 (batch&nbsp;32) and trained with AdamW (lr&nbsp;=&nbsp;3&times;10<sup>-4</sup>, weight
+          decay&nbsp;10<sup>-4</sup>), a cosine-annealing learning-rate schedule, and cross-entropy loss with
+          inverse-frequency class weights and label smoothing (&alpha;&nbsp;=&nbsp;0.1) to counteract the class
+          imbalance and reduce overconfidence. Training ran for up to 50&nbsp;epochs with early stopping
+          (patience&nbsp;10), retaining the checkpoint with the best validation accuracy.
+        </p>
+        <p>
+          On the test set, the model reached <strong>97.31% accuracy</strong>, with only 4&nbsp;false negatives
+          on females and 8&nbsp;on males across all 447&nbsp;samples &mdash; a balanced result with no
+          systematic bias toward either class.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1</th>
+                <th>N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Female</td>
+                <td>0.97</td>
+                <td>0.98</td>
+                <td>0.97</td>
+                <td>227</td>
+              </tr>
+              <tr>
+                <td>Male</td>
+                <td>0.98</td>
+                <td>0.96</td>
+                <td>0.97</td>
+                <td>220</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Accuracy</td>
+                <td colspan="3">0.9731</td>
+                <td>447</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VI.</strong>
+          MobileNetV3 Large sex-classification metrics on the test set (PyTorch).</p>
+
+        <p>
+          <strong>ONNX Export.</strong> Following the same procedure as the detector, the trained model
+          (<code>best_model.pth</code>) was exported to ONNX &mdash; opset&nbsp;13, with a dynamic batch axis
+          and constant folding enabled for graph optimisation, unlike the detector's static-axis export.
+          Re-evaluated on the same 447-sample test set, the ONNX graph produced <strong>zero prediction
+            disagreements</strong> with the PyTorch model (maximum logit difference of just 0.0022, attributable
+          to floating-point rounding across runtimes) &mdash; identical precision, recall, and F1.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Time (ms)</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PyTorch CPU</td>
+                <td>20.83</td>
+                <td>0.973</td>
+                <td>0.981</td>
+                <td>0.972</td>
+              </tr>
+              <tr>
+                <td>PyTorch GPU</td>
+                <td>11.26</td>
+                <td>0.973</td>
+                <td>0.981</td>
+                <td>0.972</td>
+              </tr>
+              <tr class="ours-row">
+                <td>ONNX CPU</td>
+                <td>5.83</td>
+                <td>0.973</td>
+                <td>0.981</td>
+                <td>0.972</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VII.</strong>
+          MobileNetV3 Large inference latency across execution modes. ONNX CPU is 72% faster than PyTorch CPU
+          with no accuracy degradation &mdash; even outperforming PyTorch GPU.</p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/movilnet_pt_vs_onnx.png"
+            alt="Per-sample inference time comparison, PyTorch GPU vs ONNX CPU for MobileNetV3">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;10.</strong> Per-sample
+            inference-time distribution for MobileNetV3&nbsp;Large on a test-set sample: PyTorch&nbsp;GPU
+            vs.&nbsp;ONNX&nbsp;CPU. ONNX/CPU achieves a mean latency of 2.5&nbsp;ms
+            (&sigma;&nbsp;=&nbsp;0.06&nbsp;ms), well below the 10.5&nbsp;ms (&sigma;&nbsp;=&nbsp;0.45&nbsp;ms) of
+            GPU-accelerated inference &mdash; both faster and markedly more consistent.</p>
+        </div>
+
+        <h4>Cascade Model</h4>
+        <p>Each camera frame is processed end-to-end through the following sequential stages:</p>
+        <ol>
+          <li><strong>Letterbox resize</strong> &mdash; the frame is resized to 256&times;256 preserving aspect
+            ratio via symmetric padding.</li>
+          <li><strong>Detection</strong> &mdash; the YOLOv8s ONNX graph predicts bounding boxes with confidence
+            scores.</li>
+          <li><strong>Decode &amp; NMS</strong> &mdash; predictions are filtered
+            (confidence&nbsp;&ge;&nbsp;0.125) and deduplicated via Non-Maximum Suppression
+            (IoU&nbsp;=&nbsp;0.45).</li>
+          <li><strong>ROI extraction</strong> &mdash; each surviving box is cropped from the original,
+            un-resized frame.</li>
+          <li><strong>Crop preprocessing</strong> &mdash; every crop is resized to 160&times;160 and normalised
+            with ImageNet statistics.</li>
+          <li><strong>Classification</strong> &mdash; the MobileNetV3 ONNX graph produces a Female/Male logit
+            pair for each crop.</li>
+          <li><strong>Argmax</strong> &mdash; the higher-scoring class is assigned as the final sex label.</li>
+        </ol>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/Modelo_cascada_output.png"
+            alt="Representative cascade output on a multi-specimen frame">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;11.</strong> Representative
+            cascade output: YOLOv8s bounding boxes followed by MobileNetV3 sex labels for each detected
+            specimen.</p>
+        </div>
+
+        <p>
+          Evaluated end-to-end on the classifier's 447-image test set, the cascade reaches a
+          <strong>conditional classification precision of 94.69%</strong> (321 correct out of 339 valid
+          detections) &mdash; close to the classifier's isolated 97.31%, confirming that MobileNetV3 remains
+          robust on automatically generated crops; the residual 2.6-point gap reflects geometric imperfections
+          in YOLO-generated crops rather than any degradation of the classifier itself. Detection recall is
+          markedly lower in this setting (75.84% vs. 93.9% on the detector's own native test set) &mdash; both
+          models are evaluated on the same 447 single-specimen crops, a distribution the detector never saw
+          during training, unlike the classifier, which is evaluated on its native domain. The resulting
+          overall system precision of 71.81% therefore points to the detector's training set as the main
+          avenue for improvement, rather than to any architectural limitation of the cascade.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Time (ms)</th>
+                <th>FPS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>YOLOv8s detector</td>
+                <td>101.11</td>
+                <td>9.89</td>
+              </tr>
+              <tr>
+                <td>MobileNetV3 classifier</td>
+                <td>14.77</td>
+                <td>67.70</td>
+              </tr>
+              <tr>
+                <td>Pre/post-processing</td>
+                <td>17.65</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Full cascade</td>
+                <td>133.53</td>
+                <td>7.49</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VIII.</strong>
+          ONNX inference latency measured directly on the Raspberry&nbsp;Pi&nbsp;5 (CPU). The detector accounts
+          for 75.7% of total latency; the classifier adds only 11.1%, confirming its lightweight footprint as
+          the second stage.</p>
+
+        <p>
+          The complete system was field-deployed autonomously for six consecutive days (Barrio&nbsp;Ycu&aacute;
+          Sat&iacute;, Asunci&oacute;n, Paraguay) on wild <em>Ae.&nbsp;aegypti</em> populations, capturing
+          21&nbsp;events (16&nbsp;female, 5&nbsp;male) with 2&nbsp;false positives &mdash; a field precision of
+          <strong>90.5%</strong> without any environment-specific retraining. A temperature drop from
+          30&deg;C to 18&deg;C on days&nbsp;4&ndash;6 produced an observable reduction in capture rate,
+          consistent with known <em>Aedes</em> activity patterns, and all detection events were streamed to
+          the cloud dashboard alongside BME280 environmental data throughout the trial.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION V — IOT ARCHITECTURE
+       ══════════════════════════════════════ -->
+  <section class="acad-section">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">V.</span>
+        <span class="acad-section-title">IoT Architecture</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          Downstream of the inference pipeline, the system follows a three-layer client&ndash;server
+          architecture that persists, transmits, and visualises the entomological data generated by the trap.
+          Each trap's <strong>Raspberry&nbsp;Pi is the edge client</strong>: it runs the local inference
+          pipeline and pushes its results to a central <strong>backend</strong> server
+          (FastAPI&nbsp;+&nbsp;Uvicorn), which a static <strong>frontend</strong> dashboard then queries for
+          near-real-time display. A dynamic <code>config.js</code> file and CORS middleware decouple the three
+          layers, so client devices, server, and dashboard can be scaled or replaced independently &mdash;
+          including running several Raspberry&nbsp;Pi traps as concurrent clients of the same backend.
+        </p>
+
+        <h4>Edge Client (Raspberry&nbsp;Pi) &amp; Backend</h4>
+        <p>
+          On each Raspberry&nbsp;Pi client, a finite-state machine (<code>IDLE</code>&nbsp;/&nbsp;<code>SORTING</code>)
+          drives a multi-threaded pipeline that separates image capture, inference, and HTTP transmission so
+          none blocks the others, discarding frames when the inference thread is busy rather than queuing
+          them; the onboard Arduino, reached over a local UART link, only handles the physical sorting
+          actuation and is not itself a network client. On the backend, every incoming record is tagged with a
+          <code>client_id</code> identifying which Raspberry&nbsp;Pi trap produced it, so a single server can
+          support several traps at once: metadata (client&nbsp;ID, timestamp, inference results, temperature,
+          humidity) is stored in a <strong>PostgreSQL</strong> database managed by Neon, while each captured
+          image is persisted in a <strong>Supabase Storage</strong> bucket and linked to its record via a
+          public URL.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/neon_mosquitoes_databaseSQL.png"
+              alt="Neon PostgreSQL database storing detection metadata">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;12.</strong> Detection
+              metadata table in the Neon-managed PostgreSQL database, including the <code>client_id</code>
+              field that identifies the originating Raspberry&nbsp;Pi trap.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/supabase_mosquitoes_bucket.png"
+              alt="Supabase Storage bucket holding captured specimen images">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;13.</strong> Captured
+              specimen images in the linked Supabase Storage bucket.</p>
+          </div>
+        </div>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Route</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GET</td>
+                <td><code>/api/health</code></td>
+                <td>Service health check.</td>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td><code>/upload</code></td>
+                <td>Data ingestion from a Raspberry&nbsp;Pi client.</td>
+              </tr>
+              <tr class="ours-row">
+                <td>GET</td>
+                <td><code>/api/dashboard-data</code></td>
+                <td>Query the 50 most recent detections.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IX.</strong>
+          Main REST API endpoints exposed by the backend.</p>
+
+        <h4>Communication Protocol &amp; Dashboard</h4>
+        <p>
+          Each Raspberry&nbsp;Pi client combines three communication levels running in parallel: non-blocking
+          queues between its internal threads; a local serial UART link to the onboard Arduino (9600&nbsp;baud,
+          one character per valid detection) that triggers mechanical actuation; and HTTP requests to the
+          backend, sent from an independent thread with a cooldown to avoid server saturation &mdash; keeping
+          actuation and data transmission mutually non-blocking.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/IoT_protocolo_comunicacion.png"
+            alt="Raspberry Pi client communication protocol: internal, serial, and HTTP levels">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;14.</strong> Raspberry&nbsp;Pi
+            client communication protocol: internal, serial&nbsp;(UART), and HTTP levels operating in
+            parallel.</p>
+        </div>
+
+        <p>
+          The frontend polls <code>/api/dashboard-data</code> periodically, rendering detections, sex
+          classification, and environmental readings from every connected Raspberry&nbsp;Pi client in near
+          real time. It is deployed on <strong>Vercel</strong> (global CDN), with the backend on
+          <strong>Railway</strong> (Dockerised FastAPI/Uvicorn) &mdash; both with continuous delivery from the
+          Git repository.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/mosquito_web_dashboard1.png"
+            alt="Web dashboard showing real-time trap detections and environmental data">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;15.</strong> Web dashboard
+            displaying real-time detections, sex classification, and environmental data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION VI — RESULTS
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">VI.</span>
+        <span class="acad-section-title">Results</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          The final validation stage covered three complementary levels: the assembled physical prototype, two
+          controlled semi-field trials with laboratory-reared specimens, and a six-day field deployment on wild
+          populations in Asunci&oacute;n.
+        </p>
+
+        <h4>Final Prototype</h4>
+        <p>
+          The assembled trap integrates the rotating sorting mechanism, the electronic control and inference
+          modules, and the imaging channel described in previous sections.
+        </p>
+
+        <div class="acad-figure-grid-3">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Trampa_caja_abierta.jpg"
+              alt="Assembled trap with the protective case open, showing internal component layout">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;16.</strong> Trap in its
+              protective case, door open, showing the internal component layout.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Mecanismo_de_clasificacion.jpg"
+              alt="Rotating sorting mechanism responsible for separating detected mosquitoes">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;17.</strong> Rotating sorting
+              mechanism responsible for separating detected specimens.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Mecanismo_de_clasificacion_circuitos.jpg"
+              alt="Integrated electronic control, processing, and communication modules">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;18.</strong> Integrated
+              electronic modules &mdash; power, actuator control, and the embedded computer running the vision
+              pipeline.</p>
+          </div>
+        </div>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/sistema_completo_funcionado.jpg"
+            alt="Trap operating on a test specimen, with live cascade output shown on an external monitor">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;19.</strong> Trap operating on
+            a test specimen: the monitor connected to the Raspberry&nbsp;Pi displays the live detection and
+            sex-classification output, validating end-to-end synchronisation between the vision pipeline and
+            the sorting mechanism.</p>
+        </div>
+
+        <h4>Semi-Field Trials</h4>
+        <p>
+          Two 36-hour trials assessed the trap under controlled conditions with laboratory-reared specimens,
+          before the system was exposed to a real, uncontrolled environment in the field trial that follows.
+        </p>
+
+        <p>
+          <strong>Enclosure and Conditions.</strong> Both trials ran in the same sealed, climate-controlled
+          room &mdash; the Medical Equipment Laboratory at FIUNA, San Lorenzo
+          (5.8&nbsp;m&nbsp;&times;&nbsp;2&nbsp;m) &mdash; held at 21&ndash;25&deg;C and 40&ndash;60% relative
+          humidity throughout. The trap was placed in one corner of the room next to a sugar-water source,
+          keeping released specimens active and within reach of the device. Each trial used 66&nbsp;IICS-donated
+          <em>Ae.&nbsp;aegypti</em> (33&nbsp;female&nbsp;/&nbsp;33&nbsp;male, 3&ndash;7&nbsp;days old): food was
+          withheld for 4&nbsp;hours before release to encourage host-seeking behaviour, specimens were then
+          released and given 30&nbsp;minutes to disperse through the room before the trap was activated, and it
+          was left running for 36&nbsp;hours with every detection logged automatically. Not every released
+          specimen left the transport container on its own, so the <em>effective population</em>
+          (N<sub>eff</sub>&nbsp;=&nbsp;N<sub>total</sub>&nbsp;&minus;&nbsp;N<sub>inactive</sub>) &mdash;
+          60&nbsp;of&nbsp;66 in Trial&nbsp;1, 55&nbsp;of&nbsp;66 in Trial&nbsp;2 &mdash; is used as the
+          denominator for the capture ratio below.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/recinto_de_experimentacion.jpg"
+              alt="Physical enclosure used for the semi-field trials, with the trap positioned in a corner of the room">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;20.</strong> Enclosure used
+              for the semi-field trials, with the trap positioned in a corner of the room.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/mosquitos_de_la_IICS.jpg"
+              alt="Aedes aegypti mosquitoes donated by IICS in their transport container with sugar water">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;21.</strong>
+              <em>Ae.&nbsp;aegypti</em> specimens donated by IICS, shown in the sugar-water transport container
+              used to keep them fed prior to release.
+            </p>
+          </div>
+        </div>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/Thesis_recinto_experimento.png"
+            alt="Diagram of the enclosure with its dimensions, the trap's position, and the mosquito release area">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;22.</strong> Enclosure
+            schematic showing its dimensions, the trap's position, and the mosquito release area.</p>
+        </div>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Trial</th>
+                <th>Start</th>
+                <th>End</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Fri 8&nbsp;May, 22:00</td>
+                <td>Sun 10&nbsp;May, 10:00</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Wed 13&nbsp;May, 22:00</td>
+                <td>Fri 15&nbsp;May, 10:00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;X.</strong>
+          Semi-field trial periods (36&nbsp;hours each).</p>
+
+        <p>
+          <strong>Trial 1 &mdash; Detection and Classification.</strong> Of the 66&nbsp;specimens released, 60
+          became active (31&nbsp;female&nbsp;/&nbsp;29&nbsp;male); the trap processed 16 of them over the
+          36-hour run. The classifier's output matched the post-trial manual count on 15 of the 16 specimens,
+          14 were physically retained, and 2&nbsp;females escaped the sorting mechanism.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div>
+            <div class="acad-table-wrap">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Female</th>
+                    <th>Male</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Released</td>
+                    <td>33</td>
+                    <td>33</td>
+                    <td>66</td>
+                  </tr>
+                  <tr>
+                    <td>Inactive</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>6</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>N<sub>eff</sub></td>
+                    <td>31</td>
+                    <td>29</td>
+                    <td>60</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XI.</strong>
+              Specimen balance, Trial&nbsp;1.</p>
+
+            <div class="acad-table-wrap">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>Sex</th>
+                    <th>AI</th>
+                    <th>Ground truth</th>
+                    <th>In trap</th>
+                    <th>Escapes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Female</td>
+                    <td>9</td>
+                    <td>10</td>
+                    <td>8</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Male</td>
+                    <td>7</td>
+                    <td>6</td>
+                    <td>6</td>
+                    <td>0</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>Total</td>
+                    <td>16</td>
+                    <td>16</td>
+                    <td>14</td>
+                    <td>2</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XII.</strong>
+              AI detection vs. manual ground truth, Trial&nbsp;1 (N&nbsp;=&nbsp;16).</p>
+          </div>
+
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Detecciones_Temporales_del_Modelo_Cascada_Semi1.png"
+              alt="Temporal distribution of detections logged by the IoT client during Trial 1">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;23.</strong> Temporal
+              distribution of detections logged by the IoT client throughout Trial&nbsp;1 (36&nbsp;h).</p>
+          </div>
+        </div>
+
+        <p>
+          <strong>Trial 2 &mdash; Detection and Classification.</strong> Of the 66&nbsp;specimens released, 55
+          became active (28&nbsp;female&nbsp;/&nbsp;27&nbsp;male); the trap again processed 16 specimens over
+          the 36-hour run, matching the manual count on 15 of them, retaining 14, and losing 2&nbsp;females to
+          the same mechanical gap identified in Trial&nbsp;1.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div>
+            <div class="acad-table-wrap">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Female</th>
+                    <th>Male</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Released</td>
+                    <td>33</td>
+                    <td>33</td>
+                    <td>66</td>
+                  </tr>
+                  <tr>
+                    <td>Inactive</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>11</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>N<sub>eff</sub></td>
+                    <td>28</td>
+                    <td>27</td>
+                    <td>55</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XIII.</strong>
+              Specimen balance, Trial&nbsp;2.</p>
+
+            <div class="acad-table-wrap">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>Sex</th>
+                    <th>AI</th>
+                    <th>Ground truth</th>
+                    <th>In trap</th>
+                    <th>Escapes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Female</td>
+                    <td>8</td>
+                    <td>7</td>
+                    <td>5</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Male</td>
+                    <td>8</td>
+                    <td>9</td>
+                    <td>9</td>
+                    <td>0</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>Total</td>
+                    <td>16</td>
+                    <td>16</td>
+                    <td>14</td>
+                    <td>2</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XIV.</strong>
+              AI detection vs. manual ground truth, Trial&nbsp;2 (N&nbsp;=&nbsp;16).</p>
+          </div>
+
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Detecciones_Temporales_del_Modelo_Cascada_Semi2.png"
+              alt="Temporal distribution of detections logged by the IoT client during Trial 2">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;24.</strong> Temporal
+              distribution of detections logged by the IoT client throughout Trial&nbsp;2 (36&nbsp;h).</p>
+          </div>
+        </div>
+
+        <p>
+          <strong>Performance Ratios.</strong> After each run, specimens were counted manually and cross-checked
+          against the system's automatic log to quantify classification and retention error. Three ratios
+          summarise performance: classification precision (<em>P<sub>class</sub></em>, correct sex assignments
+          over specimens processed), physical retention (<em>R<sub>ret</sub></em>, specimens retained over
+          specimens detected), and capture ratio (<em>R<sub>c</sub></em>, specimens captured over
+          N<sub>eff</sub>).
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Trial 1</th>
+                <th>Trial 2</th>
+                <th>Variation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>P<sub>class</sub></td>
+                <td>93.75%</td>
+                <td>93.75%</td>
+                <td>0.0%</td>
+              </tr>
+              <tr>
+                <td>R<sub>ret</sub></td>
+                <td>87.5%</td>
+                <td>87.5%</td>
+                <td>0.0%</td>
+              </tr>
+              <tr class="ours-row">
+                <td>R<sub>c</sub></td>
+                <td>26.66%</td>
+                <td>29.09%</td>
+                <td>+2.43%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XV.</strong>
+          Semi-field performance ratios, both 36-hour trials (16 specimens processed each).</p>
+
+        <p>
+          Results were consistent across both trials, with identical classification precision and retention.
+          The moderate capture ratio (27&ndash;29%) reflects that a meaningful share of the effective
+          population never engaged with the trap during the 36-hour window, pointing to attractant strength as
+          the main lever for future improvement rather than the detection or sorting logic.
+        </p>
+
+        <p>
+          <strong>Failure Modes.</strong> Three failure patterns emerged consistently across both trials:
+        </p>
+        <ol>
+          <li><strong>Sex misclassification</strong> &mdash; one female was classified as male in each trial,
+            attributable to partial occlusion or to transit speed through the suction channel exceeding the
+            camera's frame rate.</li>
+          <li><strong>Mechanical escapes</strong> &mdash; every escape involved a female, traced to a small gap
+            between the rotating cylinder and the acrylic plate that the smaller-bodied specimens could slip
+            through.</li>
+          <li><strong>Limited capture</strong> &mdash; a meaningful share of N<sub>eff</sub> never engaged with
+            the trap, pointing to attractant strength, rather than detection or sorting accuracy, as the main
+            lever for improvement.</li>
+        </ol>
+
+        <h4>Field Trial</h4>
+        <p>
+          The prototype was then deployed autonomously for six consecutive days &mdash; its first exposure to
+          a real, uncontrolled mosquito population outside the laboratory.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/predio_campo.png"
+              alt="Aerial view of the sampling site in Barrio Ycuá Satí, Asunción, with the trap's position marked">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;25.</strong> Sampling
+              site &mdash; Barrio&nbsp;Ycu&aacute;&nbsp;Sat&iacute;, Asunci&oacute;n. The marker shows the
+              trap's position.</p>
+          </div>
+          <div>
+            <p style="margin-bottom:0.6rem;"><strong style="color:var(--dark);">Deployment Conditions</strong>
+            </p>
+            <ul>
+              <li><strong>Duration:</strong> 6 consecutive days (Fri&nbsp;1&nbsp;May, 07:00
+                &rarr; Thu&nbsp;7&nbsp;May, 07:00).</li>
+              <li><strong>Location:</strong> front yard, 8&nbsp;m from the street.</li>
+              <li><strong>Protection:</strong> mounted against a wall, under eave cover.</li>
+              <li><strong>Two distinct climatic periods:</strong></li>
+            </ul>
+            <div class="acad-table-wrap" style="margin-top:-0.6rem;">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>Period</th>
+                    <th>Temp. (&deg;C)</th>
+                    <th>Hum. (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Days&nbsp;1&ndash;3 (warm)</td>
+                    <td>29&ndash;30</td>
+                    <td>82&ndash;85</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>Days&nbsp;4&ndash;6 (cool)</td>
+                    <td>18&ndash;20</td>
+                    <td>59&ndash;63</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XVI.</strong>
+          Deployment conditions and the two climatic periods observed during the six-day field trial.</p>
+
+        <p>
+          Over the six days the trap logged 21&nbsp;mosquito detections (16&nbsp;female, 5&nbsp;male) plus one
+          non-mosquito (a Geometridae moth, excluded from the precision count) and 2&nbsp;verified false
+          positives, giving a field precision of <strong>(21&minus;2)/21&nbsp;&asymp;&nbsp;90.5%</strong>
+          &mdash; achieved with no hyperparameter tuning or retraining for the outdoor environment.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Female</th>
+                <th>Male</th>
+                <th>Other</th>
+                <th>Temp. (&deg;C)</th>
+                <th>Hum. (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>4</td>
+                <td>1</td>
+                <td>&mdash;</td>
+                <td>29&ndash;30</td>
+                <td>84</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>5</td>
+                <td>0</td>
+                <td>1 (Geometridae)</td>
+                <td>29&ndash;30</td>
+                <td>82</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>3</td>
+                <td>1*</td>
+                <td>&mdash;</td>
+                <td>29&ndash;30</td>
+                <td>85</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>2 (1*)</td>
+                <td>0</td>
+                <td>&mdash;</td>
+                <td>18&ndash;20</td>
+                <td>63</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>0</td>
+                <td>1</td>
+                <td>&mdash;</td>
+                <td>18&ndash;20</td>
+                <td>59</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>2</td>
+                <td>2</td>
+                <td>&mdash;</td>
+                <td>18&ndash;20</td>
+                <td>60</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Total</td>
+                <td>16</td>
+                <td>5</td>
+                <td>1</td>
+                <td>avg&nbsp;24.5</td>
+                <td>avg&nbsp;72</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XVII.</strong>
+          Daily field-test captures and environmental conditions (1&ndash;7&nbsp;May). (*)&nbsp;Verified false
+          positive.</p>
+
+        <p>
+          A temperature drop from 30&deg;C to 18&deg;C on days&nbsp;4&ndash;6 coincided with a visible drop in
+          female captures &mdash; consistent with reduced <em>Aedes</em> flight activity in cold, low-humidity
+          conditions. Across the six days, the trap ran continuously and streamed every detection to the cloud
+          dashboard alongside BME280 environmental readings, confirming the viability of unattended,
+          real-world deployment without any site-specific retraining.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/dashboard_accedido_en_la_web_3.jpg"
+            alt="Web dashboard showing real mosquito detections captured during the field trial">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;26.</strong> Web dashboard
+            displaying real detections captured during the field trial, with per-specimen images, sex
+            classification, and environmental readings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION VII — CONCLUSIONS & RECOMMENDATIONS
+       ══════════════════════════════════════ -->
+  <section class="acad-section">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">VII.</span>
+        <span class="acad-section-title">Conclusions &amp; Recommendations</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Conclusions</h4>
+        <p>
+          This work delivered a fully automated data-acquisition pipeline for entomological monitoring,
+          combining a cascaded YOLOv8&thinsp;+&thinsp;MobileNetV3 detection&ndash;classification pipeline
+          &mdash; exported to ONNX and run entirely on CPU aboard a Raspberry&nbsp;Pi&nbsp;5 &mdash; with a
+          purpose-built rotary sorting mechanism and a three-layer IoT architecture for real-time cloud
+          monitoring. Bench measurements confirmed the viability of edge deployment, with the complete
+          inference cycle running at <strong>133.53&nbsp;ms per image (7.49&nbsp;FPS)</strong>, of which the
+          YOLOv8 detector accounts for 101.11&nbsp;ms and the MobileNetV3 classifier adds only
+          14.77&nbsp;ms.
+        </p>
+        <p>
+          Semi-field trials with <em>Aedes aegypti</em> specimens supplied by IICS were consistent across
+          both 36-hour runs, yielding <strong>93.75% classification precision</strong> and an
+          <strong>87.5% physical retention ratio</strong>, with capture ratios of 26.66% and 29.09% of the
+          effective population in the first and second trials, respectively. In the six-day field
+          deployment in Barrio&nbsp;Ycu&aacute;&nbsp;Sat&iacute;, the trap logged 21&nbsp;detections at a
+          <strong>field precision of 90.5%</strong>, operating continuously and autonomously with no
+          hyperparameter tuning for the outdoor environment &mdash; evidence that the system works as a
+          complete, unattended pipeline, from physical capture and sex sorting through to cloud
+          transmission, storage, and visualization.
+        </p>
+        <p>
+          <strong>Design reflections.</strong> The rotary sorting mechanism showed that mechanical
+          simplicity and operational robustness are not at odds: reducing physical classification to a
+          single rotation driven by the vision model's output produced a low-cost, reliable mechanism,
+          whose only structural limitation &mdash; misclassification when two individuals enter
+          simultaneously &mdash; defines a precise operating envelope rather than invalidating the design.
+          Separately, the cascaded pipeline's accuracy drop under integrated evaluation was traced mainly
+          to a domain gap between the detector's training set and the test set rather than to any
+          structural weakness, and extending the cascade with further stages (e.g., a species
+          discriminator) carries a comparatively small training and inference cost, since each added stage
+          only operates on detections already filtered by the previous ones. Development also surfaced a
+          critical engineering lesson: ONNX-exported graphs can silently collapse the output-class layer,
+          producing a model that functionally diverges from its PyTorch source without raising any error
+          &mdash; making dimensional validation of the output layer mandatory before any deployment.
+        </p>
+
+        <h4>Recommendations for Future Work</h4>
+        <ul>
+          <li><strong>Hardware.</strong> Migrate to a cheaper edge device, since ONNX inference has proven
+            highly efficient; design a unified SMD board integrating sensing and power actuation; add
+            further environmental sensors; and include local image storage to cover
+            server-disconnection scenarios.</li>
+          <li><strong>Mechanical design.</strong> Extend the housing with a third compartment to sort
+            other, non-target insects, improving overall selectivity.</li>
+          <li><strong>Physical classification mechanism.</strong> Add a counting sensor to the entry
+            channel, or redesign it to force strictly sequential entry of one individual at a time,
+            removing the simultaneous-entry limitation identified during testing.</li>
+          <li><strong>AI model.</strong> Expand the training dataset with real trap-captured data;
+            incorporate classification-dataset images into detector training to close the observed
+            domain gap; and extend the cascade with a species-discrimination stage.</li>
+          <li><strong>ONNX graph validation.</strong> Compare the exported graph's predictions against
+            the PyTorch source model on a set of known samples before any deployment, as a mandatory
+            step to catch silent output-layer collapses.</li>
+          <li><strong>Trap autonomy.</strong> Add rechargeable batteries, solar power, and mobile-network
+            connectivity to support continuous operation and remote access in more robust field
+            deployments.</li>
+        </ul>
       </div>
     </div>
   </section>

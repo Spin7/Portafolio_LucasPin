@@ -118,11 +118,6 @@
       color: var(--dark);
     }
 
-    /* Alternate section background (gray) — matches header's var(--bg) */
-    .acad-section-alt {
-      background: var(--bg);
-    }
-
     /* Academic booktabs-style table */
     .acad-table-wrap {
       overflow-x: auto;
@@ -167,6 +162,14 @@
       background: #fff;
       padding: 56px 0;
       border-bottom: 1px solid var(--border);
+    }
+
+    /* Alternate section background (gray) — matches header's var(--bg).
+       Extra specificity (.acad-section.acad-section-alt) guarantees this
+       wins over the plain white .acad-section rule regardless of source
+       order. */
+    .acad-section.acad-section-alt {
+      background: var(--bg);
     }
 
     .acad-section-inner {
