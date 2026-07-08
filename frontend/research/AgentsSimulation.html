@@ -1118,14 +1118,152 @@
             bias and temporal inconsistency between agents. This design directly tests whether an emergent
             carrying capacity can arise from local rules alone, rather than being imposed as a global
             constant, and lays the groundwork for future evaluation of sex-dependent control strategies such
-            as SIT. Preliminary results were accepted at the XLV Congresso Nacional de Matem&aacute;tica
-            Aplicada e Computacional (CNMAC&nbsp;2026).
+            as SIT.
           </p>
         </div>
 
       </div>
     </div>
   </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION II — RELATED WORK
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">II.</span>
+        <span class="acad-section-title">Related Work</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          <em>Continuum models.</em> The classical approach to population dynamics represents individuals as a
+          continuous, well-mixed density and expresses the rate of change of the population as an ordinary
+          differential equation (ODE), assuming every individual has an equal chance of interacting. Chen
+          et&nbsp;al. modeled <em>Aedes aegypti</em> proliferation and control in Miami using rainfall data and
+          trap catches, restricting the state variable to adult females as the sex actually captured by traps,
+          and found that rainfall drives breeding-site availability disproportionately in tourist areas and that
+          adulticides are effective but perform best combined with larvicides. This tractability comes at a
+          cost: ODEs cannot represent individual location or local interaction, which limits their use wherever
+          spatial structure drives the dynamics.
+        </p>
+
+        <p>
+          <em>Spatially-explicit continuum models.</em> Partial differential equations (PDEs) extend ODEs by
+          incorporating spatial variation, representing the population as a continuous function of space and
+          time. Yamashita et&nbsp;al. modeled <em>A.&nbsp;aegypti</em> dispersal across urban neighborhoods
+          incorporating wind and topography &mdash; again restricted to adult females as the only mobile, winged
+          stage &mdash; showing that the population diffuses slowly within blocks but rapidly along streets due
+          to wind-driven convection, and concluding that uniform neighborhood-wide fumigation outperforms
+          spatially localized treatment. Ishida&nbsp;et&nbsp;al. analyzed a chemotaxis-driven PDE with
+          movement-induced mortality and established precise mathematical conditions preventing finite-time
+          blow-up, showing that an upper bound on population density can emerge purely from the interplay
+          between movement and mortality, without explicitly imposing a carrying capacity. Despite this greater
+          spatial expressiveness, PDEs remain costly to discretize at high resolution and, like the ODE
+          approach above, none of these continuum models distinguish sex.
+        </p>
+
+        <p>
+          <em>Agent-based and cellular-automata models.</em> ABMs and cellular automata (CA) instead discretize
+          the population into individual entities governed by explicit local rules, making heterogeneity and
+          local interaction native to the model rather than an approximation. Maneerat and Daud&eacute; applied
+          an ABM over a georeferenced Delhi grid capturing buildings, streets, and parks &mdash; restricted to
+          adult females &mdash; and found that mosquitoes are strongly sedentary (&lt;100&nbsp;m), with
+          buildings acting as movement barriers and parks as dispersal corridors. Ferreira&nbsp;et&nbsp;al. used
+          a CA to evaluate the Sterile Insect Technique (SIT) and is notably the only reviewed model to
+          explicitly distinguish sex &mdash; wild males, sterile males, and fertile/infertile females &mdash;
+          finding that heterogeneous breeding-site distribution can render SIT impractical. Garc&iacute;a
+          et&nbsp;al. applied a CA to a different pest species (<em>D.&nbsp;speciosa</em>), representing only
+          adult females through a fixed 1:2 sex ratio at the larva-to-adult transition, and showed that
+          intercropping reduces pest dispersion.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Work</th>
+                <th>Model</th>
+                <th>Spatially Explicit</th>
+                <th>Sex-Disaggregated</th>
+                <th>Key Finding</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ferreira (2008)</td>
+                <td>CA</td>
+                <td>Yes (real breeding sites)</td>
+                <td>Yes (wild/sterile &male; &middot; fertile/infertile &female;)</td>
+                <td>Breeding-site heterogeneity can make SIT impractical</td>
+              </tr>
+              <tr>
+                <td>Garc&iacute;a (2014)</td>
+                <td>CA</td>
+                <td>Yes (field grid)</td>
+                <td>No (females only, fixed 1:2 ratio)</td>
+                <td>Intercropping reduces pest dispersion</td>
+              </tr>
+              <tr>
+                <td>Maneerat &amp; Daud&eacute; (2017)</td>
+                <td>ABM</td>
+                <td>Yes (real urban grid, Delhi)</td>
+                <td>No (females only)</td>
+                <td>Buildings as barriers, parks as corridors; sedentary (&lt;100&nbsp;m)</td>
+              </tr>
+              <tr>
+                <td>Yamashita (2018)</td>
+                <td>PDE</td>
+                <td>Yes (wind + topography)</td>
+                <td>No (females only)</td>
+                <td>Wind-driven asymmetric dispersal along streets</td>
+              </tr>
+              <tr>
+                <td>Chen (2023)</td>
+                <td>ODE</td>
+                <td>No</td>
+                <td>No (females only)</td>
+                <td>Rainfall-driven breeding; larvicide + adulticide optimal</td>
+              </tr>
+              <tr>
+                <td>Ishida (2023)</td>
+                <td>PDE</td>
+                <td>Yes (chemotaxis)</td>
+                <td>No</td>
+                <td>Density bound emerges from movement&ndash;mortality interplay, no explicit&nbsp;K</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Ours</td>
+                <td>ABM</td>
+                <td>Yes (real OSM grid)</td>
+                <td>Yes (4 states: juvenile, male, unmated &amp; gravid &female;)</td>
+                <td>Local mating dynamics + emergent carrying capacity</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;I.</strong>
+          Summary of reviewed spatio-temporal models of mosquito population dynamics.</p>
+
+        <p>
+          As the comparison shows, the overwhelming majority of reviewed models consider only adult females,
+          with Ferreira&nbsp;et&nbsp;al. the sole exception to incorporate explicit sex distinction &mdash; and
+          only in the narrow context of SIT evaluation. This near-universal omission of mating dynamics leaves
+          an open methodological gap: ABMs, by encoding local interaction rules between individuals, provide
+          the most natural framework for representing male&ndash;female encounters as the mechanism that
+          generates reproductive dynamics in the first place. Separately, Ishida&nbsp;et&nbsp;al.'s finding
+          &mdash; that a density bound can emerge purely from the interplay of movement and mortality &mdash;
+          raises a direct design question for ABMs: whether parameters such as carrying capacity can likewise
+          emerge from local rules &mdash; stochastic movement, competition for breeding sites, and
+          density-dependent mortality &mdash; rather than being fixed as a global constant. Closing both gaps at
+          once &mdash; sex-structured local interaction and emergent carrying capacity over a real, georeferenced
+          urban grid &mdash; is the core contribution of the present work.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
