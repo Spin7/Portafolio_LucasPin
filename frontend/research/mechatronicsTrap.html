@@ -1666,6 +1666,16 @@
           MobileNetV3 Large inference latency across execution modes. ONNX CPU is 72% faster than PyTorch CPU
           with no accuracy degradation &mdash; even outperforming PyTorch GPU.</p>
 
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/movilnet_pt_vs_onnx.png"
+            alt="Per-sample inference time comparison, PyTorch GPU vs ONNX CPU for MobileNetV3">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;10.</strong> Per-sample
+            inference-time distribution for MobileNetV3&nbsp;Large on a test-set sample: PyTorch&nbsp;GPU
+            vs.&nbsp;ONNX&nbsp;CPU. ONNX/CPU achieves a mean latency of 2.5&nbsp;ms
+            (&sigma;&nbsp;=&nbsp;0.06&nbsp;ms), well below the 10.5&nbsp;ms (&sigma;&nbsp;=&nbsp;0.45&nbsp;ms) of
+            GPU-accelerated inference &mdash; both faster and markedly more consistent.</p>
+        </div>
+
         <h4>Cascade Model</h4>
         <p>Each camera frame is processed end-to-end through the following sequential stages:</p>
         <ol>
@@ -1690,7 +1700,7 @@
           <span class="ph-text">Ejemplo de salida de la cascada sobre un frame multi-especimen (ej.
             Modelo_cascada_output.png)</span>
         </div>
-        <p class="acad-fig-caption"><strong>Fig.&nbsp;10.</strong> Representative cascade output: YOLOv8s
+        <p class="acad-fig-caption"><strong>Fig.&nbsp;11.</strong> Representative cascade output: YOLOv8s
           bounding boxes followed by MobileNetV3 sex labels for each detected specimen.</p>
 
         <p>
