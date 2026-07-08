@@ -102,6 +102,22 @@
       color: var(--dark);
     }
 
+    .acad-body ul {
+      margin: 0 0 1.1rem 1.3rem;
+      padding: 0;
+    }
+
+    .acad-body ul li {
+      font-size: 0.94rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .acad-body ul li strong {
+      color: var(--dark);
+    }
+
     /* Alternate section background (gray) — matches header's var(--bg) */
     .acad-section-alt {
       background: var(--bg);
@@ -2288,13 +2304,61 @@
 
         <h4>Field Trial</h4>
         <p>
-          The prototype was then deployed autonomously for six consecutive days (1&ndash;7&nbsp;May) at a
-          residence in Barrio&nbsp;Ycu&aacute;&nbsp;Sat&iacute;, Asunci&oacute;n, mounted against a wall under
-          eave cover, 8&nbsp;m from the street. It logged 21&nbsp;mosquito detections (16&nbsp;female,
-          5&nbsp;male) plus one non-mosquito (a Geometridae moth, excluded from the precision count) and
-          2&nbsp;verified false positives, giving a field precision of
-          <strong>(21&minus;2)/21&nbsp;&asymp;&nbsp;90.5%</strong> &mdash; achieved with no
-          hyperparameter tuning or retraining for the outdoor environment.
+          The prototype was then deployed autonomously for six consecutive days &mdash; its first exposure to
+          a real, uncontrolled mosquito population outside the laboratory.
+        </p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/predio_campo.png"
+              alt="Aerial view of the sampling site in Barrio Ycuá Satí, Asunción, with the trap's position marked">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;25.</strong> Sampling
+              site &mdash; Barrio&nbsp;Ycu&aacute;&nbsp;Sat&iacute;, Asunci&oacute;n. The marker shows the
+              trap's position.</p>
+          </div>
+          <div>
+            <p style="margin-bottom:0.6rem;"><strong style="color:var(--dark);">Deployment Conditions</strong>
+            </p>
+            <ul>
+              <li><strong>Duration:</strong> 6 consecutive days (Fri&nbsp;1&nbsp;May, 07:00
+                &rarr; Thu&nbsp;7&nbsp;May, 07:00).</li>
+              <li><strong>Location:</strong> front yard, 8&nbsp;m from the street.</li>
+              <li><strong>Protection:</strong> mounted against a wall, under eave cover.</li>
+              <li><strong>Two distinct climatic periods:</strong></li>
+            </ul>
+            <div class="acad-table-wrap" style="margin-top:-0.6rem;">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>Period</th>
+                    <th>Temp. (&deg;C)</th>
+                    <th>Hum. (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Days&nbsp;1&ndash;3 (warm)</td>
+                    <td>29&ndash;30</td>
+                    <td>82&ndash;85</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>Days&nbsp;4&ndash;6 (cool)</td>
+                    <td>18&ndash;20</td>
+                    <td>59&ndash;63</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XVI.</strong>
+          Deployment conditions and the two climatic periods observed during the six-day field trial.</p>
+
+        <p>
+          Over the six days the trap logged 21&nbsp;mosquito detections (16&nbsp;female, 5&nbsp;male) plus one
+          non-mosquito (a Geometridae moth, excluded from the precision count) and 2&nbsp;verified false
+          positives, giving a field precision of <strong>(21&minus;2)/21&nbsp;&asymp;&nbsp;90.5%</strong>
+          &mdash; achieved with no hyperparameter tuning or retraining for the outdoor environment.
         </p>
 
         <div class="acad-table-wrap">
@@ -2369,7 +2433,7 @@
             </tbody>
           </table>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XVI.</strong>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XVII.</strong>
           Daily field-test captures and environmental conditions (1&ndash;7&nbsp;May). (*)&nbsp;Verified false
           positive.</p>
 
@@ -2380,6 +2444,14 @@
           dashboard alongside BME280 environmental readings, confirming the viability of unattended,
           real-world deployment without any site-specific retraining.
         </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/dashboard_accedido_en_la_web_3.jpg"
+            alt="Web dashboard showing real mosquito detections captured during the field trial">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;26.</strong> Web dashboard
+            displaying real detections captured during the field trial, with per-specimen images, sex
+            classification, and environmental readings.</p>
+        </div>
       </div>
     </div>
   </section>
