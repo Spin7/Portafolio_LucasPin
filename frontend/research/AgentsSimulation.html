@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agent-Based Modeling of Mosquito Populations &mdash; Lucas Pin</title>
   <meta name="description"
-    content="Two agent-based models simulating Aedes aegypti population dynamics over a georeferenced urban grid derived from OpenStreetMap data.">
+    content="A fully local, sex-structured agent-based model simulating Aedes aegypti population dynamics over a georeferenced urban grid derived from OpenStreetMap data.">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
@@ -1050,13 +1050,13 @@
         <!-- Left column: title, authors, meta, cover figure -->
         <div>
           <p class="acad-keywords"><strong>Keywords —</strong> agent-based modeling, ABM, population dynamics,
-            <em>Aedes aegypti</em>, georeferenced grid, OpenStreetMap, stochastic simulation, spatial ecology,
+            <em>Aedes aegypti</em>, georeferenced grid, OpenStreetMap, local stochastic rules, mating dynamics,
             emergent carrying capacity
           </p>
 
           <h1 class="acad-title">Agent-Based Modeling of Mosquito Populations</h1>
-          <p class="acad-subtitle">Two Agent-Based Models for Simulating <em>Aedes aegypti</em> Population Dynamics
-            over a Georeferenced Urban Grid</p>
+          <p class="acad-subtitle">A Fully Local, Sex-Structured Agent-Based Model for <em>Aedes aegypti</em>
+            Population Dynamics over a Georeferenced Urban Grid</p>
 
           <p class="acad-authors">
             Lucas Pin &middot; Matteo Martinez &middot; Diego Stalder &middot; Christian Schaerer<br>
@@ -1067,11 +1067,11 @@
           <div class="acad-meta-grid">
             <div class="acad-meta-item">
               <span class="acad-meta-label">Status</span>
-              <span class="acad-meta-val">Two validated simulation models</span>
+              <span class="acad-meta-val">Preliminary results — CNMAC 2026</span>
             </div>
             <div class="acad-meta-item">
               <span class="acad-meta-label">Year</span>
-              <span class="acad-meta-val">2025&ndash;2026</span>
+              <span class="acad-meta-val">2026</span>
             </div>
             <div class="acad-meta-item" style="grid-column: 1 / -1;">
               <span class="acad-meta-label">Context</span>
@@ -1095,33 +1095,31 @@
 
           <h4>The Problem</h4>
           <p>
-            Spatio-temporal models of mosquito populations &mdash; whether based on ordinary or partial
-            differential equations, cellular automata, or agent-based approaches &mdash; overwhelmingly
-            represent only adult females, since they are the blood-feeding, disease-transmitting sex. This
-            near-universal omission of male individuals and mating dynamics leaves a methodological gap:
-            without an explicit encounter mechanism between sexes, these models cannot evaluate control
-            strategies that depend directly on the ratio of sterile to wild males, such as the Sterile Insect
-            Technique (SIT). A second, complementary gap concerns carrying capacity: most models fix it as a
-            constant parameter rather than allowing it to emerge from local rules such as stochastic movement,
-            competition for breeding sites, and density-dependent mortality.
+            Spatio-temporal models of mosquito populations overwhelmingly represent only adult females,
+            omitting males and mating dynamics altogether. This leaves them unable to evaluate control
+            strategies that depend directly on male&ndash;female encounters, such as the Sterile Insect
+            Technique (SIT). A related gap concerns carrying capacity, which most models fix as a constant
+            parameter instead of allowing it to emerge from local interactions &mdash; movement, competition
+            for breeding sites, and density-dependent mortality &mdash; among individual agents.
           </p>
 
           <h4>Approach</h4>
           <p>
-            This work develops two agent-based models (ABM) that simulate <em>Aedes aegypti</em> population
-            dynamics over a discrete, georeferenced grid built from real OpenStreetMap data, capturing urban
-            heterogeneity (buildings, streets, water, vegetation, and free space) and real breeding-site
-            locations. The <strong>first model</strong> adopts a hybrid approach: demographic transition
-            probabilities (mortality, maturation) are derived from a temperature-dependent ODE system from
-            the literature, while a georeferenced potential field &mdash; the model's own contribution
-            &mdash; guides adult movement toward breeding sites. The <strong>second model</strong> replaces
-            the ODE core with fully local stochastic rules: it differentiates juvenile, male, unmated-female,
-            and gravid-female states, and resolves mortality, mating, and oviposition strictly within finite
-            neighborhood radii, testing whether an emergent carrying capacity can arise from local
-            interactions alone. Results from the first model were presented as a poster at CNMAC&nbsp;2025
-            (Rio de Janeiro, Brazil) and as an oral presentation at the X Congreso de la Sociedad
-            Cient&iacute;fica Paraguaya, while preliminary results from the second model were accepted at
-            CNMAC&nbsp;2026.
+            This work presents a fully local, sex-structured agent-based model of <em>Aedes aegypti</em>
+            population dynamics over a discrete, georeferenced grid built from real OpenStreetMap data,
+            capturing urban heterogeneity (buildings, streets, water, vegetation) and real breeding-site
+            locations. Departing from ODE-based demographic rules, every transition is resolved through
+            strictly local, finite-radius interactions: juvenile mortality is density-dependent within a
+            neighborhood, mating requires the presence of males within a radius around each unmated female,
+            and oviposition is restricted to the nearest breeding site within a maximum radius. Agents
+            transition through four states &mdash; juvenile, male, unmated female, and gravid female &mdash;
+            updated each time step through a synchronized scheme that shuffles agents, resolves all
+            demographic transitions, and only then executes stochastic spatial movement, avoiding ordering
+            bias and temporal inconsistency between agents. This design directly tests whether an emergent
+            carrying capacity can arise from local rules alone, rather than being imposed as a global
+            constant, and lays the groundwork for future evaluation of sex-dependent control strategies such
+            as SIT. Preliminary results were accepted at the XLV Congresso Nacional de Matem&aacute;tica
+            Aplicada e Computacional (CNMAC&nbsp;2026).
           </p>
         </div>
 
