@@ -155,6 +155,119 @@
     .pub-mini-link:hover {
       text-decoration: underline;
     }
+
+    /* ── EXTRACURRICULAR: same row format as .cong-list in research.html ── */
+    .extra-list {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .extra-row {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+
+    .extra-row+.extra-row {
+      border-top: 1px solid var(--border);
+    }
+
+    .extra-row-media {
+      flex: 0 0 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .extra-row-image {
+      width: 100%;
+      height: 210px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .extra-row-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .extra-row-image--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border);
+      font-size: 2.4rem;
+    }
+
+    /* zigzag: even rows have the image on the right */
+    .extra-list .extra-row:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .extra-row-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .extra-row-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .extra-row-year {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .extra-row-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.22rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .extra-row-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.4;
+      margin: 0 0 0.35rem;
+    }
+
+    .extra-row-venue {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+
+      .extra-list .extra-row,
+      .extra-list .extra-row:nth-child(even) {
+        flex-direction: column;
+      }
+
+      .extra-row-media {
+        width: 100%;
+        flex: none;
+      }
+
+      .extra-row-image {
+        width: 100%;
+        height: 180px;
+      }
+    }
   </style>
 </head>
 
@@ -453,22 +566,57 @@
   <section class="extra-section">
     <p class="section-label">Beyond the lab</p>
     <h2 class="section-title">Extracurricular Activities</h2>
-    <div class="extra-grid">
-      <div class="extra-card">
-        <span class="extra-icon">🏛️</span>
-        <p class="extra-title">Vice President</p>
-        <p class="extra-desc">Student Center of the Faculty of Engineering (CEI) · 2024–2025</p>
+    <div class="extra-list">
+
+      <div class="extra-row">
+        <div class="extra-row-media">
+          <div class="extra-row-image extra-row-image--placeholder">
+            <i class="fas fa-landmark"></i>
+          </div>
+        </div>
+        <div class="extra-row-content">
+          <div class="extra-row-top">
+            <span class="extra-row-year">2024–2025</span>
+            <span class="extra-row-type">Leadership</span>
+          </div>
+          <h3 class="extra-row-title">Vice President</h3>
+          <p class="extra-row-venue">Student Center of the Faculty of Engineering (CEI) · Universidad Nacional de
+            Asunción</p>
+        </div>
       </div>
-      <div class="extra-card">
-        <span class="extra-icon">🤖</span>
-        <p class="extra-title">Robotics Club</p>
-        <p class="extra-desc">Member · 2024–2025 · Participant at SumoBots RCX-CPBR16, São Paulo, Brazil</p>
+
+      <div class="extra-row">
+        <div class="extra-row-media">
+          <div class="extra-row-image extra-row-image--placeholder">
+            <i class="fas fa-robot"></i>
+          </div>
+        </div>
+        <div class="extra-row-content">
+          <div class="extra-row-top">
+            <span class="extra-row-year">2024–2025</span>
+            <span class="extra-row-type">Robotics</span>
+          </div>
+          <h3 class="extra-row-title">Robotics Club — Member</h3>
+          <p class="extra-row-venue">Participant at SumoBots RCX-CPBR16 · São Paulo, Brazil</p>
+        </div>
       </div>
-      <div class="extra-card">
-        <span class="extra-icon">🚀</span>
-        <p class="extra-title">Space Science Club</p>
-        <p class="extra-desc">Member · 2024</p>
+
+      <div class="extra-row">
+        <div class="extra-row-media">
+          <div class="extra-row-image extra-row-image--placeholder">
+            <i class="fas fa-rocket"></i>
+          </div>
+        </div>
+        <div class="extra-row-content">
+          <div class="extra-row-top">
+            <span class="extra-row-year">2024</span>
+            <span class="extra-row-type">Club Member</span>
+          </div>
+          <h3 class="extra-row-title">Space Science Club</h3>
+          <p class="extra-row-venue">Universidad Nacional de Asunción</p>
+        </div>
       </div>
+
     </div>
   </section>
 
