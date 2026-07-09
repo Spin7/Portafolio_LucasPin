@@ -91,7 +91,7 @@
     /* Figure paired with a table, side by side */
     .acad-figtable-grid {
       display: grid;
-      grid-template-columns: 0.95fr 1.3fr;
+      grid-template-columns: 1.4fr 0.85fr;
       gap: 1.6rem;
       align-items: start;
       margin: 1.6rem 0;
@@ -101,6 +101,12 @@
       margin: 0;
     }
 
+    .acad-figtable-grid .acad-figure img {
+      max-width: 80%;
+      margin: 0 auto;
+      display: block;
+    }
+
     .acad-figtable-grid .acad-table-wrap {
       margin: 0;
     }
@@ -108,6 +114,10 @@
     @media (max-width: 800px) {
       .acad-figtable-grid {
         grid-template-columns: 1fr;
+      }
+
+      .acad-figtable-grid .acad-figure img {
+        max-width: 60%;
       }
     }
 
@@ -1364,14 +1374,6 @@
         </p>
 
         <div class="acad-figtable-grid">
-          <div class="acad-figure">
-            <img src="../static/Researh/ABMmosquito/creacion_grid.png"
-              alt="Schematic of cell-polygon intersection used to compute the coverage fraction during grid rasterization">
-            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;1.</strong> Cell-polygon
-              intersection: the active cell&nbsp;[<em>r</em>,&nbsp;<em>c</em>] (outlined) is tested against the
-              overlapping OSM geometry (dashed) to compute <em>cover</em>, the fraction of its area covered.</p>
-          </div>
-
           <div>
             <div class="acad-table-wrap">
               <table class="acad-table">
@@ -1425,6 +1427,14 @@
             </div>
             <p class="acad-fig-caption" style="text-align:left; margin-top:0.6rem;"><strong>Table&nbsp;III.</strong>
               Grid cell categories, encoded as a <code>uint8</code> matrix of size <em>N</em>&times;<em>N</em>.</p>
+          </div>
+
+          <div class="acad-figure">
+            <img src="../static/Researh/ABMmosquito/creacion_grid.png"
+              alt="Schematic of cell-polygon intersection used to compute the coverage fraction during grid rasterization">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;1.</strong> Cell-polygon
+              intersection: the active cell&nbsp;[<em>r</em>,&nbsp;<em>c</em>] (outlined) is tested against the
+              overlapping OSM geometry (dashed) to compute <em>cover</em>, the fraction of its area covered.</p>
           </div>
         </div>
 
