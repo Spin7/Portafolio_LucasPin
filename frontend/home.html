@@ -56,7 +56,10 @@
     .explore-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+    }
+
+    .explore-item+.explore-item {
+      border-top: 1px solid var(--border);
     }
 
     .explore-item {
@@ -76,16 +79,15 @@
       transform: translateX(4px);
     }
 
-    .explore-item-icon {
-      width: 42px;
-      height: 42px;
+    .explore-item-index {
+      width: 30px;
       flex-shrink: 0;
-      border-radius: 50%;
-      background: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      opacity: 0.5;
+      font-variant-numeric: tabular-nums;
     }
 
     .explore-item-text {
@@ -174,7 +176,7 @@
 
         <div class="explore-list">
           <a href="projects.html" class="explore-item">
-            <span class="explore-item-icon">🛠️</span>
+            <span class="explore-item-index">01</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Projects</span>
               <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
@@ -183,7 +185,7 @@
           </a>
 
           <a href="research.html" class="explore-item">
-            <span class="explore-item-icon">🔬</span>
+            <span class="explore-item-index">02</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Research</span>
               <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
@@ -193,7 +195,7 @@
           </a>
 
           <a href="teaching.html" class="explore-item">
-            <span class="explore-item-icon">📚</span>
+            <span class="explore-item-index">03</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Teaching</span>
               <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
