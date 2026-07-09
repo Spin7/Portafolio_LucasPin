@@ -10,6 +10,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Page-specific override for home.html only — does not touch style.css.
+       Stacks the hero content (heading/role/desc/buttons) below the photo. */
+    .hero.hero-split.stack-hero {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 36px 0;
+      text-align: center;
+      justify-items: center;
+    }
+
+    .stack-hero .hero-right {
+      align-items: center;
+    }
+
+    .stack-hero .hero-desc {
+      max-width: 480px;
+    }
+
+    .stack-hero .hero-buttons {
+      justify-content: center;
+    }
+  </style>
 </head>
 
 <body>
@@ -32,7 +55,7 @@
   </nav>
 
   <!-- ===== HERO ===== -->
-  <section class="hero hero-split">
+  <section class="hero hero-split stack-hero">
 
     <!-- LEFT: Photo -->
     <div class="hero-left">
