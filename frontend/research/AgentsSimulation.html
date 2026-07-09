@@ -1956,6 +1956,431 @@
     </div>
   </section>
 
+
+  <!-- ══════════════════════════════════════
+       SECTION V — SIMULATION RESULTS
+       ══════════════════════════════════════ -->
+  <section class="acad-section">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">V.</span>
+        <span class="acad-section-title">Simulation Results</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          The results presented in this section correspond to the agent-based model described in
+          Section&nbsp;IV, run over the georeferenced Grid Map of the study neighborhood in
+          Asunci&oacute;n, Paraguay.
+        </p>
+
+        <h4>Simulation Environment &amp; Initial Conditions</h4>
+        <p>
+          The grid parameters used to build the environment are summarized in Table&nbsp;VI, yielding a
+          333&times;333-cell lattice covering 1&nbsp;km&sup2; of real urban terrain. Because this
+          environment spans a smaller area than earlier prototypes, the cell size could be reduced to
+          <em>&Delta;s</em>&nbsp;=&nbsp;3&nbsp;m without incurring prohibitive computational cost, improving
+          the spatial resolution of the represented terrain. The 7 physical traps deployed in the field were
+          integrated as georeferenced reference sites (terrain class&nbsp;5) and, for this model, treated as
+          reference breeding sites for future calibration; 20 additional synthetic breeding sites were placed
+          at random, for 27 sites in total.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+                <th>Value</th>
+                <th>Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\(\varphi_c\)</td>
+                <td>Centroid latitude</td>
+                <td>&minus;25.2637</td>
+                <td>&deg;</td>
+              </tr>
+              <tr>
+                <td>\(\lambda_c\)</td>
+                <td>Centroid longitude</td>
+                <td>&minus;57.5759</td>
+                <td>&deg;</td>
+              </tr>
+              <tr>
+                <td><em>L</em></td>
+                <td>Map extent</td>
+                <td>1000</td>
+                <td>m</td>
+              </tr>
+              <tr>
+                <td>\(\Delta s\)</td>
+                <td>Cell size</td>
+                <td>3</td>
+                <td>m/cell</td>
+              </tr>
+              <tr class="ours-row">
+                <td><em>N</em></td>
+                <td>Grid dimension</td>
+                <td>333</td>
+                <td>cells/side</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VI.</strong>
+          Grid Map input parameters used for the simulation.</p>
+
+        <p>
+          Table&nbsp;VII lists the initial population used for the run; all remaining biological and spatial
+          parameters take the default values of Table&nbsp;V.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+                <th>Value</th>
+                <th>Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\(J_0\)</td>
+                <td>Initial juveniles</td>
+                <td>300</td>
+                <td>individuals</td>
+              </tr>
+              <tr>
+                <td>\(M_0\)</td>
+                <td>Initial adult males</td>
+                <td>1000</td>
+                <td>individuals</td>
+              </tr>
+              <tr>
+                <td>\({F_U}_0\)</td>
+                <td>Initial unmated females</td>
+                <td>500</td>
+                <td>individuals</td>
+              </tr>
+              <tr>
+                <td>\({F_G}_0\)</td>
+                <td>Initial gravid females</td>
+                <td>500</td>
+                <td>individuals</td>
+              </tr>
+              <tr>
+                <td>\(\Delta t\)</td>
+                <td>Time step</td>
+                <td>1.0</td>
+                <td>day</td>
+              </tr>
+              <tr class="ours-row">
+                <td><em>m</em></td>
+                <td>Number of breeding sites</td>
+                <td>27</td>
+                <td>sites</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VII.</strong>
+          Initial conditions used for the simulation run.</p>
+
+        <p>
+          At the end of the run, the system reached a final state of <strong>7,055 active agents</strong>
+          distributed across the four non-absorbing states (<em>J</em>, <em>M</em>, F<sub>U</sub>,
+          F<sub>G</sub>).
+        </p>
+
+        <h4>Temporal Population Dynamics</h4>
+        <p>
+          Figure&nbsp;5 shows the evolution of agent counts per state over simulated time. The run exhibits
+          the characteristic phases of the <em>Aedes aegypti</em> life cycle: an initial growth phase
+          dominated by juvenile hatching, the progressive establishment of an adult population differentiated
+          by sex and reproductive state, and a stabilization phase set by the balance between mortality
+          rates, mating dynamics, and breeding-site availability.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/ABMmosquito/population_timeseries_plot.png"
+            alt="Time series of agent counts per state (juvenile, adult male, unmated female, gravid female) over the course of the simulation">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;5.</strong> Population dynamics
+            of <em>Aedes aegypti</em> over the course of the simulation. Each curve tracks the temporal
+            evolution of agent counts for a given state: juvenile (<em>J</em>), adult male (<em>M</em>),
+            unmated female (F<sub>U</sub>), and gravid female (F<sub>G</sub>). Model parameters follow
+            Table&nbsp;V; environment parameters follow Table&nbsp;VI.</p>
+        </div>
+
+        <p>
+          The stabilization observed across sex- and reproductive-state-differentiated populations is
+          consistent with the dynamic equilibrium expected under constant temperature and stable breeding-site
+          availability. Gravid females (F<sub>G</sub>) dominating the steady-state population is coherent with
+          the vector's biology: absent additional limiting factors, the fraction of females that have
+          completed the mating cycle tends to be the majority. This behavior, obtained under uncalibrated
+          parameters, is qualitatively consistent with expected <em>Aedes aegypti</em> dynamics and offers an
+          interpretable starting point for future comparison against field data.
+        </p>
+
+        <h4>Final Spatial Distribution of Agents</h4>
+        <p>
+          Figure&nbsp;6 presents the spatial distribution of agents at the final simulation state,
+          overlaid on the urban environment grid. The concentration of individuals in specific zones reflects
+          the influence of the potential field \(\Pi(x)\) (Eq.&nbsp;2): agents tend to accumulate near
+          breeding sites, while street cells (\(c(x){=}1\)), water (\(c(x){=}3\)), and buildings
+          (\(c(x){=}4\)) act as barriers that shape the resulting dispersion pattern.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/ABMmosquito/agents_overlay_map.png"
+            alt="Final spatial distribution of agents overlaid on the classified urban environment grid, color-coded by state, with physical trap locations marked"
+            style="max-width: 78%; display: block; margin: 0 auto;">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;6.</strong> Final spatial
+            distribution of agents over the environment grid. Each point represents an individual agent,
+            color-coded by state (<em>J</em>, <em>M</em>, F<sub>U</sub>, F<sub>G</sub>). Background: classified
+            Grid Map from OpenStreetMap data (333&times;333 cells, <em>&Delta;s</em>&nbsp;=&nbsp;3&nbsp;m).
+            Magenta points mark the 7 integrated physical traps.</p>
+        </div>
+
+        <p>
+          The final spatial distribution reflects the combined action of the potential field and the
+          terrain-type restrictions: agents avoid street and water cells and cluster around available
+          breeding sites, particularly in vegetated zones — qualitatively consistent with <em>Aedes
+            aegypti</em> biology, whose activity is strongly determined by the availability of water-holding
+          containers in the urban environment. The overlay of the 7 georeferenced physical traps on the
+          simulated distribution illustrates the tool's potential for representing real monitoring scenarios:
+          in a future calibration stage, trap counts could be used directly to fit model parameters and
+          validate the simulated spatial patterns.
+        </p>
+
+        <h4>Global Sensitivity Analysis (LHS&nbsp;+&nbsp;PRCC)</h4>
+        <p>
+          To identify the most influential parameters on the model's behavior and guide future calibration
+          efforts, a global sensitivity analysis was performed using <strong>Latin Hypercube Sampling
+            (LHS)</strong> combined with the <strong>Partial Rank Correlation Coefficient (PRCC)</strong>. The
+          stochastic, nonlinear character of agent-based models makes local sensitivity methods
+          (perturbing one parameter at a time) inadequate, since they fail to capture parameter interactions
+          or threshold behavior; LHS&#43;PRCC is the standard approach for this model class in the
+          computational-biology sensitivity-analysis literature.
+        </p>
+        <p>
+          The LHS design was generated over the <em>k</em>&nbsp;=&nbsp;13 model parameters of Table&nbsp;V,
+          using <em>N</em>&nbsp;=&nbsp;100 stratified samples with a deterministic seed, each parameter varied
+          &plusmn;50% around its default value. Each sample was run for
+          \(T_{\max}=80\) days (\(\Delta t = 1.0\) d) under simplified initial conditions
+          (\(J_0{=}200\), \(M_0{=}80\), \({F_U}_0{=}40\), \({F_G}_0{=}40\), \(m{=}20\) random breeding sites,
+          excluding the physical traps) to reduce the computational cost of the analysis. Runs were executed
+          in parallel; early-extinction cases were terminated ahead of schedule to save compute.
+          With <em>N</em>&nbsp;=&nbsp;100 samples, the design comfortably exceeds the practical rule
+          <em>N</em>&nbsp;&gt;&nbsp;4<em>k</em> (100&nbsp;&#8811;&nbsp;52), giving adequate statistical
+          stability to the PRCC estimators.
+        </p>
+
+        <div class="eq-group">
+          <span class="eq-tag">PRCC estimator</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              \mathrm{PRCC}(p_i, y) = \mathrm{Corr}\Bigl(\mathrm{rk}(p_i) - \widehat{\mathrm{rk}(p_i)},\;\;
+              \mathrm{rk}(y) - \widehat{\mathrm{rk}(y)}\Bigr)
+              \]</div>
+            <span class="eq-num">(12)</span>
+          </div>
+          <p class="eq-cite">
+            The Pearson correlation between the rank-regression residuals of parameter <em>p<sub>i</sub></em>
+            and quantity of interest <em>y</em> against all other parameters, isolating the net effect of
+            <em>p<sub>i</sub></em>. Values lie in [&minus;1,&nbsp;1]: positive if the parameter increases the
+            QoI, negative if it reduces it. Adopted convention: |PRCC|&nbsp;&gt;&nbsp;0.5 high influence;
+            0.3&ndash;0.5 moderate; &lt;&nbsp;0.1 negligible.
+          </p>
+        </div>
+
+        <p>
+          Five <strong>quantities of interest (QoI)</strong> were evaluated:
+        </p>
+        <ul>
+          <li>\(N_{\text{final}}\) — total number of agents at the end of the simulation.</li>
+          <li>\(\overline{F_G}\) — time-averaged number of gravid females.</li>
+          <li>\(N_{\max}\) — peak total population reached during the simulation.</li>
+          <li>\(\overline{J}\) — time-averaged number of juveniles.</li>
+          <li><em>E</em> — binary extinction indicator (\(E{=}1\) if \(N_{\text{final}}=0\), \(E{=}0\)
+            otherwise).</li>
+        </ul>
+
+        <h4>Results &amp; Interpretation</h4>
+        <p>
+          Table&nbsp;VIII presents the sensitivity ranking over \(N_{\text{final}}\); the full heatmap
+          (Fig.&nbsp;7) and tornado diagram (Fig.&nbsp;8) complement the analysis across all five QoIs.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Parameter</th>
+                <th>PRCC</th>
+                <th>Sig.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>\(\mu_F\) (female mortality)</td>
+                <td>&minus;0.79</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>\(\mu_M\) (male mortality)</td>
+                <td>&minus;0.52</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>\(r_m\) (mating radius)</td>
+                <td>+0.48</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>\(r_o\) (oviposition radius)</td>
+                <td>+0.38</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>\(\beta\) (mating rate)</td>
+                <td>+0.35</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>\(R\) (movement radius)</td>
+                <td>&minus;0.34</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>\(\mu_J\) (juvenile mortality)</td>
+                <td>&minus;0.32</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>\(\gamma\) (larval maturation)</td>
+                <td>+0.31</td>
+                <td>&#9733;</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>\(f\) (oviposition rate)</td>
+                <td>&minus;0.15</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>\(r_d\) (density radius)</td>
+                <td>&minus;0.13</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td>\(K_c\) (carrying capacity)</td>
+                <td>&minus;0.05</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td>\(\beta_0\) (exploratory bias)</td>
+                <td>+0.04</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td>\(\alpha\) (larval competition)</td>
+                <td>+0.01</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VIII.</strong>
+          PRCC coefficients on \(N_{\text{final}}\) (<em>N</em>&nbsp;=&nbsp;100 LHS samples,
+          \(T_{\max}=80\)&nbsp;d). &#9733; marks |PRCC|&nbsp;&gt;&nbsp;0.3.</p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/ABMmosquito/prcc_heatmap.png"
+            alt="Heatmap of the full PRCC matrix across 13 parameters and 5 quantities of interest"
+            style="max-width: 85%; display: block; margin: 0 auto;">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;7.</strong> Heatmap of the
+            full PRCC matrix (13 parameters &times; 5 QoIs). Red indicates a negative effect (the parameter
+            reduces the QoI); blue, a positive effect. Color intensity is proportional to |PRCC|.</p>
+        </div>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/ABMmosquito/tornado_N_total_final.png"
+            alt="Tornado diagram of PRCC indices on N_final, ranking parameters by magnitude of influence"
+            style="max-width: 80%; display: block; margin: 0 auto;">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;8.</strong> Tornado diagram of
+            PRCC indices on \(N_{\text{final}}\). Red bars indicate negative effects; blue bars, positive
+            effects. Dotted vertical lines mark the |PRCC|&nbsp;=&nbsp;0.5 threshold (high influence).</p>
+        </div>
+
+        <p>
+          The tornado diagram of Fig.&nbsp;8 visually ranks parameters by magnitude of influence on
+          \(N_{\text{final}}\). Three patterns structure the resulting sensitivity hierarchy.
+        </p>
+
+        <p>
+          <strong>Female adult mortality dominates.</strong> The rate \(\mu_F\) is by far the most
+          influential parameter (|PRCC|&nbsp;=&nbsp;0.79). This is biologically coherent: the female is the
+          hinge connecting mating, oviposition, and the survival of the reproductive cycle. An increase in
+          \(\mu_F\) simultaneously reduces the available fraction of gravid females and the time each
+          individual has to oviposit, producing a compounded effect that outweighs any single other
+          parameter.
+        </p>
+
+        <p>
+          <strong>Mating as a spatial bottleneck.</strong> Male mortality (\(\mu_M\),
+          |PRCC|&nbsp;=&nbsp;0.52) and the mating radius (\(r_m\), |PRCC|&nbsp;=&nbsp;0.48) rank second and
+          third. This highlights that, in the model, local male availability is a limiting factor for
+          reproduction on par with female demography: without accessible males within radius \(r_m\), females
+          remain in the non-reproductive state F<sub>U</sub> for extended intervals, reducing the effective
+          oviposition rate.
+        </p>
+
+        <p>
+          <strong>Spatial radii as dynamical determinants.</strong> Parameters \(r_o\)
+          (|PRCC|&nbsp;=&nbsp;0.38), \(R\) (|PRCC|&nbsp;=&nbsp;0.34), and \(r_m\)
+          (|PRCC|&nbsp;=&nbsp;0.48) all show moderate-to-high influence, confirming that the model's spatial
+          dimension — the geometry of interaction radii — is not an implementation detail but a substantial
+          determinant of macroscopic behavior. Notably, the movement radius \(R\) has a <em>negative</em>
+          effect on \(N_{\text{final}}\): a larger radius disperses adult agents, thinning them out in
+          zones with high breeding-site density and reducing the effective frequency of mating and
+          oviposition encounters — an emergent behavior, not explicitly coded into the model's rules, that
+          illustrates how the interaction between stochastic movement and breeding-site distribution can
+          produce counterintuitive consequences for global dynamics.
+        </p>
+
+        <p>
+          <strong>Larval regulation parameters carry negligible influence.</strong> The larval
+          density-dependence parameters (\(\alpha\), \(K_c\)) and the exploratory bias \(\beta_0\) all show
+          |PRCC|&nbsp;&lt;&nbsp;0.1, indicating that their variation within &plusmn;50% has no detectable
+          effect on the QoIs over an 80-day horizon. Under the default demographic and spatial parameters, at
+          this time scale, larval density-dependent regulation does not act as an effective bottleneck: the
+          population dynamics are dominated by adult mortality and mating interactions well before larval
+          competition mechanisms could limit growth — a finding with direct implications for calibration
+          effort, since precisely estimating \(\alpha\) or \(K_c\) from field data would have little payoff
+          for the model's short-term predictive power.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
