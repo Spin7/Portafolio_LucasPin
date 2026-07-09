@@ -1486,6 +1486,269 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SECTION IV — AGENT-BASED MODEL: ENVIRONMENT & AGENT DYNAMICS
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">IV.</span>
+        <span class="acad-section-title">Agent-Based Model: Environment &amp; Agent Dynamics</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Simulation Environment</h4>
+        <p>
+          The model operates over the discrete rectangular lattice
+          &Gamma;&nbsp;&sub;&nbsp;&#8484;&sup2; (<em>N</em>&times;<em>N</em> cells) built in
+          Section&nbsp;III, where every cell <em>x</em> carries a terrain type <em>c</em>(<em>x</em>).
+          For agent dynamics, these terrain types collapse into two functional roles: <strong>transitable</strong>
+          cells (empty space, vegetation, buildings), which adults can freely occupy and move through, and
+          <strong>restricted</strong> cells (streets, water), which are excluded outright from the movement
+          neighborhood. A finite subset &mdash; drawn from vegetation cells only, never water &mdash; defines the
+          <strong>breeding sites</strong> where juveniles exist and where oviposition occurs; domain boundaries
+          are <strong>reflective</strong>, clipping any out-of-bounds movement to the nearest valid edge.
+        </p>
+
+        <h4>Agent States &amp; Parameters</h4>
+        <p>
+          Each agent is represented as a state&ndash;position pair. Juveniles are immobile, confined to their
+          breeding site; every adult (male, unmated female, gravid female) performs one stochastic jump per
+          time step; death is an absorbing terminal state.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Description</th>
+                <th>Mobility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><em>J</em></td>
+                <td>Juvenile</td>
+                <td>Immobile (at breeding site)</td>
+              </tr>
+              <tr>
+                <td><em>M</em></td>
+                <td>Adult male</td>
+                <td>Mobile</td>
+              </tr>
+              <tr>
+                <td>F<sub>U</sub></td>
+                <td>Unmated female</td>
+                <td>Mobile</td>
+              </tr>
+              <tr>
+                <td>F<sub>G</sub></td>
+                <td>Gravid female</td>
+                <td>Mobile</td>
+              </tr>
+              <tr class="ours-row">
+                <td><em>D</em></td>
+                <td>Dead</td>
+                <td>Absorbing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
+          Agent state space {<em>J</em>,&nbsp;<em>M</em>,&nbsp;F<sub>U</sub>,&nbsp;F<sub>G</sub>,&nbsp;<em>D</em>}.</p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+                <th>Default value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&mu;<sub>J</sub></td>
+                <td>Baseline juvenile mortality rate</td>
+                <td>0.05&nbsp;d&#8315;&sup1;</td>
+              </tr>
+              <tr>
+                <td>&mu;<sub>M</sub></td>
+                <td>Adult male mortality rate</td>
+                <td>0.10&nbsp;d&#8315;&sup1;</td>
+              </tr>
+              <tr>
+                <td>&mu;<sub>F</sub></td>
+                <td>Female mortality rate</td>
+                <td>0.08&nbsp;d&#8315;&sup1;</td>
+              </tr>
+              <tr>
+                <td>&gamma;</td>
+                <td>Larval-to-adult maturation rate</td>
+                <td>0.07&nbsp;d&#8315;&sup1;</td>
+              </tr>
+              <tr>
+                <td>&alpha;</td>
+                <td>Density-dependent competition coefficient</td>
+                <td>0.001</td>
+              </tr>
+              <tr>
+                <td><em>K</em><sub>c</sub></td>
+                <td>Local carrying capacity</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>&beta;</td>
+                <td>Mating rate per male within <em>r</em><sub>m</sub></td>
+                <td>0.02&nbsp;d&#8315;&sup1;</td>
+              </tr>
+              <tr>
+                <td><em>f</em></td>
+                <td>Oviposition rate</td>
+                <td>5.0&nbsp;d&#8315;&sup1;</td>
+              </tr>
+              <tr>
+                <td><em>r</em><sub>m</sub></td>
+                <td>Mate-search radius</td>
+                <td>5&nbsp;cells</td>
+              </tr>
+              <tr>
+                <td><em>r</em><sub>d</sub></td>
+                <td>Juvenile density-neighborhood radius</td>
+                <td>3&nbsp;cells</td>
+              </tr>
+              <tr>
+                <td><em>r</em><sub>o</sub></td>
+                <td>Maximum oviposition radius</td>
+                <td>10&nbsp;cells</td>
+              </tr>
+              <tr>
+                <td><em>R</em></td>
+                <td>Maximum adult jump radius</td>
+                <td>3&nbsp;cells</td>
+              </tr>
+              <tr>
+                <td>&beta;<sub>0</sub></td>
+                <td>Exploratory movement bias</td>
+                <td>10.0</td>
+              </tr>
+              <tr class="ours-row">
+                <td>&Delta;t</td>
+                <td>Simulation time step</td>
+                <td>1.0&nbsp;day</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;V.</strong>
+          Model parameters and default values.</p>
+
+        <h4>Potential Field &amp; Stochastic Movement</h4>
+        <p>
+          Street and water cells are excluded <em>explicitly</em>: rather than weighting them down within the
+          potential field, they are removed outright from the valid movement neighborhood
+          <em>N<sub>R</sub></em>(<em>x</em>)&nbsp;=&nbsp;{<em>y</em>&nbsp;&isin;&nbsp;&Gamma;&nbsp;:&nbsp;&#8214;<em>y</em>&minus;<em>x</em>&#8214;&nbsp;&le;&nbsp;<em>R</em>,
+          <em>c</em>(<em>y</em>)&nbsp;&notin;&nbsp;{street,&nbsp;water}}, leaving the potential field itself to
+          encode nothing but proximity to breeding sites through an exponential decay kernel:
+          &Pi;(<em>x</em>)&nbsp;=&nbsp;(1/&Pi;<sub>max</sub>)&nbsp;&Sigma;<sub>s</sub>&nbsp;exp(&minus;&#8214;<em>x</em>&minus;<em>s</em>&#8214;/&lambda;),
+          with &lambda;&nbsp;=&nbsp;10 and &Pi;<sub>max</sub> normalizing the field to [0,&nbsp;1] across the
+          whole grid. Every surviving adult then samples its next cell from a Markov transition kernel that
+          favors proximity to breeding sites and penalizes distance:
+          <em>P</em>(<em>y</em>|<em>x</em>)&nbsp;=&nbsp;<em>w&#771;</em>(<em>y</em>|<em>x</em>)&nbsp;/&nbsp;&Sigma;<sub>z</sub>&nbsp;<em>w&#771;</em>(<em>z</em>|<em>x</em>),
+          with
+          <em>w&#771;</em>(<em>y</em>|<em>x</em>)&nbsp;=&nbsp;(&Pi;(<em>y</em>)+&beta;<sub>0</sub>)/(&#8214;<em>y</em>&minus;<em>x</em>&#8214;+1).
+          The additive bias &beta;<sub>0</sub> in the numerator keeps movement exploratory even where
+          &Pi;&nbsp;&equiv;&nbsp;0 across the whole neighborhood, avoiding degenerate jump distributions.
+        </p>
+
+        <h4>Juvenile Dynamics</h4>
+        <p>
+          Juveniles exist only at breeding sites. At each site <em>s<sub>k</sub></em>, the population evolves as
+          <em>J<sub>k</sub></em>(<em>t</em>+&Delta;t)&nbsp;=&nbsp;<em>J<sub>k</sub></em>(<em>t</em>)&nbsp;+&nbsp;<em>X</em><sub>births,k</sub>&nbsp;&minus;&nbsp;<em>X</em><sub>mat,k</sub>&nbsp;&minus;&nbsp;<em>X</em><sub>death,k</sub>,
+          where every transition is resolved as an independent Bernoulli trial per agent and, since the
+          per-class probabilities are homogeneous within a site, aggregates into a Binomial count. Births draw
+          only on gravid females within the oviposition radius of <em>s<sub>k</sub></em>:
+          <em>X</em><sub>births,k</sub>&nbsp;~&nbsp;Binomial(F<sub>G</sub><sup>(k)</sup>,&nbsp;1&minus;e<sup>&minus;f&Delta;t</sup>).
+          Maturation follows
+          <em>X</em><sub>mat,k</sub>&nbsp;~&nbsp;Binomial(<em>J<sub>k</sub></em>(<em>t</em>),&nbsp;1&minus;e<sup>&minus;&gamma;&Delta;t</sup>),
+          with each maturing juvenile becoming male or unmated female with equal probability&nbsp;&frac12;.
+          Density-dependent mortality follows
+          <em>X</em><sub>death,k</sub>&nbsp;~&nbsp;Binomial(<em>J<sub>k</sub></em>(<em>t</em>),&nbsp;1&minus;e<sup>&minus;(&mu;<sub>J</sub>+&alpha;&rho;<sub>k</sub>)&Delta;t</sup>),
+          with local density
+          &rho;<sub>k</sub>&nbsp;=&nbsp;<em>J<sub>k</sub></em>(<em>t</em>)/(<em>K</em><sub>c</sub>&middot;<em>A</em><sub>d</sub>)
+          and neighborhood area <em>A</em><sub>d</sub>&nbsp;=&nbsp;(2<em>r</em><sub>d</sub>+1)&sup2;. Maturation and
+          death are treated as <strong>mutually exclusive</strong> within a single time step &mdash; this is the
+          mechanism through which an emergent carrying capacity is tested, rather than one fixed as a global
+          constant.
+        </p>
+
+        <h4>Adult Dynamics &amp; Mating</h4>
+        <p>
+          Every live adult resolves its demographic transition before moving. An adult male dies with
+          probability
+          <em>P</em>(<em>M</em>&rarr;<em>D</em>)&nbsp;=&nbsp;1&minus;e<sup>&minus;&mu;<sub>M</sub>&Delta;t</sup>.
+          An unmated female is evaluated for survival first,
+          <em>P</em>(F<sub>U</sub>&rarr;<em>D</em>)&nbsp;=&nbsp;1&minus;e<sup>&minus;&mu;<sub>F</sub>&Delta;t</sup>;
+          if she survives, she counts the males within her mate-search radius,
+          <em>M<sub>rm</sub></em>(<em>x<sub>i</sub></em>)&nbsp;=&nbsp;#{<em>j</em>&nbsp;:&nbsp;<em>s<sub>j</sub></em>=<em>M</em>,&nbsp;&#8214;<em>x<sub>j</sub></em>&minus;<em>x<sub>i</sub></em>&#8214;&nbsp;&le;&nbsp;<em>r</em><sub>m</sub>},
+          giving an effective mating intensity
+          &lambda;<sub>m</sub>&nbsp;=&nbsp;&beta;&middot;<em>M<sub>rm</sub></em>(<em>x<sub>i</sub></em>)
+          and transition probability
+          <em>P</em>(F<sub>U</sub>&rarr;F<sub>G</sub>&nbsp;|&nbsp;survives)&nbsp;=&nbsp;1&minus;e<sup>&minus;&lambda;<sub>m</sub>&Delta;t</sup>.
+          A gravid female is likewise evaluated for survival,
+          <em>P</em>(F<sub>G</sub>&rarr;<em>D</em>)&nbsp;=&nbsp;1&minus;e<sup>&minus;&mu;<sub>F</sub>&Delta;t</sup>,
+          and,
+          if she survives, may oviposit in the same step with probability&nbsp;1&minus;e<sup>&minus;f&Delta;t</sup>.
+          Encounters and mating are therefore resolved entirely within a finite local radius &mdash; no global
+          count over the population is ever computed.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/ABMmosquito/diagrama_transiciones_abm12.png"
+            alt="State transition diagram for adult agents: male, unmated female, and gravid female, showing death, mating, and oviposition transitions">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;4.</strong> Transition diagram
+            for adult agents. Males and unmated females can die; surviving unmated females transition to gravid
+            upon encountering a male within&nbsp;<em>r</em><sub>m</sub>; surviving gravid females may oviposit,
+            remaining gravid afterward.</p>
+        </div>
+
+        <h4>Oviposition</h4>
+        <p>
+          A surviving gravid female restricts oviposition to breeding sites within her maximum radius
+          <em>r</em><sub>o</sub>, selecting the <strong>nearest</strong> one; if no site falls within range, no
+          oviposition occurs that step. When it does, a new juvenile agent is instantiated at the selected site
+          and the mother remains in state F<sub>G</sub>, free to repeat the event in later steps until death
+          &mdash; collapsing the full gonotrophic cycle (blood meal, egg maturation, laying) into a single
+          effective rate&nbsp;<em>f</em>.
+        </p>
+
+        <h4>Temporal Orchestrator</h4>
+        <p>
+          Every time step follows a synchronized update scheme designed to avoid two common ABM pitfalls:
+          systematic bias from always processing agents in the same order, and temporal inconsistency from
+          mixing demographic and spatial updates within a single per-agent loop.
+        </p>
+        <ol>
+          <li><strong>Shuffle</strong> &mdash; the agent list is randomized to remove processing-order bias.</li>
+          <li><strong>Demographic transitions</strong> &mdash; mortality, maturation, mating, and oviposition
+            are resolved for every live agent against the same global spatial state.</li>
+          <li><strong>Commit</strong> &mdash; dead agents are removed, and new juveniles buffered during
+            oviposition are instantiated.</li>
+          <li><strong>Stochastic movement</strong> &mdash; every surviving adult executes its jump only after
+            all demographic transitions have been resolved.</li>
+          <li><strong>Advance</strong> &mdash; time is incremented by &Delta;t and population statistics are
+            logged, before the cycle repeats.</li>
+        </ol>
+        <p>
+          Resolving every demographic transition against one consistent snapshot of the system, and only then
+          moving survivors, keeps spatial and temporal integration consistent and removes any artificial
+          dependency on agent ordering.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
