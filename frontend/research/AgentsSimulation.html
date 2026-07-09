@@ -1264,6 +1264,187 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SECTION III — GRID MAP GENERATION FROM GIS DATA
+       ══════════════════════════════════════ -->
+  <section class="acad-section">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">III.</span>
+        <span class="acad-section-title">Grid Map Generation from GIS Data</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Pipeline &amp; Data Source</h4>
+        <p>
+          Rather than administrative boundaries, the study area is defined parametrically by a centroid
+          (&phi;<sub>c</sub>,&nbsp;&lambda;<sub>c</sub>) and a square extent&nbsp;<em>L</em>, keeping the
+          pipeline reusable for any georeferenced urban area. Geographic data is pulled from
+          <strong>OpenStreetMap</strong> through the <strong>OSMnx</strong> library (a high-level interface
+          over the Overpass API) via four independent queries &mdash; buildings, water bodies (rivers, ponds,
+          wetlands &mdash; the stagnant-water sites <em>Ae.&nbsp;aegypti</em> relies on for oviposition),
+          vegetation (parks, gardens, forests, meadows), and the full street network. Each layer is then
+          rasterized cell-by-cell onto a discrete grid, and finally the real trap coordinates are integrated
+          as a georeferenced overlay.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Description</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&phi;<sub>c</sub>, &lambda;<sub>c</sub></td>
+                <td>Centroid latitude / longitude</td>
+                <td>&minus;25.2637&deg;, &minus;57.5759&deg;</td>
+              </tr>
+              <tr>
+                <td><em>L</em></td>
+                <td>Map extent (square side)</td>
+                <td>1000&nbsp;m</td>
+              </tr>
+              <tr>
+                <td>&Delta;s</td>
+                <td>Cell size (spatial resolution)</td>
+                <td>3&nbsp;m</td>
+              </tr>
+              <tr class="ours-row">
+                <td><em>N</em> = &lfloor;<em>L</em>/&Delta;s&rfloor;</td>
+                <td>Grid cells per side</td>
+                <td>333</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;II.</strong>
+          Input parameters defining the location and resolution of the Grid Map.</p>
+
+        <h4>Cell-by-Cell Rasterization &amp; Classification</h4>
+        <p>
+          For every cell&nbsp;[<em>r</em>,&nbsp;<em>c</em>], its real-world polygon is computed and tested for
+          intersection against each OSM layer. Since streets are line geometries rather than polygons, each
+          segment is first expanded through a 3&nbsp;m geometric buffer to approximate its physical width. For
+          the remaining layers, a coverage fraction is computed as
+          <em>cover</em>&nbsp;=&nbsp;Area(geom&nbsp;&cap;&nbsp;cell)&nbsp;/&nbsp;Area(cell), and the cell is
+          assigned a class once <em>cover</em> exceeds a per-layer threshold &mdash; 0.30 for buildings, 0.20
+          for water (kept permissive, since any significant water presence matters for the mosquito
+          life&#8209;cycle), and 0.45 for vegetation (kept strict, to avoid flagging cells with only scattered
+          sidewalk trees). An implicit priority hierarchy resolves overlaps &mdash;
+          <strong>Building&nbsp;&gt;&nbsp;Water&nbsp;&gt;&nbsp;Vegetation&nbsp;&gt;&nbsp;Road&nbsp;&gt;&nbsp;Empty</strong>
+          &mdash; with roads only allowed to overwrite still-empty cells, placing the street layer at the
+          lowest precedence.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Class</th>
+                <th>Color</th>
+                <th>Ecological rationale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>Empty Space</td>
+                <td>Cream</td>
+                <td>Unclassified open ground</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Road</td>
+                <td>Gray</td>
+                <td>Open, sun-exposed &mdash; avoided by <em>Ae.&nbsp;aegypti</em></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Vegetation</td>
+                <td>Green</td>
+                <td>Shaded corridors preferred for movement</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Water</td>
+                <td>Blue</td>
+                <td>Stagnant water &mdash; oviposition sites</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Building</td>
+                <td>Brown</td>
+                <td>Physical movement barrier</td>
+              </tr>
+              <tr class="ours-row">
+                <td>5</td>
+                <td>Trap</td>
+                <td>Magenta</td>
+                <td>Real device location, top overwrite priority</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;III.</strong>
+          Grid cell categories, encoded as a <code>uint8</code> matrix of size <em>N</em>&times;<em>N</em>.</p>
+
+        <h4>Coordinate Projection &amp; Trap Integration</h4>
+        <p>
+          Geographic coordinates are converted to grid indices in two steps. First, an equirectangular
+          projection &mdash; valid at this scale, where Earth's curvature is negligible &mdash; maps
+          latitude/longitude offsets from the centroid to local metric coordinates:
+          <em>x</em>&nbsp;=&nbsp;<em>R</em>&middot;&Delta;&lambda;&middot;cos(&phi;<sub>c</sub>),
+          <em>y</em>&nbsp;=&nbsp;<em>R</em>&middot;&Delta;&phi; (with <em>R</em>&nbsp;=&nbsp;6,378,137&nbsp;m,
+          the WGS84 equatorial radius). Second, those metric coordinates are floor-divided into matrix indices:
+          <em>c</em>&nbsp;=&nbsp;&lfloor;(<em>x</em>&nbsp;+&nbsp;<em>L</em>/2)/&Delta;s&rfloor;,
+          <em>r</em>&nbsp;=&nbsp;&lfloor;(<em>L</em>/2&nbsp;&minus;&nbsp;<em>y</em>)/&Delta;s&rfloor; &mdash;
+          the sign flip on <em>r</em> accounts for row&nbsp;0 sitting at the map's north edge while the local
+          <em>y</em>-axis points north. Real trap coordinates &mdash; field-recorded ovitrap positions, cleaned
+          of decimal-comma formatting, embedded quote characters, and out-of-range values before conversion
+          &mdash; are integrated the same way; only traps landing inside&nbsp;0&nbsp;&le;&nbsp;<em>r</em>,
+          <em>c</em>&nbsp;&lt;&nbsp;<em>N</em> are kept, and their cell is marked class&nbsp;5, overwriting
+          any prior classification.
+        </p>
+
+        <h4>Result</h4>
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <div class="acad-img-placeholder">
+              <i class="fas fa-satellite"></i>
+              <span class="ph-text">Reemplazar con satellite_reference.png &mdash; Esri WorldImagery</span>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;1.</strong> Satellite
+              reference image of the study area (Esri WorldImagery).</p>
+          </div>
+          <div class="acad-figure">
+            <div class="acad-img-placeholder">
+              <i class="fas fa-table-cells"></i>
+              <span class="ph-text">Reemplazar con grid_visualization.png &mdash; Grid Map 333&times;333</span>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;2.</strong> Generated Grid
+              Map (333&times;333 cells, &Delta;s&nbsp;=&nbsp;3&nbsp;m) with integrated trap positions.</p>
+          </div>
+        </div>
+        <p>
+          Building blocks, street layout, green areas, and trap positions all line up geometrically between
+          the two views, qualitatively validating the classification pipeline. This Grid&nbsp;Map is the
+          shared simulation environment for both agent-based models developed in this work: its purely
+          parametric design &mdash; centroid, extent, and cell size as the only required inputs &mdash; lets it
+          adapt to any georeferenced urban area without touching the pipeline logic, replacing the homogeneous
+          synthetic environments common in vector-dynamics models with a real geographic anchor. The trap
+          identifier is agnostic to device type &mdash; installed ovitraps or adult-counting traps such as the
+          one developed in this work &mdash; which opens the door to directly comparing field counts against
+          model predictions in future work, closing the loop on parameter calibration.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
