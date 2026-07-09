@@ -2381,6 +2381,105 @@
     </div>
   </section>
 
+
+  <!-- ══════════════════════════════════════
+       SECTION VI — CONCLUSIONS & FUTURE WORK
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">VI.</span>
+        <span class="acad-section-title">Conclusions &amp; Future Work</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Summary of Contributions</h4>
+        <p>
+          This work developed two successive versions of a georeferenced agent-based simulator over a
+          discrete lattice derived from OpenStreetMap data, covering 1&nbsp;km&sup2; of a real neighborhood
+          in Asunci&oacute;n. The second model — which introduces sex differentiation,
+          density-dependent mortality, and neighborhood-restricted mating — qualitatively reproduced the
+          characteristic phases of the mosquito life cycle: initial growth, the establishment of a
+          sex- and reproductive-state-differentiated adult population, and stabilization under constant
+          temperature. The global sensitivity analysis via LHS&#43;PRCC
+          (<em>N</em>&nbsp;=&nbsp;100 samples, <em>k</em>&nbsp;=&nbsp;13 parameters, Section&nbsp;V) identified
+          female mortality (\(\mu_F\), |PRCC|&nbsp;=&nbsp;0.79) as the dominant parameter on final population,
+          followed by male mortality (\(\mu_M\), |PRCC|&nbsp;=&nbsp;0.52) and the mating radius (\(r_m\),
+          |PRCC|&nbsp;=&nbsp;0.48) — a ranking that directly informs which parameters to prioritize in future
+          field-data calibration. The simulator's scalable design allows new agent states — such as
+          <em>Wolbachia</em>-carrying mosquitoes — to be incorporated without modifying the model's core.
+        </p>
+
+        <h4>Design Reflections</h4>
+        <p>
+          <strong>From ODE-derived demography to strict locality.</strong> The path from the first to the
+          second model was not an incremental refinement but a paradigm shift driven by a concrete structural
+          limitation. Deriving demographic transition probabilities from a reference ODE system allowed the
+          simulator's population coherence to be anchored in empirically validated literature parameters;
+          however, the resulting oviposition mechanism distributed each adult's births across
+          <em>every</em> breeding site in the domain through a global decay function — violating the
+          strictly local interaction principle that defines the ABM paradigm. That tension between
+          bibliographic grounding and paradigmatic coherence is what motivated the second model: by replacing
+          continuous ODE rates with individually applied Bernoulli rules, and by restricting mating and
+          oviposition to finite neighborhoods, reproductive dynamics came to emerge from encounters between
+          concrete agents at concrete positions. The result was a simulator whose spatial patterns —
+          adult concentration in high-breeding-site-density zones, sex-based distribution gradients — arose
+          without being explicitly coded, satisfying the emergence property that justifies using an ABM over
+          a mean-field approach.
+        </p>
+        <p>
+          <strong>Designing local interactions.</strong> Building the second model surfaced a fundamental
+          conceptual challenge in agent-based model design: how to obtain complex population-level behavior
+          from strictly local rules and, harder still, how to determine whether a given rule is
+          <em>fully</em> local or only <em>partially</em> local. The distinction may seem subtle, but it has
+          deep consequences for biological realism and paradigmatic coherence — a rule that appears local but
+          computes over the whole population in its implementation loses the locality property that defines
+          an ABM. This experience reinforced the need for a more rigorous study of formal complex-systems
+          frameworks to ground these design decisions, particularly regarding the generation of global
+          properties — such as effective carrying capacity — purely as an emergent phenomenon of local
+          agent&ndash;environment interactions.
+        </p>
+
+        <h4>Future Work</h4>
+        <ul>
+          <li><strong>Parameter calibration.</strong> Calibrating the model's parameters against real data
+            — such as ovitrap counts — is proposed as the top priority to improve model validity.</li>
+          <li><strong>Climate &amp; microclimate.</strong> Incorporating more realistic climate models,
+            including spatio-temporal variation (microclimate), which directly influences population
+            dynamics.</li>
+          <li><strong>New agent states.</strong> The model is designed to be extensible; adding new states —
+            such as <em>Wolbachia</em>-infected mosquitoes — along with the corresponding interaction rules,
+            is a natural next step.</li>
+          <li><strong>Convergence &amp; complexity analysis.</strong> A more rigorous convergence analysis,
+            together with a study of how breeding-site distribution influences outcomes and whether global
+            behavior can be inferred from local interactions; generating multiple scenarios for statistical
+            analysis and clustering is also suggested.</li>
+          <li><strong>Extended sensitivity analysis.</strong> Scaling the LHS design up to
+            \(N \geq 500\) samples for statistically robust confidence intervals on the PRCC indices, and
+            complementing the analysis with second-order Sobol indices to quantify pairwise parameter
+            interactions — particularly relevant over longer time horizons, where larval density-dependent
+            regulation may become determinant.</li>
+          <li><strong>Formal grounding of local-rule design.</strong> Studying formal complex-systems
+            frameworks — such as DEVS formalisms or discrete mean-field theories — to more rigorously
+            ground the model's design decisions, with generating effective carrying capacity as a purely
+            emergent property (rather than imposing it via the explicit parameter \(K_c\)) identified as a
+            priority direction.</li>
+        </ul>
+
+        <p>
+          Looking further ahead, this simulator was designed from the outset to be calibrated against real
+          field data. A network of smart traps — a complementary IoT-based data-acquisition system developed
+          alongside this model — provides georeferenced mosquito counts that can be projected onto the same
+          Grid Map as decoy breeding sites, closing the loop between field observation and simulated
+          population dynamics: systematic parameter sweeps could be run to reproduce trap-recorded counts of
+          males, females, and eggs, and the resulting calibrated model could then be used to evaluate
+          alternative control scenarios — including <em>Wolbachia</em>-based strategies — before committing
+          resources in the field.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
