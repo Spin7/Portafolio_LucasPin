@@ -842,23 +842,6 @@
         grid-template-columns: 1fr 1fr;
       }
     }
-
-    /* ── FIX: quita la franja gris extra sobre el footer de esta página ── */
-    .footer {
-      height: auto !important;
-      min-height: 0 !important;
-      background: #fff !important;
-      padding-top: 0 !important;
-      margin-top: 0 !important;
-      border-top: none !important;
-      overflow: visible !important;
-    }
-
-    .footer::before,
-    .footer::after {
-      display: none !important;
-      content: none !important;
-    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -1399,8 +1382,7 @@
     </div>
   </section>
 
-  <footer class="footer"
-    style="background:#fff; padding-top:0; margin-top:0; border-top:none; height:auto; min-height:0;">
+  <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
 
