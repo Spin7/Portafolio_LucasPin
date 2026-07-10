@@ -193,6 +193,34 @@
       }
     }
 
+    /* ── LANGUAGES: separate titled block, plain list instead of tags ── */
+    .lang-block {
+      margin-top: 28px;
+    }
+
+    .lang-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lang-list li {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .lang-name {
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .lang-level {
+      color: var(--text-sub);
+    }
+
     /* Location line with map-pin icon under the organizer name */
     .pub-mini-location {
       display: flex;
@@ -542,14 +570,15 @@
                   <span class="stag">Linux</span>
                 </div>
               </div>
-              <div class="skill-group">
-                <span class="skill-group-label">Languages</span>
-                <div class="skill-tags">
-                  <span class="stag">Spanish (native)</span>
-                  <span class="stag">English (B2)</span>
-                </div>
-              </div>
             </div>
+          </div>
+
+          <div class="skills-block lang-block">
+            <h3 class="skills-title">Languages</h3>
+            <ul class="lang-list">
+              <li><span class="lang-name">Spanish:</span> <span class="lang-level">Native</span></li>
+              <li><span class="lang-name">English:</span> <span class="lang-level">B2</span></li>
+            </ul>
           </div>
         </div>
 
