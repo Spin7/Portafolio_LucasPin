@@ -193,6 +193,13 @@
       }
     }
 
+    /* Divider line above "Experience" — matches the border-top rule used
+       above "Technical Skills" in the left column */
+    .timeline-heading--divided {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
     /* ── LANGUAGES: separate titled block, plain list instead of tags ── */
     .lang-block {
       margin-top: 28px;
@@ -585,7 +592,7 @@
         <!-- RIGHT: Experience + Education Timeline -->
         <div class="about-timeline">
 
-          <h3 class="timeline-heading">Experience</h3>
+          <h3 class="timeline-heading timeline-heading--divided">Experience</h3>
 
           <div class="tl-item">
             <div class="tl-logo">

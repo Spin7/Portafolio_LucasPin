@@ -4,372 +4,335 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lucas Pin — Portfolio</title>
+  <title>Teaching — Lucas Pin</title>
   <meta name="description"
-    content="Personal academic portfolio of Lucas Pin — Mechatronic Engineer focused on AI, computer vision, and robotics. Research Assistant at UNA.">
-
-  <!-- Open Graph / social sharing preview -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Lucas Pin — Mechatronic Engineer">
-  <meta property="og:description"
-    content="Mechatronic Engineer focused on AI, computer vision, and robotics. Research Assistant at UNA.">
-  <meta property="og:image" content="https://lucas-pin.vercel.app/static/LucasPin_photos/Lucas_Pin.jpg">
-  <meta property="og:url" content="https://lucas-pin.vercel.app/home.html">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Lucas Pin — Mechatronic Engineer">
-  <meta name="twitter:description"
-    content="Mechatronic Engineer focused on AI, computer vision, and robotics. Research Assistant at UNA.">
-  <meta name="twitter:image" content="https://lucas-pin.vercel.app/static/LucasPin_photos/Lucas_Pin.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    content="Courses and educational materials by Lucas Pin — Linear Algebra, Faculty of Engineering FIUNA.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    /* Page-specific overrides for home.html only — does not touch style.css.
-       Two-column hero: photo + bio on the left, an elegant "Explore" panel
-       linking to the other pages on the right. */
-    .intro-hero .hero-left {
-      flex-direction: column;
-      gap: 26px;
+    /* ── PAGE: white body, gray header banner (matches research.html / projects.html) ── */
+    body {
+      background: #fff;
+    }
+
+    .proj-page-header {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 96px 32px 56px;
       text-align: center;
     }
 
-    .intro-hero .hero-bio {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .intro-hero .hero-desc {
-      text-align: justify;
-    }
-
-    .hero-social-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 4px;
-    }
-
-    .hero-social-buttons .btn-outline:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #ffffff;
-    }
-
-    .intro-hero.hero-split {
-      align-items: stretch;
-      gap: 0 48px;
-    }
-
-    .intro-hero .hero-right {
-      justify-content: center;
-      border-left: 1px solid var(--border);
-      padding-left: 56px;
-    }
-
-    /* Explore panel — no card, just the shared page background */
-    .explore-panel {
-      background: transparent;
-      padding: 0;
-    }
-
-    .explore-panel .section-label,
-    .explore-panel .section-title {
-      text-align: left;
-    }
-
-    .explore-panel .section-title {
-      margin-bottom: 26px;
-    }
-
-    .explore-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .explore-item {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 20px;
-      background: var(--card-bg);
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      text-decoration: none;
-      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .explore-item:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-      box-shadow: var(--shadow-blue);
-      transform: translateY(-2px);
-    }
-
-    .explore-item-thumb {
-      flex: 0 0 84px;
-      width: 84px;
-      height: 84px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: var(--bg);
-      border: 1px solid var(--border);
-    }
-
-    .explore-item-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .explore-item-text {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .explore-item-title {
-      font-size: 15.5px;
+    .proj-page-eyebrow {
+      font-size: 0.75rem;
       font-weight: 700;
-      color: var(--dark);
-      transition: color 0.25s ease;
-    }
-
-    .explore-item-desc {
-      font-size: 12.5px;
-      color: var(--text-sub);
-      line-height: 1.5;
-      transition: color 0.25s ease;
-      text-align: justify;
-    }
-
-    .explore-item-arrow {
-      font-size: 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--primary);
-      transition: transform 0.25s ease, color 0.25s ease;
+      margin: 0 0 0.75rem;
     }
 
-    .explore-item:hover .explore-item-title,
-    .explore-item:hover .explore-item-desc,
-    .explore-item:hover .explore-item-arrow {
-      color: #ffffff;
+    .proj-page-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.15;
+      margin: 0 0 1rem;
     }
 
-    .explore-item:hover .explore-item-arrow {
-      transform: translateX(4px);
-    }
-
-    @media (max-width: 860px) {
-      .intro-hero .hero-right {
-        width: 100%;
-        max-width: 100%;
-        flex: 1 1 100%;
-        padding-left: 0;
-        border-left: none;
-      }
-
-      .explore-panel {
-        width: 100%;
-        max-width: 100%;
-        padding: 28px 0;
-      }
-
-      .explore-list {
-        width: 100%;
-      }
-
-      .explore-item {
-        width: 100%;
-        box-sizing: border-box;
-      }
-    }
-
-    /* Divider line above "Experience" — matches the border-top rule used
-       above "Technical Skills" in the left column */
-    .timeline-heading--divided {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-    }
-
-    /* ── LANGUAGES: separate titled block, plain list instead of tags ── */
-    .lang-block {
-      margin-top: 28px;
-    }
-
-    .lang-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .lang-list li {
+    .proj-page-sub {
       font-size: 0.95rem;
       color: var(--text);
-    }
-
-    .lang-name {
-      font-weight: 700;
-      color: var(--dark);
-    }
-
-    .lang-level {
-      color: var(--text-sub);
-    }
-
-    /* Location line with map-pin icon under the organizer name */
-    .pub-mini-location {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      color: var(--text-sub);
-      margin-top: 2px;
-    }
-
-    .pub-mini-location i {
-      color: var(--primary);
-      font-size: 0.8rem;
-    }
-
-    /* "See PDF certification" link — same style as .pub-row-link in research.html */
-    .pub-mini-link {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .pub-mini-link:hover {
-      text-decoration: underline;
-    }
-
-    /* ── EXTRACURRICULAR: same row format as .cong-list in research.html ── */
-    .extra-list {
-      max-width: 760px;
+      line-height: 1.75;
+      max-width: 620px;
       margin: 0 auto;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
     }
 
-    .extra-row {
+    /* ── TEACHING PHOTO ── */
+    .teaching-photo-section {
+      background: #fff;
+      padding: 56px 32px 0;
       display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      padding: 1rem 0;
+      justify-content: center;
     }
 
-    .extra-row+.extra-row {
-      border-top: 1px solid var(--border);
-    }
-
-    .extra-row-media {
-      flex: 0 0 290px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .extra-row-image {
+    .teaching-photo-wrap {
+      max-width: 820px;
       width: 100%;
-      height: 210px;
+    }
+
+    .teaching-photo-frame {
+      width: 100%;
       border-radius: var(--radius-lg);
       overflow: hidden;
-      background: var(--bg);
       border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      position: relative;
     }
 
-    .extra-row-image img {
+    .teaching-photo-frame img {
       width: 100%;
-      height: 100%;
+      max-height: 480px;
       object-fit: cover;
+      object-position: center center;
       display: block;
     }
 
-    .extra-row-image--placeholder {
+    .teaching-photo-caption {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--text);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    /* ── COURSES CONTENT ── */
+    .proj-list-section {
+      background: #fff;
+      padding: 64px 0 80px;
+    }
+
+    .research-lines {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .research-lines-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0 0 2rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── COURSE CARD ── */
+    .course-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 2rem 2.25rem 2.25rem;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .course-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-card-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--border);
-      font-size: 2.4rem;
+      font-size: 1.1rem;
+      margin-top: 0.1rem;
     }
 
-    /* zigzag: even rows have the image on the right */
-    .extra-list .extra-row:nth-child(even) {
-      flex-direction: row-reverse;
-    }
-
-    .extra-row-content {
+    .course-card-meta-block {
       flex: 1;
-      min-width: 0;
     }
 
-    .extra-row-top {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.45rem;
-    }
-
-    .extra-row-year {
-      font-size: 0.9rem;
+    .course-card-title {
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--dark);
+      line-height: 1.3;
+      margin: 0 0 0.3rem;
     }
 
-    .extra-row-type {
-      font-size: 0.7rem;
+    .course-card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .badge {
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--primary);
       background: var(--primary-light);
-      padding: 0.22rem 0.6rem;
+      padding: 0.22rem 0.65rem;
       border-radius: 20px;
     }
 
-    .extra-row-title {
-      font-size: 1rem;
+    .course-desc {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin: 0 0 0.6rem;
+    }
+
+    .course-context {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      font-style: italic;
+      background: #fff;
+      border-left: 3px solid var(--primary);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 0.65rem 0.9rem;
+      margin: 0 0 1.75rem;
+    }
+
+    /* ── MATERIALS LIST ── */
+    .materials-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 1rem;
+    }
+
+    .materials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .lecture-row {
+      display: flex;
+      gap: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--dark);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .lecture-row:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10, 40, 80, 0.07);
+      transform: translateY(-2px);
+    }
+
+    .lecture-thumb {
+      flex-shrink: 0;
+      width: 180px;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lecture-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .lecture-row:hover .lecture-thumb img {
+      transform: scale(1.04);
+    }
+
+    .lecture-body {
+      flex: 1;
+      padding: 0.9rem 1rem 0.9rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .lecture-number {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 0.2rem;
+    }
+
+    .lecture-title {
+      font-size: 0.95rem;
       font-weight: 800;
       color: var(--dark);
-      line-height: 1.4;
+      line-height: 1.35;
       margin: 0 0 0.35rem;
     }
 
-    .extra-row-venue {
-      font-size: 0.85rem;
+    .lecture-desc {
+      font-size: 0.82rem;
+      line-height: 1.55;
       color: var(--text);
-      margin: 0;
+      margin: 0 0 0.6rem;
+    }
+
+    .lecture-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .lecture-open i {
+      font-size: 0.62rem;
+      transition: transform 0.18s ease;
+    }
+
+    .lecture-row:hover .lecture-open i {
+      transform: translateX(4px);
     }
 
     @media (max-width: 600px) {
+      .teaching-photo-section {
+        padding: 40px 20px 0;
+      }
 
-      .extra-list .extra-row,
-      .extra-list .extra-row:nth-child(even) {
+      .course-card {
+        padding: 1.5rem 1.25rem;
+      }
+
+      .course-card-header {
         flex-direction: column;
       }
 
-      .extra-row-media {
-        width: 100%;
-        flex: none;
+      /* Stack: thumbnail on top, text below */
+      .lecture-row {
+        flex-direction: column;
+        gap: 0;
       }
 
-      .extra-row-image {
+      .lecture-thumb {
         width: 100%;
         height: 180px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .lecture-thumb img {
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .lecture-body {
+        padding: 0.9rem 1rem;
       }
     }
   </style>
@@ -387,381 +350,289 @@
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="navLinks">
-      <a href="home.html" class="active">Home</a>
+      <a href="home.html">Home</a>
       <a href="projects.html">Projects</a>
       <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
+      <a href="teaching.html" class="active">Teaching</a>
     </div>
   </nav>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero hero-split intro-hero">
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="proj-page-header">
+    <p class="proj-page-eyebrow">Education</p>
+    <h1 class="proj-page-title">Teaching</h1>
+    <p class="proj-page-sub">
+      Courses, materials, and educational activities I have developed and delivered
+      at the Faculty of Engineering (FIUNA).
+    </p>
+  </div>
 
-    <!-- LEFT: Photo + Bio -->
-    <div class="hero-left">
-      <img src="static/LucasPin_photos/Lucas_Pin.jpg" alt="Lucas Pin" class="hero-photo">
-
-      <div class="hero-bio">
-        <h1>Hi, I'm <span>Lucas Pin</span></h1>
-
-        <p class="hero-role">Mechatronic Engineer</p>
-
-        <div class="hero-divider"></div>
-
-        <p class="hero-desc">
-          I'm a Mechatronic Engineer with experience in
-          <strong>artificial intelligence, computer vision, mathematical modeling, and simulation</strong>.
-          I'm interested in research and development of computational methods to solve complex engineering problems.
-        </p>
-
-        <div class="hero-social-buttons">
-          <a href="https://github.com/Spin7" target="_blank" rel="noopener" class="btn-outline">
-            <i class="fab fa-github"></i>GitHub &rarr;
-          </a>
-          <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" rel="noopener" class="btn-outline">
-            <i class="fab fa-linkedin"></i>LinkedIn &rarr;
-          </a>
-          <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" rel="noopener"
-            class="btn-outline">
-            <i class="fab fa-youtube"></i>YouTube &rarr;
-          </a>
-          <a href="https://drive.google.com/file/d/1fhdP4iA1evTf4f7lynkLLCH-UUBnn9mo/view?usp=drive_link"
-            target="_blank" rel="noopener" class="btn-outline">
-            <i class="fa-solid fa-file-pdf"></i>CV &rarr;
-          </a>
-        </div>
+  <!-- ===== TEACHING PHOTO ===== -->
+  <div class="teaching-photo-section">
+    <div class="teaching-photo-wrap">
+      <div class="teaching-photo-frame">
+        <img src="../static/Teaching/Teaching.jpg"
+          alt="Lucas Pin teaching Linear Algebra at the Faculty of Engineering (FIUNA)" loading="eager">
       </div>
-    </div>
-
-    <!-- RIGHT: Explore panel -->
-    <div class="hero-right">
-      <div class="explore-panel">
-        <p class="section-label">Explore</p>
-        <h2 class="section-title">What you'll find here</h2>
-
-        <div class="explore-list">
-          <a href="projects.html" class="explore-item">
-            <span class="explore-item-thumb">
-              <img src="static/Home/Projects.jpg" alt="Projects" loading="lazy">
-            </span>
-            <span class="explore-item-text">
-              <span class="explore-item-title">Projects</span>
-              <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
-            </span>
-            <span class="explore-item-arrow">→</span>
-          </a>
-
-          <a href="research.html" class="explore-item">
-            <span class="explore-item-thumb">
-              <img src="static/Home/Researh.jpg" alt="Research" loading="lazy">
-            </span>
-            <span class="explore-item-text">
-              <span class="explore-item-title">Research</span>
-              <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
-                health.</span>
-            </span>
-            <span class="explore-item-arrow">→</span>
-          </a>
-
-          <a href="teaching.html" class="explore-item">
-            <span class="explore-item-thumb">
-              <img src="static/Home/teaching.jpg" alt="Teaching" loading="lazy">
-            </span>
-            <span class="explore-item-text">
-              <span class="explore-item-title">Teaching</span>
-              <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
-            </span>
-            <span class="explore-item-arrow">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ===== ABOUT ME ===== -->
-  <section class="about-section" id="about">
-    <div class="about-inner">
-
-      <div class="about-header">
-        <p class="section-label">About Me</p>
-        <h2 class="section-title">Engineer, Researcher &amp; Educator</h2>
-        <p class="section-sub">
-          Based in Asunción, Paraguay · Born 2001 · Paraguayan
-        </p>
-      </div>
-
-      <div class="about-grid">
-
-        <!-- LEFT: Bio + Skills -->
-        <div class="about-bio">
-          <p>
-            I am a Mechatronic Engineer passionate about building intelligent systems that connect perception,
-            computation, and decision-making. My projects combine <strong>computer vision, machine learning,
-              robotics, and computational modeling</strong> to develop intelligent solutions for real-world
-            engineering challenges.
-          </p>
-
-          <p>
-            During my undergraduate studies at the <strong>Universidad Nacional de Asunción</strong>, I graduated
-            with a <strong>GPA of 4.82/5</strong> and received the <strong>2026 Honor Roll Distinction</strong>.
-            My thesis, <em>"Application of Deep Learning and Agent-Based Modeling for the Development of an
-              Intelligent Mosquito Trap"</em>, integrated deep learning, edge computing, IoT, and agent-based
-            simulation for vector surveillance. Alongside my academic projects, I worked as a
-            <strong>Research Assistant</strong> at the Laboratory of Computer Science and Applied Engineering,
-            contributing to computer vision, CNN training, edge AI, and complex systems simulation.
-            I also served as a <strong>Teaching Assistant for Linear Algebra</strong>, supporting undergraduate
-            students and developing educational materials.
-          </p>
-
-          <p>
-            Beyond individual technologies, I am interested in understanding how intelligent behavior emerges
-            from the interaction between perception, computation, and the physical world. I enjoy developing
-            computational methods that combine mathematical rigor with practical engineering, with a particular
-            interest in robotics, artificial intelligence, and the modeling of complex systems. I am especially
-            motivated by interdisciplinary projects that bridge theory and real-world implementation.
-          </p>
-
-          <div class="skills-block">
-            <h3 class="skills-title">Technical Skills</h3>
-            <div class="skills-groups">
-              <div class="skill-group">
-                <span class="skill-group-label">Programming</span>
-                <div class="skill-tags">
-                  <span class="stag">Python</span>
-                  <span class="stag">C++</span>
-                  <span class="stag">JavaScript</span>
-                  <span class="stag">VHDL</span>
-                  <span class="stag">HTML</span>
-                  <span class="stag">Assembly</span>
-                  <span class="stag">Ladder Logic (LAD)</span>
-                </div>
-              </div>
-              <div class="skill-group">
-                <span class="skill-group-label">AI & Vision</span>
-                <div class="skill-tags">
-                  <span class="stag stag--blue">Deep Learning</span>
-                  <span class="stag stag--blue">YOLO</span>
-                  <span class="stag stag--blue">MediaPipe</span>
-                  <span class="stag stag--blue">OpenCV</span>
-                  <span class="stag stag--blue">ROS2</span>
-                </div>
-              </div>
-              <div class="skill-group">
-                <span class="skill-group-label">Tools & Simulation</span>
-                <div class="skill-tags">
-                  <span class="stag">MATLAB/Simulink</span>
-                  <span class="stag">SolidWorks</span>
-                  <span class="stag">RoboDK</span>
-                  <span class="stag">Gazebo</span>
-                  <span class="stag">KiCad</span>
-                  <span class="stag">AutoCAD</span>
-                  <span class="stag">Proteus</span>
-                  <span class="stag">Xilinx ISE</span>
-                </div>
-              </div>
-              <div class="skill-group">
-                <span class="skill-group-label">Software & IDEs</span>
-                <div class="skill-tags">
-                  <span class="stag stag--blue">Visual Studio Code</span>
-                  <span class="stag stag--blue">MPLAB</span>
-                  <span class="stag stag--blue">Arduino IDE</span>
-                  <span class="stag stag--blue">TIA Portal</span>
-                </div>
-              </div>
-              <div class="skill-group">
-                <span class="skill-group-label">Productivity</span>
-                <div class="skill-tags">
-                  <span class="stag">Microsoft Excel</span>
-                  <span class="stag">Overleaf</span>
-                  <span class="stag">Linux</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="skills-block lang-block">
-            <h3 class="skills-title">Languages</h3>
-            <ul class="lang-list">
-              <li><span class="lang-name">Spanish:</span> <span class="lang-level">Native</span></li>
-              <li><span class="lang-name">English:</span> <span class="lang-level">B2</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- RIGHT: Experience + Education Timeline -->
-        <div class="about-timeline">
-
-          <h3 class="timeline-heading timeline-heading--divided">Experience</h3>
-
-          <div class="tl-item">
-            <div class="tl-logo">
-              <img src="static/Univ-Nacional-Asuncion-Logo.jpeg" alt="UNA" class="tl-logo-img">
-            </div>
-            <div class="tl-body">
-              <span class="tl-date">2025 – 2026</span>
-              <p class="tl-role">Research Assistant · LCIAE, Faculty of Engineering</p>
-              <p class="tl-org">Universidad Nacional de Asunción</p>
-              <ul class="tl-items">
-                <li>CNN model training and evaluation</li>
-                <li>Data analysis and dataset conditioning</li>
-                <li>Edge Computing projects</li>
-                <li>Modeling & Simulation of Complex Systems</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-logo">
-              <img src="static/Univ-Nacional-Asuncion-Logo.jpeg" alt="UNA" class="tl-logo-img">
-            </div>
-            <div class="tl-body">
-              <span class="tl-date">2025 – 2026</span>
-              <p class="tl-role">Teaching Assistant · Linear Algebra, Faculty of Engineering</p>
-              <p class="tl-org">Universidad Nacional de Asunción</p>
-              <ul class="tl-items">
-                <li>University-level teaching</li>
-                <li>Development of educational materials</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-logo">
-              <img src="static/Univ-Nacional-Asuncion-Logo.jpeg" alt="UNA" class="tl-logo-img">
-            </div>
-            <div class="tl-body">
-              <span class="tl-date">2019</span>
-              <p class="tl-role">Intern · NIDTec Research Center, FP UNA</p>
-              <p class="tl-org">Universidad Nacional de Asunción</p>
-              <ul class="tl-items">
-                <li>Data collection for report preparation</li>
-                <li>Administrative and event support</li>
-              </ul>
-            </div>
-          </div>
-
-          <h3 class="timeline-heading" style="margin-top:32px;">Education</h3>
-
-          <div class="tl-item">
-            <div class="tl-logo">
-              <img src="static/Univ-Nacional-Asuncion-Logo.jpeg" alt="UNA" class="tl-logo-img">
-            </div>
-            <div class="tl-body">
-              <span class="tl-date">2021 – 2026</span>
-              <p class="tl-role">Bachelor's in Mechatronic Engineering</p>
-              <p class="tl-org">Universidad Nacional de Asunción</p>
-              <ul class="tl-items">
-                <li>GPA 4.82/5 · Honor Roll 2026</li>
-                <li>Thesis: Deep Learning + Agent-Based Modeling for Intelligent Mosquito Trap</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-logo">
-              <img src="static/logo-ipt.webp" alt="IPT" class="tl-logo-img">
-            </div>
-            <div class="tl-body">
-              <span class="tl-date">2016 – 2019</span>
-              <p class="tl-role">Technical Baccalaureate in Electronics</p>
-              <p class="tl-org">Instituto Paraguayo de Telecomunicaciones (IPT)</p>
-              <ul class="tl-items">
-                <li>GPA 4/5</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== PUBLICATIONS ===== -->
-  <div class="context-strip">
-    <div class="context-inner">
-      <p class="section-label" style="text-align:left;">Certifications</p>
-      <h2 class="section-title" style="text-align:left;">Academic Milestones</h2>
-      <div class="pub-mini-list">
-        <div class="pub-mini">
-          <span class="pub-mini-year">2026</span>
-          <div>
-            <p class="pub-mini-title">Algebraic Geometric Methods in Information Theory</p>
-            <p class="pub-mini-venue">CIMPA Short Course</p>
-            <p class="pub-mini-location"><i class="fa-solid fa-location-dot"></i> Santa Fe, Argentina</p>
-            <a href="https://drive.google.com/file/d/1WuJawHsle9IG_kbi9ZxUNQSkXGimwMuw/view?usp=drive_link"
-              class="pub-mini-link" target="_blank" rel="noopener">See PDF certification →</a>
-          </div>
-        </div>
-        <div class="pub-mini">
-          <span class="pub-mini-year">2025</span>
-          <div>
-            <p class="pub-mini-title">Stochastic Modeling and Generation of Random Variables</p>
-            <p class="pub-mini-venue">CNMAC Short Course</p>
-            <p class="pub-mini-location"><i class="fa-solid fa-location-dot"></i> Rio de Janeiro, Brazil</p>
-            <a href="https://drive.google.com/file/d/1q8FYrFA0GRgZYq8TEA_PNzRgolCvATgt/view?usp=drive_link"
-              class="pub-mini-link" target="_blank" rel="noopener">See PDF certification →</a>
-          </div>
-        </div>
-        <div class="pub-mini">
-          <span class="pub-mini-year">2023</span>
-          <div>
-            <p class="pub-mini-title">Number Theory</p>
-            <p class="pub-mini-venue">EMALCA Short Course</p>
-            <p class="pub-mini-location"><i class="fa-solid fa-location-dot"></i> Encarnación, Paraguay</p>
-            <a href="https://drive.google.com/file/d/15U3N8LaxoghYrX6-8wWJhTFj0vdaEB6P/view?usp=drive_link"
-              class="pub-mini-link" target="_blank" rel="noopener">See PDF certification →</a>
-          </div>
-        </div>
-      </div>
+      <p class="teaching-photo-caption">
+        Lecture session at the Faculty of Engineering — Universidad Nacional de Asunción (FIUNA).
+      </p>
     </div>
   </div>
 
-  <!-- ===== EXTRACURRICULAR ===== -->
-  <section class="extra-section">
-    <p class="section-label">Leadership & Community</p>
-    <h2 class="section-title">Extracurricular Activities</h2>
-    <div class="extra-list">
+  <!-- ===== COURSES ===== -->
+  <section class="proj-list-section">
+    <div class="research-lines">
+      <h2 class="research-lines-title">Courses</h2>
 
-      <div class="extra-row">
-        <div class="extra-row-media">
-          <div class="extra-row-image">
-            <img src="static/Home/CEI2025.jpg" alt="Vice President, Student Center of the Faculty of Engineering (CEI)"
-              loading="lazy">
-          </div>
-        </div>
-        <div class="extra-row-content">
-          <div class="extra-row-top">
-            <span class="extra-row-year">2024–2025</span>
-            <span class="extra-row-type">Leadership</span>
-          </div>
-          <h3 class="extra-row-title">Vice President</h3>
-          <p class="extra-row-venue">Student Center of the Faculty of Engineering (CEI) · Universidad Nacional de
-            Asunción</p>
-          <a href="https://www.instagram.com/cei_una/" class="pub-mini-link" target="_blank" rel="noopener">View more
-            about CEI →</a>
-        </div>
-      </div>
+      <!-- ── Linear Algebra ── -->
+      <div class="course-card">
 
+        <div class="course-card-header">
+          <div class="course-card-icon">
+            <!-- Two arrows at an angle — vector / coordinate system -->
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" width="22" height="22" aria-hidden="true">
+              <!-- Horizontal arrow (x-axis) -->
+              <line x1="3" y1="15" x2="16" y2="15" />
+              <polyline points="13,12 16,15 13,18" />
+              <!-- Diagonal arrow (y direction) -->
+              <line x1="3" y1="15" x2="11" y2="4" />
+              <polyline points="8,5 11,4 12,7" />
+            </svg>
+          </div>
+          <div class="course-card-meta-block">
+            <h3 class="course-card-title">Linear Algebra</h3>
+            <div class="course-card-badges">
+              <span class="badge">Undergraduate</span>
+              <span class="badge">Teaching Assistant</span>
+              <span class="badge">FIUNA</span>
+            </div>
+          </div>
+        </div>
 
-      <div class="extra-row">
-        <div class="extra-row-media">
-          <div class="extra-row-image">
-            <img src="static/Home/ROBOTICSCLUB.jpg" alt="Robotics Club member, SumoBots RCX-CPBR16" loading="lazy">
-          </div>
+        <p class="course-desc">
+          Second-semester undergraduate course covering the core foundations of linear algebra:
+          vector spaces, linear transformations, matrix decompositions, eigenvalues and eigenvectors,
+          and inner product spaces. The course emphasizes both rigorous proofs and practical
+          computational applications in engineering contexts.
+        </p>
+
+        <p class="course-context">
+          Taught as <strong>Teaching Assistant (Profesor Auxiliar)</strong> at the
+          <strong>Facultad de Ingeniería — Universidad Nacional de Asunción (FIUNA)</strong>.
+          Responsible for weekly problem-solving sessions, grading, and preparation of supplementary materials.
+        </p>
+
+        <!-- Materials -->
+        <p class="materials-title"><i class="fas fa-folder-open" style="margin-right:0.35rem;"></i>Lecture Notes</p>
+        <div class="materials-list">
+
+          <!-- Lecture 1 -->
+          <a href="https://drive.google.com/file/d/1nVyp0czKJGfYQj8jr8xjLaBRkRmPBvPH/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-1">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1nVyp0czKJGfYQj8jr8xjLaBRkRmPBvPH&sz=w400"
+                alt="Lecture 1 — Vector Spaces and Subspaces" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 1</p>
+              <h4 class="lecture-title">Vector Spaces and Subspaces</h4>
+              <p class="lecture-desc">Introduces the fundamental theory of vector spaces: axioms, common examples, and
+                how to identify subspaces within them.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 2 -->
+          <a href="https://drive.google.com/file/d/1bEzgIjCeL5nStBDYnVTX2FD4EObi0zRM/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-2">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1bEzgIjCeL5nStBDYnVTX2FD4EObi0zRM&sz=w400"
+                alt="Lecture 2 — Linear Combinations, Bases and Dimension" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 2</p>
+              <h4 class="lecture-title">Linear Combinations, Spanning Sets, Bases &amp; Dimension</h4>
+              <p class="lecture-desc">Develops the tools to describe a vector space: linear combinations, linear
+                independence, spanning sets, bases, and dimension.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 3 -->
+          <a href="https://drive.google.com/file/d/1RCdVwLIXXCGNO9nSQeYA8CJHerPaAoMg/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-3">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1RCdVwLIXXCGNO9nSQeYA8CJHerPaAoMg&sz=w400"
+                alt="Lecture 3 — Sum of Subspaces, Coordinates and Isomorphism" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 3</p>
+              <h4 class="lecture-title">Sum of Subspaces, Coordinates &amp; Isomorphism</h4>
+              <p class="lecture-desc">Explores subspace sums and direct sums, coordinate representations relative to a
+                basis, and the concept of isomorphism between vector spaces.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 4 -->
+          <a href="https://drive.google.com/file/d/1ZU4H4YvjBMSrtHjGMM2nfxJWnXxeICgP/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-4">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1ZU4H4YvjBMSrtHjGMM2nfxJWnXxeICgP&sz=w400"
+                alt="Lecture 4 — Linear Maps" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 4</p>
+              <h4 class="lecture-title">Linear Maps</h4>
+              <p class="lecture-desc">Introduces mappings between sets (injective, surjective, bijective) and formally
+                defines linear maps, their uniqueness from basis images, and classic examples: zero operator, identity,
+                derivative, and reflections.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 5 -->
+          <a href="https://drive.google.com/file/d/11KDRVbKrkQXyA055Q1dDmxjVONhnGOce/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-5">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=11KDRVbKrkQXyA055Q1dDmxjVONhnGOce&sz=w400"
+                alt="Lecture 5 — Image, Kernel, and Operations on Linear Maps" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 5</p>
+              <h4 class="lecture-title">Image, Kernel &amp; Operations on Linear Maps</h4>
+              <p class="lecture-desc">Defines image and kernel as subspaces, presents the rank-nullity theorem,
+                classifies maps (injective, surjective, bijective), and covers operations: sum, scalar multiplication,
+                composition, and inverse.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 6 -->
+          <a href="https://drive.google.com/file/d/1b4BYd94j0l-9u38nIKAk8xd5B6BQte0n/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-6">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1b4BYd94j0l-9u38nIKAk8xd5B6BQte0n&sz=w400"
+                alt="Lecture 6 — Matrix Representation and Change of Basis" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 6</p>
+              <h4 class="lecture-title">Matrix Representation &amp; Change of Basis</h4>
+              <p class="lecture-desc">Shows how every linear map is represented by a matrix with respect to chosen
+                bases, links image and kernel to column/null spaces, translates map operations into matrix operations,
+                and introduces the change-of-basis matrix.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 7 -->
+          <a href="https://drive.google.com/file/d/1XFL_W_DI0P9jqT6X80Tp8uA2c-2XmpxU/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-7">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1XFL_W_DI0P9jqT6X80Tp8uA2c-2XmpxU&sz=w400"
+                alt="Lecture 7 — Inner Product, Norm and Distance" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 7</p>
+              <h4 class="lecture-title">Inner Product, Norm &amp; Distance</h4>
+              <p class="lecture-desc">Introduces inner products in real and complex spaces with axioms and examples (ℝⁿ,
+                function spaces, Gram matrix), then defines norm and distance as derived notions, including the ∞, 1,
+                and Euclidean norms.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 8 -->
+          <a href="https://drive.google.com/file/d/1Tp9XqOGa4PArkegSdRRB_7s4q_y4xtc8/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-8">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1Tp9XqOGa4PArkegSdRRB_7s4q_y4xtc8&sz=w400"
+                alt="Lecture 8 — Orthogonality and Projection" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 8</p>
+              <h4 class="lecture-title">Orthogonality &amp; Projection</h4>
+              <p class="lecture-desc">Defines orthogonality and orthogonal complements, presents orthonormal bases,
+                orthogonal projection onto vectors and subspaces, and the Gram-Schmidt algorithm for constructing an
+                orthogonal basis.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 9 -->
+          <a href="https://drive.google.com/file/d/1WNTJdGFXkw-q5UAkmWT1ftjuToDFtddo/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-9">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1WNTJdGFXkw-q5UAkmWT1ftjuToDFtddo&sz=w400"
+                alt="Lecture 9 — Orthogonal Matrices, Fundamental Spaces and Least Squares" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 9</p>
+              <h4 class="lecture-title">Orthogonal Matrices, Fundamental Spaces &amp; Least Squares</h4>
+              <p class="lecture-desc">Studies orthogonal and unitary matrices, describes orthogonality between null and
+                column spaces of a matrix and its transpose, and develops the least squares problem via the normal
+                equation — applied to curve fitting and MSE minimization.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 10 -->
+          <a href="https://drive.google.com/file/d/1FHXJj8Tfl_RbLQQFqD65o2b55748KCYt/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-10">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1FHXJj8Tfl_RbLQQFqD65o2b55748KCYt&sz=w400"
+                alt="Lecture 10" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 10</p>
+              <h4 class="lecture-title">Diagonalization, Eigenvalues &amp; Eigenvectors</h4>
+              <p class="lecture-desc">Introduces similar matrices and diagonalization, the characteristic polynomial and
+                Cayley-Hamilton theorem, eigenvalues, eigenvectors and eigenspaces (algebraic and geometric
+                multiplicity), and a concrete algorithm for diagonalizing a matrix from its eigenvectors.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 11 -->
+          <a href="https://drive.google.com/file/d/1PCFAUtBrLaqX1ygYg6i4DwU8qvZh6Hyc/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-11">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1PCFAUtBrLaqX1ygYg6i4DwU8qvZh6Hyc&sz=w400"
+                alt="Lecture 11" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 11</p>
+              <h4 class="lecture-title">Orthogonal &amp; Unitary Diagonalization</h4>
+              <p class="lecture-desc">Extends diagonalization to real symmetric and complex Hermitian matrices, proves
+                eigenvalues are real and eigenvectors from distinct eigenvalues are orthogonal, defines orthogonal (D =
+                PᵀAP) and unitary (D = P*AP) diagonalization, and details the algorithm for orthonormalizing the
+                eigenvector basis.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 12 -->
+          <a href="https://drive.google.com/file/d/1TnIq5TDADqNs9apeTr90Qme9nM-9FvK_/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-12">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1TnIq5TDADqNs9apeTr90Qme9nM-9FvK_&sz=w400"
+                alt="Lecture 12" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 12</p>
+              <h4 class="lecture-title">Stochastic Matrices &amp; Markov Chains</h4>
+              <p class="lecture-desc">Reviews probability basics (sample space, Kolmogorov axioms) to introduce the
+                Markov property and homogeneous Markov chains, models system evolution with a transition matrix, uses
+                diagonalization to compute matrix powers efficiently, and applies steady-state analysis — illustrated
+                with a social mobility case study.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
         </div>
-        <div class="extra-row-content">
-          <div class="extra-row-top">
-            <span class="extra-row-year">2024–2025</span>
-            <span class="extra-row-type">Competition</span>
-          </div>
-          <h3 class="extra-row-title">Robotics Club — Member</h3>
-          <p class="extra-row-venue">Participant at SumoBots RCX-CPBR16 · São Paulo, Brazil</p>
-          <a href="https://events.robocore.net/rcx-cpbr16/" class="pub-mini-link" target="_blank" rel="noopener">View
-            more about RCX-CPBR16 Competition →</a>
-        </div>
-      </div>
+      </div><!-- /course-card -->
 
     </div>
   </section>
