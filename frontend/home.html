@@ -98,6 +98,36 @@
       transform: translateY(-2px);
     }
 
+    .explore-item-thumb {
+      flex: 0 0 56px;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .explore-item-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .explore-item-thumb--icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 20px;
+      transition: color 0.25s ease;
+    }
+
+    .explore-item:hover .explore-item-thumb--icon {
+      color: #ffffff;
+    }
+
     .explore-item-text {
       flex: 1;
       display: flex;
@@ -139,6 +169,84 @@
     @media (max-width: 860px) {
       .explore-panel {
         padding: 28px 24px;
+      }
+    }
+
+    /* ── MOBILE QUICKLINKS ──────────────────────────────────────────────
+       On phones, the full bio (photo + long paragraph + 4 social buttons)
+       pushes "Projects / Research / Teaching" way below the fold before
+       anyone reaches it. This compact icon row surfaces those 3 links
+       right under the name, so the most important pages are visible
+       without scrolling. Hidden on desktop, where the two-column layout
+       already puts the Explore panel front and center. */
+    .hero-quicklinks {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      .hero-quicklinks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        width: 100%;
+        margin: 2px 0 6px;
+      }
+
+      .hero-quicklink {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 14px 6px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--dark);
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .hero-quicklink i {
+        font-size: 18px;
+        color: var(--primary);
+        transition: color 0.2s ease;
+      }
+
+      .hero-quicklink:hover,
+      .hero-quicklink:active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #ffffff;
+        box-shadow: var(--shadow-blue);
+        transform: translateY(-2px);
+      }
+
+      .hero-quicklink:hover i,
+      .hero-quicklink:active i {
+        color: #ffffff;
+      }
+
+      /* smaller photo + left-aligned, clamped bio so the hero doesn't
+         eat the whole first screen on phones */
+      .intro-hero .hero-photo {
+        width: 130px;
+        height: 130px;
+      }
+
+      .intro-hero .hero-desc {
+        text-align: left;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .intro-hero .hero-social-buttons .btn-outline {
+        padding: 8px 12px;
+        font-size: 12.5px;
       }
     }
 
@@ -322,6 +430,23 @@
 
         <div class="hero-divider"></div>
 
+        <!-- Mobile-only: surfaces the 3 key pages immediately, before the
+             long bio and social buttons push them below the fold. -->
+        <div class="hero-quicklinks">
+          <a href="projects.html" class="hero-quicklink">
+            <i class="fa-solid fa-robot"></i>
+            <span>Projects</span>
+          </a>
+          <a href="research.html" class="hero-quicklink">
+            <i class="fa-solid fa-flask"></i>
+            <span>Research</span>
+          </a>
+          <a href="teaching.html" class="hero-quicklink">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <span>Teaching</span>
+          </a>
+        </div>
+
         <p class="hero-desc">
           I'm a Mechatronic Engineer with experience in
           <strong>artificial intelligence, computer vision, mathematical modeling, and simulation</strong>.
@@ -355,6 +480,9 @@
 
         <div class="explore-list">
           <a href="projects.html" class="explore-item">
+            <span class="explore-item-thumb">
+              <img src="static/Projects/Hexapod/Hexapod_real_and_sim.png" alt="" loading="lazy">
+            </span>
             <span class="explore-item-text">
               <span class="explore-item-title">Projects</span>
               <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
@@ -363,6 +491,9 @@
           </a>
 
           <a href="research.html" class="explore-item">
+            <span class="explore-item-thumb">
+              <img src="static/Researh/CongressPaticipations/CNMAC2025_poster.jpg" alt="" loading="lazy">
+            </span>
             <span class="explore-item-text">
               <span class="explore-item-title">Research</span>
               <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
@@ -372,6 +503,9 @@
           </a>
 
           <a href="teaching.html" class="explore-item">
+            <span class="explore-item-thumb explore-item-thumb--icon">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </span>
             <span class="explore-item-text">
               <span class="explore-item-title">Teaching</span>
               <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
