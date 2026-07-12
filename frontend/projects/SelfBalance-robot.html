@@ -1460,39 +1460,32 @@ u = -( x*k1 + v_lineal*k2 + Pitch_angle*k3 + Pitch_rate*k4 );
           <thead>
             <tr>
               <th>Class</th>
-              <th>File(s)</th>
               <th>Responsibility</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Gyro_MPU</strong></td>
-              <td><code>Gyro_MPU.h/.cpp</code></td>
               <td>MPU-6050 via I&sup2;C; 1-D Kalman filter; pitch/roll/yaw angles and rates</td>
             </tr>
             <tr>
               <td><strong>Gyro</strong></td>
-              <td><code>Gyro.h/.cpp</code></td>
               <td>Earlier IMU driver used during sensor development</td>
             </tr>
             <tr>
               <td><strong>Taco</strong></td>
-              <td><code>Taco_twoPin.h/.cpp</code></td>
               <td>Interrupt-driven optical encoder; RPM and angular velocity (5 &micro;s debounce)</td>
             </tr>
             <tr>
               <td><strong>L298N_driver_two_motor</strong></td>
-              <td><code>L298N_driver_two_motor.h/.cpp</code></td>
               <td>Abstracts L298N H-bridge; per-motor forward/backward/stop with PWM</td>
             </tr>
             <tr>
               <td><strong>VelocityIntegrator</strong></td>
-              <td><code>VelocityIntegrator.h</code></td>
               <td>Numerical integrator: x += v &middot; dt with minimum 5 ms update guard</td>
             </tr>
             <tr>
               <td><strong>ControlD</strong></td>
-              <td><code>ControlD.h</code></td>
               <td>Header-only discrete controller; stores G, H, K; optional Luenberger observer</td>
             </tr>
           </tbody>
