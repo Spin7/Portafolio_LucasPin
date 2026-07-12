@@ -351,6 +351,10 @@
       align-items: start;
     }
 
+    .design-text {
+      min-width: 0;
+    }
+
     .design-text h3 {
       font-size: 1rem;
       font-weight: 800;
@@ -795,14 +799,12 @@
       <div class="proj-hero-right">
         <h2 class="proj-section-heading">Overview</h2>
         <p class="proj-overview">
-          <strong>&ldquo;Paco&rdquo;</strong> is a two-wheeled self-balancing robot &mdash; an
-          <strong>inverted pendulum on wheels</strong> &mdash; designed as a Final Project for the
-          <strong>Control Systems Design</strong> course at the Faculty of Engineering, Universidad Nacional de
-          Asunci&oacute;n (CITEC-Luque, Paraguay).
-          The project covers the full engineering pipeline: <strong>physical modelling &rarr; Lagrange-Euler
-            derivation &rarr; discrete LQR design &rarr; MATLAB simulation &rarr; Arduino embedded
-            implementation</strong>. Without active control the robot falls instantly; a full state-feedback
-          controller running at <strong>100 Hz</strong> on an Arduino Uno keeps it upright in real time.
+          <strong>Self-Balancing Robot via State Feedback Control</strong> is an academic project featuring
+          a full plant model of a two-wheeled <strong>inverted pendulum on wheels</strong>, built through
+          <strong>physical modelling &rarr; Lagrange-Euler derivation &rarr; discrete LQR design &rarr; MATLAB
+            simulation &rarr; Arduino embedded implementation</strong>. A full state-feedback controller running
+          at <strong>100 Hz</strong> on an Arduino Uno, fed by an MPU-6050 IMU and optical tachometers through an
+          L298N driver, keeps the robot balanced in real time.
         </p>
         <div class="proj-tech-row">
           <span class="pill">MATLAB</span>
