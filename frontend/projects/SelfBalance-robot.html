@@ -714,6 +714,33 @@
       border-radius: var(--radius-sm);
       padding: 0.9rem 1.2rem;
     }
+
+    /* ── SIMULATION IMAGE GRID ── */
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .sim-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sim-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 720px) {
+      .sim-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- MathJax for equation rendering -->
@@ -1200,6 +1227,146 @@ u &lt; -1  -> both motors FORWARD
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       MATLAB SIMULATION
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">MATLAB Simulation &mdash; Discomp_SelfBalanceRobot.m</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <p class="math-p" style="max-width:820px;margin-bottom:2rem;">
+        The script <strong>Discomp_SelfBalanceRobot.m</strong> implements the complete design pipeline in four
+        sequential sections: discretisation of the continuous plant, structural verification (controllability
+        and observability), LQR gain computation, and closed-loop time-domain simulation from a 10&deg; initial
+        tilt. All four state trajectories are plotted to verify controller performance.
+      </p>
+
+      <!-- Step 1: Discretisation -->
+      <h3 class="math-h3" style="margin-top:0;">§&thinsp;2 — Discretisation (ZOH, T<sub>s</sub> = 10 ms)</h3>
+      <p class="math-p">
+        The continuous-time plant \((A,B,C,D)\) is converted to a discrete-time model \((G,H)\) using
+        <strong>Zero-Order Hold</strong> (ZOH), which faithfully represents the constant-between-samples
+        nature of a microcontroller's PWM output:
+      </p>
+      <div class="code-block" style="margin-bottom:1.8rem;">
+        <pre>Ts = 0.01;                       % Sampling period: 10 ms
+sys_C = ss(A, B, C, D);          % Continuous plant object
+sys_D = c2d(sys_C, Ts, 'zoh');   % ZOH discretisation
+
+G = sys_D.A;   % Discrete state matrix
+H = sys_D.B;   % Discrete input matrix</pre>
+      </div>
+
+      <!-- Step 2: Controllability & Observability -->
+      <h3 class="math-h3">§&thinsp;3 — Controllability &amp; Observability Check</h3>
+      <p class="math-p">
+        Before proceeding to controller design, the script verifies that the discrete system is
+        <strong>completely controllable</strong> (all states can be driven to any target) and
+        <strong>completely observable</strong> (all states can be inferred from the output \(y = x\)).
+        Both conditions are confirmed when the rank of the respective structural matrices equals the system
+        order \(n = 4\):
+      </p>
+      <div class="code-block" style="margin-bottom:1.8rem;">
+        <pre>if rank(ctrb(G, H)) &lt; n
+    error('The Discrete System is NOT controllable');
+end
+if rank(obsv(G, C)) &lt; n
+    error('The Discrete System is NOT observable');
+end</pre>
+      </div>
+      <p class="math-p" style="margin-bottom:1.8rem;">
+        Both checks pass for the physical parameters of this robot, confirming that a state-feedback law
+        \(u = -K\mathbf{X}\) is well-defined and that the single output \(x\) is sufficient to reconstruct
+        the full state (should an observer be needed).
+      </p>
+
+      <!-- Step 3: LQR Design -->
+      <h3 class="math-h3">§&thinsp;4 — State Feedback Design (Discrete LQR)</h3>
+      <p class="math-p">
+        The optimal gain matrix \(K\) is obtained by minimising the infinite-horizon quadratic cost
+        \(J = \sum_k (\mathbf{X}^T Q\,\mathbf{X} + u^T R\,u)\). High weights on
+        \(x\) and \(\theta\) penalise position and tilt errors strongly:
+      </p>
+      <div class="code-block" style="margin-bottom:1rem;">
+        <pre>Q = diag([200, 10, 200, 20]);  % High penalty on x (x1) and theta (x3)
+R = 1;                         % Penalty on control effort u
+
+K = dlqr(G, H, Q, R);
+% K = [-4.7152,  -3.3278,  -17.0580,  -1.8229]</pre>
+      </div>
+      <p class="math-p" style="margin-bottom:1.8rem;">
+        The weight matrix \(Q = \text{diag}(200, 10, 200, 20)\) assigns the highest penalty to linear position
+        \(x_1\) and pitch angle \(x_3\) — the two states most critical for balance — while keeping moderate
+        penalties on their rates. \(R = 1\) is a neutral penalty on control effort, allowing the actuator to
+        act aggressively when needed.
+      </p>
+
+      <!-- Step 4: Simulation -->
+      <h3 class="math-h3">§&thinsp;5 — Closed-Loop Simulation</h3>
+      <p class="math-p">
+        The closed-loop difference equation
+        \(\mathbf{X}[k+1] = G\,\mathbf{X}[k] + H\,u[k]\), \(u[k] = -K\,\mathbf{X}[k]\)
+        is iterated for \(T_\text{total} = 3\) s starting from an initial tilt of
+        \(\theta_0 = 10^\circ\) with all other states at zero:
+      </p>
+      <div class="code-block" style="margin-bottom:1.8rem;">
+        <pre>T_total = 3;                         % Simulation duration [s]
+N       = T_total / Ts;              % Number of steps
+
+initial_angle = (pi/180) * 10;       % 10 deg initial tilt
+X = [0;  0;  initial_angle;  0];     % Initial state vector
+
+for k = 1:N
+    u          = -K * X(:,k);        % LQR control law
+    X(:,k+1)  = G * X(:,k) + H * u; % Discrete state update
+end</pre>
+      </div>
+      <p class="math-p" style="margin-bottom:2rem;">
+        All four states converge to zero within approximately <strong>2&ndash;3 seconds</strong>, confirming
+        that the LQR design successfully stabilises the inverted-pendulum dynamics from a 10&deg; initial tilt.
+        The absence of steady-state error in angle and velocity demonstrates the effectiveness of the chosen
+        \(Q\) and \(R\) weights.
+      </p>
+
+      <!-- 2x2 image grid of state responses -->
+      <div class="sim-grid">
+        <div class="sim-card">
+          <img src="../static/Projects/SelfBalanceRobot/RespuestaX1.png"
+            alt="Closed-loop response — x1: Linear position [m]" loading="lazy">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            \(x_1\) &mdash; Linear Position [m]
+          </p>
+        </div>
+        <div class="sim-card">
+          <img src="../static/Projects/SelfBalanceRobot/RespuestaX2.png"
+            alt="Closed-loop response — x2: Linear velocity [m/s]" loading="lazy">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            \(x_2\) &mdash; Linear Velocity [m/s]
+          </p>
+        </div>
+        <div class="sim-card">
+          <img src="../static/Projects/SelfBalanceRobot/RespuestaX3.png"
+            alt="Closed-loop response — x3: Pitch angle [rad]" loading="lazy">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            \(x_3\) &mdash; Pitch Angle [rad]
+          </p>
+        </div>
+        <div class="sim-card">
+          <img src="../static/Projects/SelfBalanceRobot/RespuestaX4.png"
+            alt="Closed-loop response — x4: Pitch angular rate [rad/s]" loading="lazy">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            \(x_4\) &mdash; Pitch Angular Rate [rad/s]
+          </p>
+        </div>
+      </div>
+
     </div>
   </section>
 
