@@ -816,61 +816,34 @@
         <table class="proj-table">
           <thead>
             <tr>
-              <th>Module</th>
-              <th>File</th>
+              <th>Layer</th>
               <th>Responsibility</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Simulation entry point</strong></td>
-              <td><code>main.py</code></td>
-              <td>PyGame loop, rendering, HUD, Pause/Resume UI</td>
+              <td><strong>Sensing</strong></td>
+              <td>Simulates GPS position, IMU heading and a cone-shaped ultrasonic proximity sensor; aggregates all readings each frame</td>
             </tr>
             <tr>
-              <td><strong>Path Planner</strong></td>
-              <td><code>RRT_Search.py</code></td>
-              <td>RRT node tree, random sampling, steering, path filtering</td>
+              <td><strong>Estimation</strong></td>
+              <td>Kalman Filter (x, y, vx, vy) fuses GPS and IMU data with a constant-velocity model to produce a smooth, noise-reduced state estimate</td>
             </tr>
             <tr>
-              <td><strong>High-Level Controller</strong></td>
-              <td><code>Control.py</code></td>
-              <td>Waypoint tracking, obstacle proximity, replan trigger</td>
+              <td><strong>Planning</strong></td>
+              <td>RRT incrementally builds a random tree from the robot's position to the goal; extracts and smooths the collision-free path</td>
             </tr>
             <tr>
-              <td><strong>PID Controller</strong></td>
-              <td><code>PIDController.py</code></td>
-              <td>Heading error &rarr; differential wheel speed commands</td>
+              <td><strong>Control</strong></td>
+              <td>High-level controller tracks waypoints and triggers replanning on obstacle proximity; PID translates heading error into differential wheel speeds</td>
             </tr>
             <tr>
-              <td><strong>State Estimator</strong></td>
-              <td><code>KalmanFilter.py</code></td>
-              <td>Constant-velocity predict + GPS/IMU update fusing</td>
+              <td><strong>Mapping</strong></td>
+              <td>Builds a live occupancy grid from ultrasonic detections; provides collision-check queries to the planner</td>
             </tr>
             <tr>
-              <td><strong>Sensors</strong></td>
-              <td><code>SensorModules.py</code></td>
-              <td>GPS, IMU and cone-shaped ultrasonic sensor simulation</td>
-            </tr>
-            <tr>
-              <td><strong>Occupancy Map</strong></td>
-              <td><code>Mapping.py</code></td>
-              <td>Records obstacle detections; path-comparison utilities</td>
-            </tr>
-            <tr>
-              <td><strong>Obstacle Layouts</strong></td>
-              <td><code>Obstacles.py</code></td>
-              <td>4 swappable hallway / corridor / open-field definitions</td>
-            </tr>
-            <tr>
-              <td><strong>Trail Renderer</strong></td>
-              <td><code>Lines.py</code></td>
-              <td>Draws GPS trace, Kalman estimate trace, RRT path dots</td>
-            </tr>
-            <tr>
-              <td><strong>Motor Driver</strong></td>
-              <td><code>WheelMotorDrivers.py</code></td>
-              <td>Applies wheel speeds to Pymunk body; Pico GPIO stubs</td>
+              <td><strong>Actuation &amp; Rendering</strong></td>
+              <td>Applies wheel speeds to the Pymunk physics body; renders the simulation canvas, HUD, and motion traces in real time</td>
             </tr>
           </tbody>
         </table>
@@ -880,18 +853,18 @@
       <div class="arch-flow">
         <p class="arch-flow-title">Data flow &mdash; each simulation frame</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>1. Sense</strong> &mdash; <code>UARTReceiver</code> pulls fresh GPS coordinates, IMU angle &amp;
-          ultrasonic distance &nbsp;&middot;&nbsp;
-          <strong>2. Estimate</strong> &mdash; <code>KalmanFilter</code> predicts &amp; updates the state
+          <strong>1. Sense</strong> &mdash; fresh GPS position, IMU heading and ultrasonic distance are read
           &nbsp;&middot;&nbsp;
-          <strong>3. React</strong> &mdash; <code>Controller</code> checks proximity &rarr; backward motion +
-          replan if needed &nbsp;&middot;&nbsp;
-          <strong>4. Plan</strong> &mdash; <code>RRT_Search</code> generates a collision-free path from current
-          position to goal &nbsp;&middot;&nbsp;
-          <strong>5. Control</strong> &mdash; <code>PIDController</code> computes left/right speeds toward next
-          waypoint &nbsp;&middot;&nbsp;
-          <strong>6. Act</strong> &mdash; <code>WheelMotorDrivers</code> applies commands to the Pymunk body &nbsp;&middot;&nbsp;
-          <strong>7. Map</strong> &mdash; <code>Mapping</code> records new detections into the occupancy grid
+          <strong>2. Estimate</strong> &mdash; Kalman Filter predicts and updates the fused state
+          &nbsp;&middot;&nbsp;
+          <strong>3. React</strong> &mdash; the controller checks obstacle proximity and triggers backward
+          motion + replanning if needed &nbsp;&middot;&nbsp;
+          <strong>4. Plan</strong> &mdash; RRT generates a new collision-free path from the current position
+          to the goal &nbsp;&middot;&nbsp;
+          <strong>5. Control</strong> &mdash; the PID heading controller computes left/right wheel speeds
+          toward the next waypoint &nbsp;&middot;&nbsp;
+          <strong>6. Act</strong> &mdash; wheel speeds are applied to the physics body &nbsp;&middot;&nbsp;
+          <strong>7. Map</strong> &mdash; new obstacle detections are recorded into the occupancy grid
         </p>
       </div>
     </div>
