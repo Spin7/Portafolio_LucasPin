@@ -1038,132 +1038,55 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       CONFIGURATION & MAP LAYOUTS
+       DEMO
        ══════════════════════════════════════ -->
   <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">Configuration &amp; Map Layouts</span>
+        <span class="section-label-text">Demo</span>
         <span class="section-label-line"></span>
       </div>
 
-      <p class="section-intro">
-        Key simulation parameters are set in <code>main.py</code> and the individual module constructors.
-        All values can be tuned without touching the algorithm logic &mdash; making experimentation fast.
-      </p>
-
-      <!-- Parameters table -->
-      <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
-        <table class="proj-table">
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Location</th>
-              <th>Default</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>destination</code></td>
-              <td><code>main.py</code></td>
-              <td><code>(61, 37)</code></td>
-              <td>Goal position in grid units</td>
-            </tr>
-            <tr>
-              <td><code>tile_size</code></td>
-              <td><code>main.py</code></td>
-              <td><code>10 px</code></td>
-              <td>Grid cell size (pixels per unit)</td>
-            </tr>
-            <tr>
-              <td><code>MAP_WIDTH / HEIGHT</code></td>
-              <td><code>main.py</code></td>
-              <td><code>800 &times; 600</code></td>
-              <td>Simulation canvas resolution</td>
-            </tr>
-            <tr>
-              <td><code>max_iterations</code></td>
-              <td><code>RRT_Search.py</code></td>
-              <td><code>3 000</code></td>
-              <td>Maximum RRT tree expansion steps</td>
-            </tr>
-            <tr>
-              <td><code>distance_at_node</code></td>
-              <td><code>Control.py</code></td>
-              <td><code>2</code></td>
-              <td>RRT step size in grid units</td>
-            </tr>
-            <tr>
-              <td><code>process_variance</code></td>
-              <td><code>KalmanFilter.py</code></td>
-              <td><code>1e-4</code></td>
-              <td>Kalman process noise (model confidence)</td>
-            </tr>
-            <tr>
-              <td><code>measurement_variance_gps</code></td>
-              <td><code>KalmanFilter.py</code></td>
-              <td><code>1e-2</code></td>
-              <td>GPS sensor noise covariance</td>
-            </tr>
-            <tr>
-              <td><code>measurement_variance_imu</code></td>
-              <td><code>KalmanFilter.py</code></td>
-              <td><code>1e-2</code></td>
-              <td>IMU sensor noise covariance</td>
-            </tr>
-            <tr>
-              <td><code>Obstacle layout</code></td>
-              <td><code>Obstacles.py</code></td>
-              <td><code>hallway_obstacles</code></td>
-              <td>Swap for <code>obstacles1</code>, <code>obstacles2</code>, <code>obstacles3</code></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Map layouts table -->
-      <div class="proj-table-wrap" style="margin-bottom:2rem;">
-        <table class="proj-table">
-          <thead>
-            <tr>
-              <th>Function</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>hallway_obstacles</code> <em>(default)</em></td>
-              <td>Hallway map with horizontal/vertical walls and multiple doorway gaps</td>
-            </tr>
-            <tr>
-              <td><code>obstacles1</code></td>
-              <td>L-shaped corridors with horizontal barriers</td>
-            </tr>
-            <tr>
-              <td><code>obstacles2</code></td>
-              <td>Empty map &mdash; no obstacles (useful for verifying pure RRT + PID behavior)</td>
-            </tr>
-            <tr>
-              <td><code>obstacles3</code></td>
-              <td>Sparse walls &mdash; good for testing open-field RRT performance</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Hardware deployment callout -->
-      <div class="arch-flow">
-        <p class="arch-flow-title">Hardware Deployment &mdash; Raspberry Pi Pico</p>
-        <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          The codebase is structured for real-hardware portability. Both <code>WheelMotorDrivers.py</code> and
-          <code>UARTReceiver.py</code> contain commented-out <strong>MicroPython</strong> blocks for Raspberry Pi Pico
-          GPIO control via an <strong>L298N motor driver</strong> (PWM pins). To deploy:
-          (1)&nbsp;uncomment the <code>from machine import Pin</code> block in <code>WheelMotorDrivers.py</code>,
-          (2)&nbsp;implement real UART reads in <code>UARTReceiver.py</code>'s <code>refresh_data()</code> method, and
-          (3)&nbsp;replace sensor simulation calls with actual hardware reads in <code>SensorModules.py</code>.
-        </p>
+      <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/gurtF5G5MJY" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/gurtF5G5MJY/hqdefault.jpg"
+              alt="DifferentialBot RRT Simulator — Full Simulation Demo" loading="lazy">
+            <span class="video-part-badge">Full Demo</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#ff0000" />
+                <path d="M45 24L27 14v20" fill="#fff" />
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">DifferentialBot RRT Simulator &mdash; Full Simulation Demo</p>
+            <p class="video-card-desc">
+              Full simulation run: the robot builds an RRT path from start to goal through a hallway map,
+              follows waypoints using bang-bang heading control, detects obstacles with its ultrasonic sensor,
+              backs up and replans automatically &mdash; with GPS, Kalman-filtered, and RRT traces all rendered live.
+            </p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">Python</span>
+              <span class="video-card-tag">PyGame</span>
+              <span class="video-card-tag">Pymunk</span>
+              <span class="video-card-tag">RRT</span>
+              <span class="video-card-tag">Kalman Filter</span>
+              <span class="video-card-tag">Differential Drive</span>
+            </div>
+            <a href="https://youtu.be/gurtF5G5MJY" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+              </svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
       </div>
 
     </div>
