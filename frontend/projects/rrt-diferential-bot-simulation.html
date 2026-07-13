@@ -24,6 +24,19 @@
       --acc1-light: #ecfeff;
     }
 
+    /* ── MOBILE HORIZONTAL SCROLL FIX ──
+       The architecture diagram SVG below uses a drop-shadow filter that
+       bleeds a few px past its viewBox on the right edge. With
+       overflow:visible on the <svg>, that bleed was expanding the page's
+       scrollable width on mobile. html/body get overflow-x:hidden as a
+       safety net so no element (this one or a future one) can ever push
+       the page sideways again. */
+    html,
+    body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
     /* ── HERO ── */
     .proj-hero {
       padding-top: 24px;
@@ -964,7 +977,7 @@
         <div class="arch-diagram">
           <p class="arch-diagram-title">System Architecture</p>
           <svg viewBox="0 0 550 490" xmlns="http://www.w3.org/2000/svg"
-            style="width:100%;max-width:540px;display:block;margin:0 auto;overflow:visible;"
+            style="width:100%;max-width:540px;display:block;margin:0 auto;overflow:hidden;"
             font-family="Inter, system-ui, sans-serif">
             <defs>
               <!-- Arrowhead marker -->
