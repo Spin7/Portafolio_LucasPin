@@ -730,7 +730,7 @@
           <strong>occupancy map</strong>, and navigates using a path computed by the
           <strong>Rapidly-exploring Random Tree (RRT)</strong> algorithm.
           A <strong>Kalman Filter</strong> fuses GPS and IMU readings into a smooth state estimate, and a
-          <strong>heading-based PID controller</strong> translates each waypoint into precise left/right
+          <strong>bang-bang heading controller</strong> translates each waypoint into precise left/right
           wheel speed commands. When the robot senses a close obstacle it backs up and triggers an
           automatic <strong>path replan</strong> &mdash; closing the full sense&ndash;plan&ndash;act loop.
           The code is structured for hardware portability, with commented-out
@@ -743,7 +743,7 @@
           <span class="pill">NumPy</span>
           <span class="pill">RRT</span>
           <span class="pill">Kalman Filter</span>
-          <span class="pill">PID Control</span>
+          <span class="pill">Bang-Bang Control</span>
           <span class="pill">Differential Drive</span>
           <span class="pill">Occupancy Mapping</span>
           <span class="pill">MicroPython</span>
