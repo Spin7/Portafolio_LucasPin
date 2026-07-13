@@ -725,7 +725,7 @@
         <h2 class="proj-section-heading">Overview</h2>
         <p class="proj-overview">
           A complete <strong>end-to-end pipeline</strong> for <strong>real-time vehicle license plate
-          detection and OCR</strong> using <strong>YOLOv8</strong> (exported to ONNX) and
+            detection and OCR</strong> using <strong>YOLOv8</strong> (exported to ONNX) and
           <strong>EasyOCR</strong>, designed to run on CPU or CUDA without requiring PyTorch at
           inference time. Each plate crop is preprocessed into <strong>4 image variants</strong>
           and read with weighted voting and a position-aware correction step that enforces the
@@ -749,10 +749,7 @@
             <i class="fab fa-github"></i>
             GitHub &rarr;
           </a>
-          <a href="https://youtu.be/le9dOvcr2To" target="_blank" class="btn-outline" style="margin-left:0.5rem;">
-            <i class="fab fa-youtube"></i>
-            Demo Video &rarr;
-          </a>
+
         </div>
         <div class="proj-meta-grid">
           <div class="proj-meta-item">
@@ -834,17 +831,20 @@
             <tr>
               <td><strong>OCR</strong></td>
               <td>EasyOCR &middot; <code>ocr_engine.py</code></td>
-              <td>4 grayscale variants (2&times; upscale) &rarr; weighted vote + 7-char length bonus &rarr; <code>fix_plate_by_position</code></td>
+              <td>4 grayscale variants (2&times; upscale) &rarr; weighted vote + 7-char length bonus &rarr;
+                <code>fix_plate_by_position</code></td>
             </tr>
             <tr>
               <td><strong>Tracking</strong></td>
               <td>Centroid matching &middot; <code>tracker.py</code></td>
-              <td>Dynamic radius association &rarr; deque history &rarr; majority vote &rarr; ghost tracks with fade-out</td>
+              <td>Dynamic radius association &rarr; deque history &rarr; majority vote &rarr; ghost tracks with fade-out
+              </td>
             </tr>
             <tr>
               <td><strong>Format correction</strong></td>
               <td>Position-aware maps &middot; LLLLNNN</td>
-              <td>Letter positions: <code>0&rarr;O  1&rarr;I  5&rarr;S</code> &nbsp;&middot;&nbsp; Digit positions: <code>O&rarr;0  I&rarr;1  Z&rarr;2</code></td>
+              <td>Letter positions: <code>0&rarr;O  1&rarr;I  5&rarr;S</code> &nbsp;&middot;&nbsp; Digit positions:
+                <code>O&rarr;0  I&rarr;1  Z&rarr;2</code></td>
             </tr>
             <tr>
               <td><strong>Training</strong></td>
@@ -859,11 +859,16 @@
       <div class="arch-flow">
         <p class="arch-flow-title">Inference pipeline &mdash; video mode</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>Frame in</strong> &mdash; <code>PlateDetector.detect(frame_bgr)</code> &rarr; xyxy boxes &nbsp;&middot;&nbsp;
-          <strong>Crop</strong> &mdash; <code>make_high_quality_crop</code> + <code>rectify_plate</code> &nbsp;&middot;&nbsp;
-          <strong>OCR</strong> &mdash; 4 variants &rarr; EasyOCR &rarr; weighted vote &rarr; <code>fix_plate_by_position</code> &nbsp;&middot;&nbsp;
-          <strong>Track</strong> &mdash; centroid match &rarr; majority vote &rarr; ghost coast &nbsp;&middot;&nbsp;
-          <strong>Render</strong> &mdash; annotated video | separator | plate panel + title bar &rarr; saved to <code>output/</code>
+          <strong>Detect</strong> &mdash; each frame is fed to the ONNX detector, which returns bounding boxes around
+          any visible plate &nbsp;&middot;&nbsp;
+          <strong>Crop &amp; rectify</strong> &mdash; each plate region is extracted with a quality margin and
+          perspective-corrected &nbsp;&middot;&nbsp;
+          <strong>OCR</strong> &mdash; four preprocessed variants are read in parallel and the best text is selected by
+          weighted vote &nbsp;&middot;&nbsp;
+          <strong>Track</strong> &mdash; plates are matched across frames by centroid proximity; confirmed text is
+          locked in by majority vote and kept visible during brief disappearances &nbsp;&middot;&nbsp;
+          <strong>Render</strong> &mdash; annotated video and a live plate panel are composited side-by-side and written
+          to disk
         </p>
       </div>
     </div>
