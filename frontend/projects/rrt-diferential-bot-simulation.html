@@ -886,44 +886,52 @@
         <div class="design-text">
           <h3>RRT &mdash; Rapidly-exploring Random Tree</h3>
           <p>
-            The planner incrementally builds a tree rooted at the robot's current grid position.
-            At each iteration it samples a random point in map space, finds the nearest existing
-            node, and steers toward it by <code>distance_at_node</code> grid units.
-            A new node is added only if the segment is collision-free (not in
-            <code>Map.obstacles_coordinates</code>).
-            Once a node lands within 2 grid units of the goal, the path is extracted by traversing
-            parent pointers back to the root &mdash; then smoothed before being handed to the controller.
+            RRT is a sampling-based algorithm designed to efficiently explore high-dimensional
+            configuration spaces. Starting from the robot's current position, the planner grows a
+            tree by iteratively sampling random points in the map, finding the nearest tree node,
+            and extending toward the sample by a fixed step size. A new node is added only when
+            the connecting segment does not cross any known obstacle. Once a node falls within
+            reach of the goal, the path is reconstructed by tracing parent pointers back to the
+            root and then smoothed before being passed to the controller.
           </p>
           <ul>
-            <li><strong>Max iterations</strong> &mdash; 3 000 (configurable in <code>RRT_Search.py</code>)</li>
-            <li><strong>Step size</strong> &mdash; 2 grid units &asymp; 20 px (set in <code>Control.py</code>)</li>
-            <li><strong>Replanning</strong> &mdash; triggered automatically when the ultrasonic sensor
-              detects an obstacle closer than the threshold</li>
-            <li><strong>Collision check</strong> &mdash; queries the live occupancy map so the planner
-              respects obstacles discovered at runtime</li>
+            <li><strong>Probabilistically complete</strong> &mdash; given enough iterations the planner is guaranteed to find a path if one exists</li>
+            <li><strong>Fixed step size</strong> &mdash; controls the trade-off between exploration speed and path smoothness</li>
+            <li><strong>Dynamic replanning</strong> &mdash; a new tree is generated on-the-fly whenever an obstacle is detected in the robot's path</li>
+            <li><strong>Occupancy-aware</strong> &mdash; collision checks query the live obstacle map, so the planner adapts to obstacles discovered at runtime</li>
           </ul>
 
-          <h3>Kalman Filter &mdash; Sensor Fusion</h3>
+          <h3>Sensor Simulation &amp; Kalman Fusion</h3>
           <p>
-            A 4-state Kalman Filter (<em>x, y, vx, vy</em>) runs every frame using a
-            constant-velocity motion model. The predict step propagates the state forward;
-            the update step fuses GPS (position) and IMU (velocity/angle) measurements with
-            separate, tunable noise covariances. The filtered estimate is used by the controller
-            and rendered as a second trail on screen for visual comparison against raw GPS.
+            Three sensor models run in parallel each frame: a <strong>GPS</strong> that returns
+            the robot's grid position with additive noise, an <strong>IMU</strong> that reports
+            the heading angle, and a <strong>cone-shaped ultrasonic sensor</strong> that measures
+            proximity to obstacles within a forward-facing detection arc.
+            Raw GPS and IMU readings are fed into a <strong>Kalman Filter</strong> with a
+            4-state vector (<em>x, y, vx, vy</em>) and a constant-velocity motion model.
+            The predict step propagates the state forward between measurements; the update step
+            fuses both sensors using separate, tunable noise covariances. The resulting
+            smooth estimate is what the controller actually tracks, while both the raw GPS
+            trace and the filtered trace are rendered on screen for direct comparison.
           </p>
           <ul>
-            <li><strong>Process variance</strong> &mdash; <code>1e-4</code> (model confidence)</li>
-            <li><strong>GPS measurement variance</strong> &mdash; <code>1e-2</code></li>
-            <li><strong>IMU measurement variance</strong> &mdash; <code>1e-2</code></li>
+            <li><strong>GPS</strong> &mdash; noisy position fix, high measurement variance</li>
+            <li><strong>IMU</strong> &mdash; heading rate integrated each frame</li>
+            <li><strong>Ultrasonic</strong> &mdash; cone-shaped proximity detection triggers obstacle avoidance and replanning</li>
+            <li><strong>Kalman Filter</strong> &mdash; produces a smooth, lag-free state estimate used by the controller</li>
           </ul>
 
-          <h3>PID Heading Controller</h3>
+          <h3>Control for a Differential-Drive Robot</h3>
           <p>
-            The controller computes the <code>atan2</code> angle to the next RRT waypoint and
-            compares it with the robot's current heading. The error drives a bang-bang + full-speed
-            strategy: if error &gt; &pi;/15 rad the robot spins left; if error &lt; &minus;&pi;/15 rad
-            it spins right; otherwise it drives straight at full speed.
-            This keeps the robot tightly aligned to each waypoint without oscillation in the physics engine.
+            A differential-drive robot steers exclusively by varying the speed of its two
+            independent wheels &mdash; spinning them at different rates produces any turning
+            radius, including an in-place rotation. The controller converts each RRT waypoint
+            into a target heading angle and compares it against the robot's current orientation.
+            Depending on the angular error, it commands the wheels to spin in opposite
+            directions (turning) or at equal speeds (driving straight), following the waypoint
+            sequence until the goal is reached. This design maps naturally onto real hardware
+            such as an L298N dual motor driver, making the simulation directly portable to a
+            physical platform.
           </p>
         </div>
         <div class="design-img-col">
@@ -941,32 +949,77 @@
       </div>
 
       <!-- Architecture diagram -->
-      <div class="arch-flow" style="margin-bottom:2rem;">
-        <p class="arch-flow-title">System Architecture</p>
-        <div style="overflow-x:auto;">
-          <pre style="font-family:'Fira Code','Courier New',monospace;font-size:0.77rem;color:var(--text);line-height:1.7;margin:0;">
-&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;     GPS + IMU     &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-&#x2502; SensorModules&#x2502; &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BA; &#x2502;  KalmanFilter   &#x2502;
-&#x2502;  GPS / IMU   &#x2502;                   &#x2502;  (x,y,vx,vy)    &#x2502;
-&#x2502;  Ultrasonic  &#x2502;                   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;                            &#x2502; fused state
-       &#x2502; distance to obstacle               &#x25BC;
-       &#x2502;                          &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-       &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BA;&#x2502;    Controller    &#x2502;
-                                  &#x2502;  (Control.py)    &#x2502;
-                                  &#x2502;  &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;  &#x2502;
-                                  &#x2502;  &#x2502; RRT Search &#x2502;  &#x2502;
-                                  &#x2502;  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;  &#x2502;
-                                  &#x2502;  &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;  &#x2502;
-                                  &#x2502;  &#x2502;    PID     &#x2502;  &#x2502;
-                                  &#x2502;  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;  &#x2502;
-                                  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
-                                           &#x2502; wheel speeds
-                                           &#x25BC;
-                                  &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
-                                  &#x2502; WheelMotorDrivers&#x2502;
-                                  &#x2502;  Bot (Pymunk)    &#x2502;
-                                  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+      <div style="margin-bottom:2rem;">
+        <p class="arch-flow-title" style="text-align:center;padding:0 0 1.2rem;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--text);">System Architecture</p>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+
+          <!-- Sensors row -->
+          <div style="display:flex;align-items:flex-start;gap:2rem;">
+            <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.7rem 1.2rem;text-align:center;min-width:140px;">
+              <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Sensors</div>
+              <div style="font-size:0.78rem;color:var(--dark);line-height:1.5;">GPS &nbsp;·&nbsp; IMU<br>Ultrasonic</div>
+            </div>
+            <!-- Arrow right -->
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:1.4rem;gap:0.1rem;">
+              <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;">GPS + IMU</div>
+              <div style="display:flex;align-items:center;gap:0;">
+                <div style="width:60px;height:2px;background:var(--primary);"></div>
+                <div style="width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid var(--primary);"></div>
+              </div>
+            </div>
+            <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.7rem 1.2rem;text-align:center;min-width:140px;">
+              <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">State Estimator</div>
+              <div style="font-size:0.78rem;color:var(--dark);line-height:1.5;">Kalman Filter<br><em style="font-size:0.72rem;color:var(--text);">x, y, vx, vy</em></div>
+            </div>
+          </div>
+
+          <!-- Down arrows from Sensors and Estimator -->
+          <div style="display:flex;align-items:flex-start;gap:2rem;">
+            <!-- Obstacle arrow from Sensors -->
+            <div style="display:flex;flex-direction:column;align-items:center;min-width:140px;padding-top:0;">
+              <div style="width:2px;height:32px;background:var(--primary);"></div>
+              <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;margin-bottom:2px;">obstacle dist.</div>
+            </div>
+            <!-- Spacer for arrow label -->
+            <div style="min-width:calc(60px + 8px + 2rem);"></div>
+            <!-- Fused state arrow from Estimator -->
+            <div style="display:flex;flex-direction:column;align-items:center;min-width:140px;">
+              <div style="width:2px;height:18px;background:var(--primary);"></div>
+              <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;">fused state</div>
+              <div style="width:2px;height:18px;background:var(--primary);"></div>
+            </div>
+          </div>
+
+          <!-- Controller box centred between the two input arrows -->
+          <div style="display:flex;align-items:center;gap:0;">
+            <!-- Horizontal arrow from sensor column -->
+            <div style="display:flex;align-items:center;">
+              <div style="width:80px;height:2px;background:var(--primary);"></div>
+              <div style="width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid var(--primary);"></div>
+            </div>
+            <!-- Controller box -->
+            <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.8rem 1.2rem;text-align:center;min-width:180px;">
+              <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Controller</div>
+              <div style="display:flex;gap:0.5rem;justify-content:center;">
+                <div style="background:var(--primary-light);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.72rem;font-weight:700;color:var(--primary);">RRT Planner</div>
+                <div style="background:var(--primary-light);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.72rem;font-weight:700;color:var(--primary);">Heading Control</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Down arrow to Actuation -->
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:2px;height:18px;background:var(--primary);"></div>
+            <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;">wheel speeds</div>
+            <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid var(--primary);"></div>
+          </div>
+
+          <!-- Actuation box -->
+          <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.7rem 1.2rem;text-align:center;min-width:180px;">
+            <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Actuation</div>
+            <div style="font-size:0.78rem;color:var(--dark);">Differential-Drive Bot<br><em style="font-size:0.72rem;color:var(--text);">Pymunk physics body</em></div>
+          </div>
+
         </div>
       </div>
 
