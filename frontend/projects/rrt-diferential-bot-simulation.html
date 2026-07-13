@@ -713,7 +713,7 @@
         <span class="proj-category-tag">Robotics &middot; Path Planning &middot; Simulation</span>
         <h1 class="proj-title">DifferentialBot RRT Simulator</h1>
         <div class="proj-status-row">
-          <span class="project-status project-status--done">Year: 2026</span>
+          <span class="project-status project-status--done">Year: 2023</span>
         </div>
         <div class="proj-cover">
           <img src="../static/Projects/RRTsimulation/Sim_initial_path.png"
@@ -749,8 +749,7 @@
           <span class="pill">MicroPython</span>
         </div>
         <div class="proj-links-block">
-          <a href="https://github.com/Spin7/DifferentialBot-RRT-Simulator" target="_blank"
-            class="btn-outline">
+          <a href="https://github.com/Spin7/DifferentialBot-RRT-Simulator" target="_blank" class="btn-outline">
             <i class="fab fa-github"></i>
             GitHub &rarr;
           </a>
@@ -762,7 +761,7 @@
           </div>
           <div class="proj-meta-item">
             <span class="proj-meta-label">Context</span>
-            <span class="proj-meta-val">Mobile Robotics &middot; Faculty of Engineering</span>
+            <span class="proj-meta-val">Project 3 &middot; Faculty of Engineering</span>
           </div>
           <div class="proj-meta-item">
             <span class="proj-meta-label">Planner</span>
@@ -823,27 +822,33 @@
           <tbody>
             <tr>
               <td><strong>Sensing</strong></td>
-              <td>Simulates GPS position, IMU heading and a cone-shaped ultrasonic proximity sensor; aggregates all readings each frame</td>
+              <td>Simulates GPS position, IMU heading and a cone-shaped ultrasonic proximity sensor; aggregates all
+                readings each frame</td>
             </tr>
             <tr>
               <td><strong>Estimation</strong></td>
-              <td>Kalman Filter (x, y, vx, vy) fuses GPS and IMU data with a constant-velocity model to produce a smooth, noise-reduced state estimate</td>
+              <td>Kalman Filter (x, y, vx, vy) fuses GPS and IMU data with a constant-velocity model to produce a
+                smooth, noise-reduced state estimate</td>
             </tr>
             <tr>
               <td><strong>Planning</strong></td>
-              <td>RRT incrementally builds a random tree from the robot's position to the goal; extracts and smooths the collision-free path</td>
+              <td>RRT incrementally builds a random tree from the robot's position to the goal; extracts and smooths the
+                collision-free path</td>
             </tr>
             <tr>
               <td><strong>Control</strong></td>
-              <td>High-level controller tracks waypoints and triggers replanning on obstacle proximity; PID translates heading error into differential wheel speeds</td>
+              <td>High-level controller tracks waypoints and triggers replanning on obstacle proximity; PID translates
+                heading error into differential wheel speeds</td>
             </tr>
             <tr>
               <td><strong>Mapping</strong></td>
-              <td>Builds a live occupancy grid from ultrasonic detections; provides collision-check queries to the planner</td>
+              <td>Builds a live occupancy grid from ultrasonic detections; provides collision-check queries to the
+                planner</td>
             </tr>
             <tr>
               <td><strong>Actuation &amp; Rendering</strong></td>
-              <td>Applies wheel speeds to the Pymunk physics body; renders the simulation canvas, HUD, and motion traces in real time</td>
+              <td>Applies wheel speeds to the Pymunk physics body; renders the simulation canvas, HUD, and motion traces
+                in real time</td>
             </tr>
           </tbody>
         </table>
@@ -895,10 +900,14 @@
             root and then smoothed before being passed to the controller.
           </p>
           <ul>
-            <li><strong>Probabilistically complete</strong> &mdash; given enough iterations the planner is guaranteed to find a path if one exists</li>
-            <li><strong>Fixed step size</strong> &mdash; controls the trade-off between exploration speed and path smoothness</li>
-            <li><strong>Dynamic replanning</strong> &mdash; a new tree is generated on-the-fly whenever an obstacle is detected in the robot's path</li>
-            <li><strong>Occupancy-aware</strong> &mdash; collision checks query the live obstacle map, so the planner adapts to obstacles discovered at runtime</li>
+            <li><strong>Probabilistically complete</strong> &mdash; given enough iterations the planner is guaranteed to
+              find a path if one exists</li>
+            <li><strong>Fixed step size</strong> &mdash; controls the trade-off between exploration speed and path
+              smoothness</li>
+            <li><strong>Dynamic replanning</strong> &mdash; a new tree is generated on-the-fly whenever an obstacle is
+              detected in the robot's path</li>
+            <li><strong>Occupancy-aware</strong> &mdash; collision checks query the live obstacle map, so the planner
+              adapts to obstacles discovered at runtime</li>
           </ul>
 
           <h3>Sensor Simulation &amp; Kalman Fusion</h3>
@@ -917,8 +926,10 @@
           <ul>
             <li><strong>GPS</strong> &mdash; noisy position fix, high measurement variance</li>
             <li><strong>IMU</strong> &mdash; heading rate integrated each frame</li>
-            <li><strong>Ultrasonic</strong> &mdash; cone-shaped proximity detection triggers obstacle avoidance and replanning</li>
-            <li><strong>Kalman Filter</strong> &mdash; produces a smooth, lag-free state estimate used by the controller</li>
+            <li><strong>Ultrasonic</strong> &mdash; cone-shaped proximity detection triggers obstacle avoidance and
+              replanning</li>
+            <li><strong>Kalman Filter</strong> &mdash; produces a smooth, lag-free state estimate used by the controller
+            </li>
           </ul>
 
           <h3>Control for a Differential-Drive Robot</h3>
@@ -953,82 +964,101 @@
         <div class="arch-diagram">
           <p class="arch-diagram-title">System Architecture</p>
           <svg viewBox="0 0 550 490" xmlns="http://www.w3.org/2000/svg"
-               style="width:100%;max-width:540px;display:block;margin:0 auto;overflow:visible;"
-               font-family="Inter, system-ui, sans-serif">
+            style="width:100%;max-width:540px;display:block;margin:0 auto;overflow:visible;"
+            font-family="Inter, system-ui, sans-serif">
             <defs>
               <!-- Arrowhead marker -->
               <marker id="ah" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
-                <polygon points="0 0, 9 3.5, 0 7" fill="#0a2850"/>
+                <polygon points="0 0, 9 3.5, 0 7" fill="#0a2850" />
               </marker>
               <!-- Drop shadow -->
               <filter id="bsh" x="-10%" y="-10%" width="125%" height="135%">
-                <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0a2850" flood-opacity="0.09"/>
+                <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0a2850" flood-opacity="0.09" />
               </filter>
               <!-- ClipPaths for tinted header strips -->
-              <clipPath id="cp-s"><rect x="20" y="15" width="205" height="95" rx="12"/></clipPath>
-              <clipPath id="cp-se"><rect x="320" y="15" width="215" height="95" rx="12"/></clipPath>
-              <clipPath id="cp-c"><rect x="320" y="230" width="215" height="105" rx="12"/></clipPath>
-              <clipPath id="cp-a"><rect x="320" y="400" width="215" height="88" rx="12"/></clipPath>
+              <clipPath id="cp-s">
+                <rect x="20" y="15" width="205" height="95" rx="12" />
+              </clipPath>
+              <clipPath id="cp-se">
+                <rect x="320" y="15" width="215" height="95" rx="12" />
+              </clipPath>
+              <clipPath id="cp-c">
+                <rect x="320" y="230" width="215" height="105" rx="12" />
+              </clipPath>
+              <clipPath id="cp-a">
+                <rect x="320" y="400" width="215" height="88" rx="12" />
+              </clipPath>
             </defs>
 
             <!-- ╔══ SENSORS ══╗ -->
             <g filter="url(#bsh)">
-              <rect x="20" y="15" width="205" height="95" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2"/>
+              <rect x="20" y="15" width="205" height="95" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
             </g>
-            <rect x="20" y="15" width="205" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-s)"/>
-            <line x1="20" y1="53" x2="225" y2="53" stroke="rgba(10,40,80,0.18)" stroke-width="1"/>
-            <text x="122" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850" letter-spacing="1.8">SENSORS</text>
+            <rect x="20" y="15" width="205" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-s)" />
+            <line x1="20" y1="53" x2="225" y2="53" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
+            <text x="122" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
+              letter-spacing="1.8">SENSORS</text>
             <text x="122" y="72" text-anchor="middle" font-size="12.5" fill="#1e293b">GPS &amp; IMU</text>
             <text x="122" y="90" text-anchor="middle" font-size="12.5" fill="#1e293b">Ultrasonic</text>
 
             <!-- ╔══ STATE ESTIMATOR ══╗ -->
             <g filter="url(#bsh)">
-              <rect x="320" y="15" width="215" height="95" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2"/>
+              <rect x="320" y="15" width="215" height="95" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
             </g>
-            <rect x="320" y="15" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-se)"/>
-            <line x1="320" y1="53" x2="535" y2="53" stroke="rgba(10,40,80,0.18)" stroke-width="1"/>
-            <text x="427" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850" letter-spacing="1.8">STATE ESTIMATOR</text>
+            <rect x="320" y="15" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-se)" />
+            <line x1="320" y1="53" x2="535" y2="53" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
+            <text x="427" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
+              letter-spacing="1.8">STATE ESTIMATOR</text>
             <text x="427" y="72" text-anchor="middle" font-size="12.5" fill="#1e293b">Kalman Filter</text>
-            <text x="427" y="90" text-anchor="middle" font-size="11.5" font-style="italic" fill="#64748b">x, y, vx, vy</text>
+            <text x="427" y="90" text-anchor="middle" font-size="11.5" font-style="italic" fill="#64748b">x, y, vx,
+              vy</text>
 
             <!-- ╔══ CONTROLLER ══╗ -->
             <g filter="url(#bsh)">
-              <rect x="320" y="230" width="215" height="105" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2"/>
+              <rect x="320" y="230" width="215" height="105" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
             </g>
-            <rect x="320" y="230" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-c)"/>
-            <line x1="320" y1="268" x2="535" y2="268" stroke="rgba(10,40,80,0.18)" stroke-width="1"/>
-            <text x="427" y="254" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850" letter-spacing="1.8">CONTROLLER</text>
+            <rect x="320" y="230" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-c)" />
+            <line x1="320" y1="268" x2="535" y2="268" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
+            <text x="427" y="254" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
+              letter-spacing="1.8">CONTROLLER</text>
             <!-- Chips -->
-            <rect x="333" y="278" width="82" height="26" rx="6" fill="rgba(10,40,80,0.08)" stroke="rgba(10,40,80,0.18)" stroke-width="1"/>
-            <text x="374" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0a2850">RRT Planner</text>
-            <rect x="424" y="278" width="100" height="26" rx="6" fill="rgba(10,40,80,0.08)" stroke="rgba(10,40,80,0.18)" stroke-width="1"/>
-            <text x="474" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0a2850">Heading Control</text>
+            <rect x="333" y="278" width="82" height="26" rx="6" fill="rgba(10,40,80,0.08)" stroke="rgba(10,40,80,0.18)"
+              stroke-width="1" />
+            <text x="374" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0a2850">RRT
+              Planner</text>
+            <rect x="424" y="278" width="100" height="26" rx="6" fill="rgba(10,40,80,0.08)" stroke="rgba(10,40,80,0.18)"
+              stroke-width="1" />
+            <text x="474" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0a2850">Heading
+              Control</text>
 
             <!-- ╔══ ACTUATION ══╗ -->
             <g filter="url(#bsh)">
-              <rect x="320" y="400" width="215" height="88" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2"/>
+              <rect x="320" y="400" width="215" height="88" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
             </g>
-            <rect x="320" y="400" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-a)"/>
-            <line x1="320" y1="438" x2="535" y2="438" stroke="rgba(10,40,80,0.18)" stroke-width="1"/>
-            <text x="427" y="424" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850" letter-spacing="1.8">ACTUATION</text>
+            <rect x="320" y="400" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-a)" />
+            <line x1="320" y1="438" x2="535" y2="438" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
+            <text x="427" y="424" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
+              letter-spacing="1.8">ACTUATION</text>
             <text x="427" y="456" text-anchor="middle" font-size="12.5" fill="#1e293b">Differential-Drive Bot</text>
-            <text x="427" y="473" text-anchor="middle" font-size="11" font-style="italic" fill="#64748b">Pymunk physics body</text>
+            <text x="427" y="473" text-anchor="middle" font-size="11" font-style="italic" fill="#64748b">Pymunk physics
+              body</text>
 
             <!-- ══ ARROWS ══ -->
             <!-- GPS + IMU: Sensors right → SE left -->
-            <line x1="225" y1="62" x2="319" y2="62" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)"/>
+            <line x1="225" y1="62" x2="319" y2="62" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)" />
             <text x="272" y="55" text-anchor="middle" font-size="10" fill="#64748b">GPS + IMU</text>
 
             <!-- fused state: SE bottom → Controller top (straight vertical) -->
-            <line x1="427" y1="110" x2="427" y2="229" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)"/>
+            <line x1="427" y1="110" x2="427" y2="229" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)" />
             <text x="443" y="174" text-anchor="start" font-size="10" fill="#64748b">fused state</text>
 
             <!-- obstacle dist: L-shape — Sensors bottom → down → right → Controller left-centre -->
-            <polyline points="122,110 122,283 319,283" fill="none" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)"/>
+            <polyline points="122,110 122,283 319,283" fill="none" stroke="#0a2850" stroke-width="2"
+              marker-end="url(#ah)" />
             <text x="108" y="210" text-anchor="end" font-size="10" fill="#64748b">obstacle dist.</text>
 
             <!-- wheel speeds: Controller bottom → Actuation top (straight vertical) -->
-            <line x1="427" y1="335" x2="427" y2="399" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)"/>
+            <line x1="427" y1="335" x2="427" y2="399" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)" />
             <text x="443" y="371" text-anchor="start" font-size="10" fill="#64748b">wheel speeds</text>
           </svg>
         </div>

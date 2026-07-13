@@ -846,7 +846,7 @@
             </tr>
             <tr>
               <td><strong>Conveyor belt</strong></td>
-              <td>Python simulation loop (Run_Conveyor.py)</td>
+              <td>Python simulation loop running in a background thread</td>
               <td>Real-time object tracking, drop detection, fall-off handling running in background thread</td>
             </tr>
           </tbody>
@@ -855,13 +855,13 @@
 
       <!-- System flow -->
       <div class="arch-flow">
-        <p class="arch-flow-title">Master orchestration pipeline &mdash; SECUENCIA_COMPLETA</p>
+        <p class="arch-flow-title">Master Orchestration Pipeline</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>Init</strong> &mdash; <code>POSICIONAR_ESTACIONES</code> sets all object poses &nbsp;&middot;&nbsp;
-          <strong>Background</strong> &mdash; <code>Run_Conveyor</code> &amp; <code>SECUENCIA_ESTACION3</code> start
+          <strong>Init</strong> &mdash; pose initializer sets all robot and object transforms &nbsp;&middot;&nbsp;
+          <strong>Background</strong> &mdash; conveyor controller &amp; vision-sort routine start
           concurrently &nbsp;&middot;&nbsp;
-          <strong>Loop</strong> &mdash; <code>SECUENCIA_ESTACION1</code> picks from wheel &rarr;
-          <code>SECUENCIA_ESTACION2</code> machines &amp; loads belt &rarr; repeat &nbsp;&middot;&nbsp;
+          <strong>Loop</strong> &mdash; feeder routine picks from wheel &rarr;
+          machining routine processes &amp; loads belt &rarr; repeat &nbsp;&middot;&nbsp;
           <strong>Vision sort</strong> &mdash; Station 3 captures frame, detects color &amp; angle, compensates wrist,
           palletizes
         </p>
