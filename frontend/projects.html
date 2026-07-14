@@ -64,7 +64,6 @@
 
     .proj-cards-grid--single {
       grid-template-columns: 1fr;
-      justify-content: center;
     }
 
     .proj-cards-grid--single .proj-card {
@@ -103,9 +102,8 @@
       margin: 0 auto;
       padding: 0 32px;
       display: grid;
-      grid-template-columns: repeat(2, minmax(280px, 504px));
-      justify-content: space-between;
-      gap: 2.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
     }
 
     .proj-card {
