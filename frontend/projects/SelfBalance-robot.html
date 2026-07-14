@@ -1172,11 +1172,15 @@
 
       <div class="design-grid">
         <div class="design-text">
-          <h3>Design Choice: Direct State Feedback</h3>
+          <h3>Design Choice: Direct Full-State Feedback</h3>
           <p>
-            Although an observer-based servo was considered, it was discarded because linear position
-            <em>x</em> cannot be measured directly &mdash; it requires numerical integration of tachometer
-            readings, introducing accumulated error. A simpler <strong>direct state-feedback law</strong> was chosen.
+            Although an observer-based servo was considered, the system was found to be
+            <strong>not minimally observable</strong> from any single output &mdash; the observability
+            matrix does not reach full rank for this plant's physical parameters. Building a
+            Luenberger observer or Kalman filter under these conditions is not feasible, since the
+            full state cannot be reconstructed from a single sensor reading. Instead, a
+            <strong>direct full-state feedback law</strong> was chosen: all four state variables are
+            estimated directly from the available sensors and fed to the LQR gain with no observer in the loop.
           </p>
 
           <h3>LQR Gain Computation</h3>
@@ -1512,7 +1516,7 @@ u = -( x*k1 + v_lineal*k2 + Pitch_angle*k3 + Pitch_rate*k4 );
             </tr>
             <tr>
               <td><strong>ControlD</strong></td>
-              <td>Header-only discrete controller; stores G, H, K; optional Luenberger observer</td>
+              <td>Header-only discrete controller; stores G, H, K; computes the LQR control law \(u = -K\mathbf{X}\) directly from all measured states</td>
             </tr>
           </tbody>
         </table>
