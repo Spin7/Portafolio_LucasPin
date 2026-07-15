@@ -78,12 +78,15 @@
     }
 
     .research-line-item {
+      display: block;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
       padding: 1.85rem 2rem;
       margin-bottom: 1.5rem;
+      text-decoration: none;
+      color: inherit;
       transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
@@ -104,12 +107,7 @@
       margin: 0 0 0.55rem;
     }
 
-    .rl-title a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .rl-title a:hover {
+    .research-line-item:hover .rl-title {
       color: var(--primary);
     }
 
@@ -150,7 +148,6 @@
       font-size: 0.82rem;
       font-weight: 700;
       color: var(--primary);
-      text-decoration: none;
     }
 
     .rl-link i {
@@ -158,7 +155,7 @@
       transition: transform 0.18s ease;
     }
 
-    .rl-link:hover i {
+    .research-line-item:hover .rl-link i {
       transform: translateX(4px);
     }
 
@@ -405,8 +402,8 @@
     <div class="research-lines">
       <h2 class="research-lines-title">Research Lines</h2>
 
-      <div class="research-line-item">
-        <h3 class="rl-title"><a href="research/mechatronicsTrap.html">Smart Mechatronic Trap</a></h3>
+      <a href="research/mechatronicsTrap.html" class="research-line-item">
+        <h3 class="rl-title">Smart Mechatronic Trap</h3>
         <p class="rl-desc">
           IoT trap with embedded computer vision for automatic detection and sex classification of
           <em>Aedes aegypti</em> mosquitoes.
@@ -418,11 +415,11 @@
           <span class="rl-sep">·</span>
           <span class="rl-year">2025–2026</span>
         </div>
-        <a href="research/mechatronicsTrap.html" class="rl-link">View work <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <span class="rl-link">View work <i class="fas fa-arrow-right"></i></span>
+      </a>
 
-      <div class="research-line-item">
-        <h3 class="rl-title"><a href="research/AgentsSimulation.html">Agent-Based Simulation</a></h3>
+      <a href="research/AgentsSimulation.html" class="research-line-item">
+        <h3 class="rl-title">Agent-Based Simulation</h3>
         <p class="rl-desc">
           ABM model of mosquito population dynamics on an urban grid, to study and project
           vector control strategies.
@@ -434,8 +431,8 @@
           <span class="rl-sep">·</span>
           <span class="rl-year">2025–2026</span>
         </div>
-        <a href="research/AgentsSimulation.html" class="rl-link">View work <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <span class="rl-link">View work <i class="fas fa-arrow-right"></i></span>
+      </a>
 
     </div>
   </section>
