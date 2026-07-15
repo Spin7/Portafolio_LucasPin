@@ -845,7 +845,7 @@
       }
     }
 
-    /* ── FOOTER OVERRIDE (remove gray gap after last section) ── */
+    /* ── FOOTER OVERRIDE (space handled by spacer div before footer) ── */
     .footer {
       margin-top: 0;
     }
@@ -1337,7 +1337,7 @@
   <!-- ══════════════════════════════════════
        Video Demo
        ══════════════════════════════════════ -->
-  <section class="demo-section">
+  <section class="demo-section" style="background:#fff; padding-bottom:0;">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
@@ -1388,6 +1388,8 @@
       </div>
     </div>
   </section>
+
+  <div style="height:68px; background:#fff;"></div>
 
   <footer class="footer">
     <div class="footer-inner">
