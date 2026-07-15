@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DifferentialBot RRT Simulator &mdash; Lucas Pin</title>
+  <title>Multi-Person Real-Time Behavioral Tracking System &mdash; Lucas Pin</title>
   <meta name="description"
-    content="2D simulation of a differential-drive robot performing autonomous navigation using the RRT path planning algorithm, built with PyGame and Pymunk. Features Kalman Filter sensor fusion, PID heading control, ultrasonic obstacle detection, and live occupancy mapping.">
+    content="Real-time behavioral analysis of video-call participants using YOLO face detection, MediaPipe landmark models, and multi-region LBPH face recognition — all running locally with no cloud dependency.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <!-- Favicon -->
@@ -14,29 +14,16 @@
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='rgb(10,40,80)'/><text x='16' y='22' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='14' fill='white'>LP</text></svg>">
   <link rel="apple-touch-icon" href="../static/lp-og-preview.png">
   <meta property="og:image"
-    content="https://portfolio-lucas-pin.vercel.app/static/Projects/RRTsimulation/Sim_initial_path.png">
+    content="https://portfolio-lucas-pin.vercel.app/static/Projects/VideoCall/Screenshot%202026-07-05%20160336.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image"
-    content="https://portfolio-lucas-pin.vercel.app/static/Projects/RRTsimulation/Sim_initial_path.png">
+    content="https://portfolio-lucas-pin.vercel.app/static/Projects/VideoCall/Screenshot%202026-07-05%20160336.png">
   <link rel="stylesheet" href="../style.css">
   <style>
     /* ── DESIGN TOKENS (page-level) ── */
     :root {
-      --acc1: #0e7490;
-      --acc1-light: #ecfeff;
-    }
-
-    /* ── MOBILE HORIZONTAL SCROLL FIX ──
-       The architecture diagram SVG below uses a drop-shadow filter that
-       bleeds a few px past its viewBox on the right edge. With
-       overflow:visible on the <svg>, that bleed was expanding the page's
-       scrollable width on mobile. html/body get overflow-x:hidden as a
-       safety net so no element (this one or a future one) can ever push
-       the page sideways again. */
-    html,
-    body {
-      overflow-x: hidden;
-      max-width: 100%;
+      --acc1: #4f46e5;
+      --acc1-light: #eef2ff;
     }
 
     /* ── HERO ── */
@@ -309,7 +296,7 @@
     .arch-flow code {
       font-family: 'Fira Code', 'Courier New', monospace;
       font-size: 0.77rem;
-      background: rgba(14, 116, 144, 0.08);
+      background: rgba(79, 70, 229, 0.08);
       padding: 0.1em 0.35em;
       border-radius: 4px;
       color: var(--primary);
@@ -452,7 +439,7 @@
     .gallery-placeholder {
       width: 100%;
       height: 300px;
-      background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+      background: linear-gradient(135deg, var(--acc1-light) 0%, #e0e7ff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -610,6 +597,165 @@
       padding: 0 0 64px;
     }
 
+    /* ── PER-FRAME PIPELINE DIAGRAM ── */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 2.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .pipeline-col-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--acc1);
+      background: var(--acc1-light);
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 1.3rem;
+    }
+
+    .pl-step {
+      display: flex;
+      gap: 1.1rem;
+    }
+
+    .pl-marker {
+      flex-shrink: 0;
+      width: 34px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pl-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.86rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pl-line {
+      flex: 1;
+      width: 2px;
+      min-height: 30px;
+      background: var(--border);
+      margin-top: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pl-line::after {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: -14px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acc1);
+      animation: pl-flow 2.6s linear infinite;
+    }
+
+    .pl-step:nth-child(2) .pl-line::after {
+      animation-delay: 0.4s;
+    }
+
+    .pl-step:nth-child(3) .pl-line::after {
+      animation-delay: 0.8s;
+    }
+
+    .pl-step:nth-child(4) .pl-line::after {
+      animation-delay: 1.2s;
+    }
+
+    @keyframes pl-flow {
+      0% {
+        top: -14px;
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 1;
+      }
+
+      85% {
+        opacity: 1;
+      }
+
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    .pl-content {
+      padding-bottom: 1.5rem;
+    }
+
+    .pl-content h4 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0.3rem 0 0.35rem;
+    }
+
+    .pl-content p {
+      font-size: 0.83rem;
+      color: var(--text);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .pl-note {
+      display: inline-block;
+      font-size: 0.76rem;
+      color: var(--acc1);
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .pl-gate-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
+    }
+
+    .pl-chip {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+    }
+
+    .pl-chip--in {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .pl-chip--out {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pipeline-arrow-between {
+      display: none;
+    }
+
     /* ── BREADCRUMB OVERRIDE ── */
     .proj-breadcrumb {
       background: var(--bg);
@@ -682,6 +828,11 @@
       .video-duo {
         grid-template-columns: 1fr;
       }
+
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem 0;
+      }
     }
 
     @media (max-width: 600px) {
@@ -694,7 +845,7 @@
       }
     }
 
-    /* ── FOOTER OVERRIDE (remove gray gap after last section) ── */
+    /* ── FOOTER OVERRIDE (space handled by spacer div before footer) ── */
     .footer {
       margin-top: 0;
     }
@@ -719,7 +870,7 @@
       <a href="../projects.html" class="breadcrumb-title">Projects</a>
       <span class="breadcrumb-sub">
         <span class="sep">/</span>
-        DifferentialBot RRT Simulator
+        Multi-Person Real-Time Behavioral Tracking System
       </span>
     </div>
   </div>
@@ -730,46 +881,43 @@
   <section class="proj-hero">
     <div class="proj-hero-inner">
       <div class="proj-hero-left">
-        <span class="proj-category-tag">Robotics &middot; Path Planning &middot; Simulation</span>
-        <h1 class="proj-title">DifferentialBot RRT Simulator</h1>
+        <span class="proj-category-tag">Computer Vision &middot; Behavioral Analytics &middot; Real-Time Systems</span>
+        <h1 class="proj-title">Multi-Person Real-Time Behavioral Tracking System</h1>
         <div class="proj-status-row">
-          <span class="project-status project-status--done">Year: 2023</span>
+          <span class="project-status project-status--done">Year: 2025</span>
         </div>
         <div class="proj-cover">
-          <img src="../static/Projects/RRTsimulation/Sim_initial_path.png"
-            alt="DifferentialBot RRT Simulator &mdash; robot mid-navigation following the RRT path through a hallway map"
-            class="proj-cover-img">
+          <img src="..\static\Projects\VideoCall\Screenshot 2026-07-05 160336.png"
+            alt="9-tile mosaic showing real-time behavioral analysis of video-call participants" class="proj-cover-img">
         </div>
       </div>
       <div class="proj-hero-right">
         <h2 class="proj-section-heading">Overview</h2>
         <p class="proj-overview">
-          A <strong>2D autonomous navigation simulator</strong> for a <strong>differential-drive robot</strong>
-          built in <strong>PyGame</strong> and <strong>Pymunk</strong>. The robot explores a hallway-style map,
-          detects obstacles with a cone-shaped <strong>ultrasonic sensor</strong>, constructs a live
-          <strong>occupancy map</strong>, and navigates using a path computed by the
-          <strong>Rapidly-exploring Random Tree (RRT)</strong> algorithm.
-          A <strong>Kalman Filter</strong> fuses GPS and IMU readings into a smooth state estimate, and a
-          <strong>bang-bang heading controller</strong> translates each waypoint into precise left/right
-          wheel speed commands. When the robot senses a close obstacle it backs up and triggers an
-          automatic <strong>path replan</strong> &mdash; closing the full sense&ndash;plan&ndash;act loop.
-          The code is structured for hardware portability, with commented-out
-          <strong>MicroPython stubs</strong> (Raspberry Pi Pico + L298N) ready for real deployment.
+          <strong>Multi-Person Real-Time Behavioral Tracking System</strong> is a fully local system that analyses the
+          behaviour of up
+          to nine video-call participants in real time &mdash; with no cloud dependency. A custom
+          <strong>YOLOv8</strong> face detector, exported to <strong>ONNX</strong> and running on CPU, locates
+          every face in the frame; a <strong>MediaPipe Face Landmarker</strong> then drives eye,
+          mouth, smile/grimace and yawn detection together with iris-based gaze tracking, while a
+          <strong>MediaPipe Hand Landmarker</strong> recognises gestures such as thumbs-up and victory signs.
+          Each participant is re-identified across frames using a custom <strong>multi-region LBPH + HSV
+            descriptor</strong>, matched through cosine similarity with an <strong>SVD subspace residual</strong>
+          fallback. Every metric is smoothed with EMA filters and rendered as a live <strong>9-tile
+            mosaic</strong> with a per-person status panel.
         </p>
         <div class="proj-tech-row">
+          <span class="pill">YOLOv8 (ONNX)</span>
+          <span class="pill">MediaPipe</span>
+          <span class="pill">OpenCV</span>
+          <span class="pill">ONNX Runtime</span>
           <span class="pill">Python</span>
-          <span class="pill">PyGame</span>
-          <span class="pill">Pymunk</span>
-          <span class="pill">NumPy</span>
-          <span class="pill">RRT</span>
-          <span class="pill">Kalman Filter</span>
-          <span class="pill">Bang-Bang Control</span>
-          <span class="pill">Differential Drive</span>
-          <span class="pill">Occupancy Mapping</span>
-          <span class="pill">MicroPython</span>
+          <span class="pill">LBPH</span>
+          <span class="pill">SVD</span>
+          <span class="pill">mss</span>
         </div>
         <div class="proj-links-block">
-          <a href="https://github.com/Spin7/DifferentialBot-RRT-Simulator" target="_blank" class="btn-outline">
+          <a href="https://github.com/Spin7/VideoCall-Behavior-Analysis.git" target="_blank" class="btn-outline">
             <i class="fab fa-github"></i>
             GitHub &rarr;
           </a>
@@ -781,18 +929,16 @@
           </div>
           <div class="proj-meta-item">
             <span class="proj-meta-label">Context</span>
-            <span class="proj-meta-val">Project 3 &middot; Faculty of Engineering</span>
+            <span class="proj-meta-val">Robotics II Micro project &middot; Faculty of Engineering</span>
           </div>
-          <div class="proj-meta-item">
-            <span class="proj-meta-label">Planner</span>
-            <span class="proj-meta-val">RRT &middot; up to 3&thinsp;000 iterations</span>
-          </div>
-          <div class="proj-meta-item">
-            <span class="proj-meta-label">Estimator</span>
-            <span class="proj-meta-val">Kalman Filter &middot; GPS + IMU fusion</span>
+          <div class="proj-meta-item" style="grid-column: 1 / -1;">
+            <span class="proj-meta-label">Core Pipeline</span>
+            <span class="proj-meta-val">YOLOv8 (ONNX) &rarr; MediaPipe Landmarks &rarr; Multi-region LBPH + SVD
+              identity matching</span>
           </div>
         </div>
       </div>
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════
@@ -809,288 +955,389 @@
       <!-- Key numbers -->
       <div class="stat-banner">
         <div class="stat-item">
-          <span class="stat-num" style="font-size:1.5rem;">2D Map<br>Environment</span>
-          <span class="stat-unit">Obstacle Layout</span>
-          <span class="stat-desc">Static 2D world with randomized obstacles the planner must navigate around</span>
+          <span class="stat-num">9</span>
+          <span class="stat-unit">Participants</span>
+          <span class="stat-desc">Simultaneous faces tracked in the mosaic grid</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">RRT</span>
-          <span class="stat-unit">Path Planning</span>
-          <span class="stat-desc">Collision-free path from start to goal in dense environments</span>
+          <span class="stat-num" style="font-size:1.7rem;">Tracking</span>
+          <span class="stat-unit">YOLO + SVD</span>
+          <span class="stat-desc">Custom face detector paired with subspace-based identity matching</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num" style="font-size:1.5rem;">PyGame<br>+&nbsp;Pymunk</span>
-          <span class="stat-unit">Simulation Engine</span>
-          <span class="stat-desc">Real-time 2D rendering and rigid-body physics for the differential-drive bot</span>
+          <span class="stat-num">2</span>
+          <span class="stat-unit">Landmark Models</span>
+          <span class="stat-desc">Dedicated MediaPipe models drive facial and hand-gesture analysis</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num" style="font-size:1.5rem;">Graph<br>Visualization</span>
-          <span class="stat-unit">Live RRT Display</span>
-          <span class="stat-desc">RRT tree, planned path, GPS trace and Kalman estimate rendered each frame</span>
+          <span class="stat-num">CPU</span>
+          <span class="stat-unit">Inference Only</span>
+          <span class="stat-desc">Runs fully on CPU in real time, no GPU required</span>
         </div>
       </div>
 
-      <!-- Module table -->
+      <!-- Compact spec table -->
       <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
         <table class="proj-table">
           <thead>
             <tr>
               <th>Layer</th>
-              <th>Responsibility</th>
+              <th>Component</th>
+              <th>Role</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Sensing</strong></td>
-              <td>Simulates GPS position, IMU heading and a cone-shaped ultrasonic proximity sensor; aggregates all
-                readings each frame</td>
+              <td><strong>Input &amp; Capture</strong></td>
+              <td>OpenCV &middot; mss</td>
+              <td>Reads frames from a webcam, video file, or screen capture &mdash; no physical camera required</td>
             </tr>
             <tr>
-              <td><strong>Estimation</strong></td>
-              <td>Kalman Filter (x, y, vx, vy) fuses GPS and IMU data with a constant-velocity model to produce a
-                smooth, noise-reduced state estimate</td>
+              <td><strong>Face Detection</strong></td>
+              <td>Custom YOLOv8 detector &middot; ONNX Runtime</td>
+              <td>Custom CPU-only detector at 256&times;256 input; letterboxing, NMS and bbox decoding</td>
             </tr>
             <tr>
-              <td><strong>Planning</strong></td>
-              <td>RRT incrementally builds a random tree from the robot's position to the goal; extracts and smooths the
-                collision-free path</td>
+              <td><strong>Identity Matching</strong></td>
+              <td>Multi-region LBPH + HSV &middot; SVD</td>
+              <td>Two-stage matcher: cosine similarity (centroid + top-K) against the Face Gallery, with an SVD
+                residual fallback</td>
             </tr>
             <tr>
-              <td><strong>Control</strong></td>
-              <td>High-level controller tracks waypoints and triggers replanning on obstacle proximity; PID translates
-                heading error into differential wheel speeds</td>
+              <td><strong>Facial Expressions</strong></td>
+              <td>MediaPipe Face Landmarker</td>
+              <td>Eye/mouth state via EAR/MAR, smile/grimace via lip curvature, sustained yawn counter, iris-based
+                gaze</td>
             </tr>
             <tr>
-              <td><strong>Mapping</strong></td>
-              <td>Builds a live occupancy grid from ultrasonic detections; provides collision-check queries to the
-                planner</td>
+              <td><strong>Hand Gestures</strong></td>
+              <td>MediaPipe Hand Landmarker</td>
+              <td>Thumbs Up, Victory (peace sign), and generic hand-detected status, up to 2 hands per person</td>
             </tr>
             <tr>
-              <td><strong>Actuation &amp; Rendering</strong></td>
-              <td>Applies wheel speeds to the Pymunk physics body; renders the simulation canvas, HUD, and motion traces
-                in real time</td>
+              <td><strong>Gallery &amp; Persistence</strong></td>
+              <td>Dedicated enrollment module &middot; local storage</td>
+              <td>Folder-based, live multi-frame, or single-frame enrollment; enrolled profiles persist locally
+                between sessions
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Data-flow pipeline -->
+      <!-- System flow -->
       <div class="arch-flow">
-        <p class="arch-flow-title">Data flow &mdash; each simulation frame</p>
+        <p class="arch-flow-title">Per-frame pipeline &mdash; detect, identify, analyse, render</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
-          <strong>1. Sense</strong> &mdash; fresh GPS position, IMU heading and ultrasonic distance are read
+          <strong>Detect</strong> &mdash; a custom YOLOv8 model locates every face in the frame
           &nbsp;&middot;&nbsp;
-          <strong>2. Estimate</strong> &mdash; Kalman Filter predicts and updates the fused state
+          <strong>Identify</strong> &mdash; multi-region LBPH + HSV embedding matched against enrolled
+          participants (cosine + SVD residual) &nbsp;&middot;&nbsp;
+          <strong>Analyse</strong> &mdash; MediaPipe Face/Hand Landmarker drives eyes, mouth, smile/grimace, yawn,
+          gaze and gestures &nbsp;&middot;&nbsp;
+          <strong>Smooth</strong> &mdash; every metric passes through an EMA filter to reduce flicker
           &nbsp;&middot;&nbsp;
-          <strong>3. React</strong> &mdash; the controller checks obstacle proximity and triggers backward
-          motion + replanning if needed &nbsp;&middot;&nbsp;
-          <strong>4. Plan</strong> &mdash; RRT generates a new collision-free path from the current position
-          to the goal &nbsp;&middot;&nbsp;
-          <strong>5. Control</strong> &mdash; the PID heading controller computes left/right wheel speeds
-          toward the next waypoint &nbsp;&middot;&nbsp;
-          <strong>6. Act</strong> &mdash; wheel speeds are applied to the physics body &nbsp;&middot;&nbsp;
-          <strong>7. Map</strong> &mdash; new obstacle detections are recorded into the occupancy grid
+          <strong>Render</strong> &mdash; per-person tiles are assembled into the live 9-tile mosaic
         </p>
       </div>
     </div>
   </section>
 
-
   <!-- ══════════════════════════════════════
-       ALGORITHM DEEP DIVE
+       FACE GALLERY & IDENTITY ENROLLMENT
        ══════════════════════════════════════ -->
   <section class="design-section">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">Algorithm Deep Dive</span>
+        <span class="section-label-text">Face Gallery &amp; Identity Enrollment</span>
         <span class="section-label-line"></span>
       </div>
 
-      <div class="design-grid" style="margin-bottom: 3rem;">
+      <div class="design-grid">
         <div class="design-text">
-          <h3>RRT &mdash; Rapidly-exploring Random Tree</h3>
+          <h3>Three Enrollment Modes</h3>
           <p>
-            RRT is a sampling-based algorithm designed to efficiently explore high-dimensional
-            configuration spaces. Starting from the robot's current position, the planner grows a
-            tree by iteratively sampling random points in the map, finding the nearest tree node,
-            and extending toward the sample by a fixed step size. A new node is added only when
-            the connecting segment does not cross any known obstacle. Once a node falls within
-            reach of the goal, the path is reconstructed by tracing parent pointers back to the
-            root and then smoothed before being passed to the controller.
+            The <strong>Face Gallery</strong> stores the reference embeddings used to recognise each participant
+            across frames. Three modes cover different scenarios, selectable from a CLI menu at startup.
           </p>
           <ul>
-            <li><strong>Probabilistically complete</strong> &mdash; given enough iterations the planner is guaranteed to
-              find a path if one exists</li>
-            <li><strong>Fixed step size</strong> &mdash; controls the trade-off between exploration speed and path
-              smoothness</li>
-            <li><strong>Dynamic replanning</strong> &mdash; a new tree is generated on-the-fly whenever an obstacle is
-              detected in the robot's path</li>
-            <li><strong>Occupancy-aware</strong> &mdash; collision checks query the live obstacle map, so the planner
-              adapts to obstacles discovered at runtime</li>
-          </ul>
-
-          <h3>Sensor Simulation &amp; Kalman Fusion</h3>
-          <p>
-            Three sensor models run in parallel each frame: a <strong>GPS</strong> that returns
-            the robot's grid position with additive noise, an <strong>IMU</strong> that reports
-            the heading angle, and a <strong>cone-shaped ultrasonic sensor</strong> that measures
-            proximity to obstacles within a forward-facing detection arc.
-            Raw GPS and IMU readings are fed into a <strong>Kalman Filter</strong> with a
-            4-state vector (<em>x, y, vx, vy</em>) and a constant-velocity motion model.
-            The predict step propagates the state forward between measurements; the update step
-            fuses both sensors using separate, tunable noise covariances. The resulting
-            smooth estimate is what the controller actually tracks, while both the raw GPS
-            trace and the filtered trace are rendered on screen for direct comparison.
-          </p>
-          <ul>
-            <li><strong>GPS</strong> &mdash; noisy position fix, high measurement variance</li>
-            <li><strong>IMU</strong> &mdash; heading rate integrated each frame</li>
-            <li><strong>Ultrasonic</strong> &mdash; cone-shaped proximity detection triggers obstacle avoidance and
-              replanning</li>
-            <li><strong>Kalman Filter</strong> &mdash; produces a smooth, lag-free state estimate used by the controller
+            <li><strong>Mode A &mdash; Folder</strong> (best accuracy) &mdash; organise a folder of photos per
+              person; the system detects a face in each image and builds an <strong>SVD subspace</strong> per
+              person.
             </li>
+            <li><strong>Mode B &mdash; Live multi-frame</strong> (best for real-time sources) &mdash; a live
+              preview window records a short burst of frames per person while they naturally roll and turn
+              their head, capturing pose variation a single photo can't.</li>
+            <li><strong>Mode C &mdash; Single-frame</strong> (legacy / fastest) &mdash; grabs one frame, detects
+              every face, and assigns names through console prompts.</li>
+            <li><strong>Mode S &mdash; Skip</strong> &mdash; reuses a gallery already persisted from a previous
+              session.</li>
           </ul>
-
-          <h3>Control for a Differential-Drive Robot</h3>
           <p>
-            A differential-drive robot steers exclusively by varying the speed of its two
-            independent wheels &mdash; spinning them at different rates produces any turning
-            radius, including an in-place rotation. The controller converts each RRT waypoint
-            into a target heading angle and compares it against the robot's current orientation.
-            Depending on the angular error, it commands the wheels to spin in opposite
-            directions (turning) or at equal speeds (driving straight), following the waypoint
-            sequence until the goal is reached. This design maps naturally onto real hardware
-            such as an L298N dual motor driver, making the simulation directly portable to a
-            physical platform.
+            Whichever mode is used, the gallery is saved automatically and reloaded at the next startup
+            &mdash; enrollment only needs to happen once per person.
+          </p>
+
+          <h3>Multi-Region Descriptor &amp; Matching</h3>
+          <p>
+            Each enrolled face is resized to a fixed crop and divided into a small grid of regions. Every
+            region contributes a local <strong>LBP</strong> texture histogram and an HSV colour histogram,
+            blended together into a single descriptor &mdash; combining fine skin-texture detail with coarse
+            colour cues that survive small lighting changes.
+          </p>
+          <p>
+            At match time, the descriptor is compared against each person's stored embeddings using cosine
+            similarity, averaging the closest matches for robustness. When the score sits near the acceptance
+            boundary, an <strong>SVD subspace residual</strong> check acts as a second opinion before confirming
+            or rejecting the identity.
           </p>
         </div>
+
         <div class="design-img-col">
           <div class="design-img-wrap">
-            <img src="../static/Projects/RRTsimulation/Sim_initial_path.png"
-              alt="Robot following the initial RRT-planned path through the hallway map">
-            <p class="design-caption">Initial RRT path &mdash; cyan dots mark planned waypoints through the hallway</p>
+            <img src="../static/Projects/VideoCall/Before_person_roll.png"
+              alt="Live multi-frame enrollment — initial frontal capture before the person rolls their head">
+            <p class="design-caption">Live multi-frame enrollment &mdash; initial frontal capture</p>
           </div>
           <div class="design-img-wrap">
-            <img src="../static/Projects/RRTsimulation/Sim_recalculate_path.png"
-              alt="Robot replanning its path after detecting an obstacle with the ultrasonic sensor">
-            <p class="design-caption">Path replan &mdash; new RRT tree generated after ultrasonic obstacle detection</p>
+            <img src="../static/Projects/VideoCall/After_person_roll.png"
+              alt="Live multi-frame enrollment — additional frames captured after the person rolls their head">
+            <p class="design-caption">After the head roll &mdash; additional pose angles added to the person's
+              gallery</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       MEDIAPIPE LANDMARKERS
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">MediaPipe Landmarkers</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="design-grid">
+        <div class="design-text">
+          <h3>Face Landmarker &mdash; Facial Mesh</h3>
+          <p>
+            Every face crop returned by the detector is passed to <strong>MediaPipe's Face Landmarker</strong>,
+            which fits a dense facial mesh &mdash; the standard face mesh plus a set of refined
+            <strong>iris landmarks</strong>. The model ships as a lightweight, self-contained package, so no
+            extra download is needed at runtime.
+          </p>
+          <p>
+            The system reads specific subsets of this mesh &mdash; the eye contours for an <strong>EAR</strong>
+            (eye-aspect ratio), the lip contour for a <strong>MAR</strong> (mouth-aspect ratio) and lip curvature,
+            and the iris centres for gaze displacement &mdash; rather than the mesh as a whole. The model is
+            configured to focus on a single, dominant face inside each cropped tile, since only one participant
+            appears per tile in the mosaic layout.
+          </p>
+
+          <h3>Hand Landmarker &mdash; Hand Mesh</h3>
+          <p>
+            Gesture recognition uses MediaPipe's <strong>Hand Landmarker</strong>, a lighter model that tracks
+            the wrist, palm, and finger joints &mdash; for up to two hands simultaneously. Like the face model,
+            it ships as a compact, self-contained package that needs no extra download.
+          </p>
+          <p>
+            The system compares the relative position of each fingertip to its base joint to tell an extended
+            finger from a curled one, then combines that per-finger state into a gesture:
+            <strong>Thumbs Up</strong> (thumb extended, others curled), <strong>Victory</strong> (index and middle
+            extended in a V), or a generic <strong>Detected</strong> status when a hand is present but no specific
+            gesture matches.
+          </p>
+        </div>
+
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/VideoCall/Face_mesh.png"
+              alt="MediaPipe Face Mesh — 478-point landmark reference diagram"
+              style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
+            <p class="design-caption">MediaPipe Face Mesh &mdash; landmark reference (governs eyes, mouth, iris)
+            </p>
+          </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/VideoCall/Hand_mesh.png"
+              alt="MediaPipe Hand Mesh — 21-point landmark reference diagram"
+              style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
+            <p class="design-caption">MediaPipe Hand Mesh &mdash; landmark reference (governs gesture
+              classification)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PER-FRAME PIPELINE
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Per-Frame Pipeline</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <p class="section-intro">
+        Every face that ends up on the mosaic went through the same chain of steps first &mdash; run on every
+        single frame: detect it, try to recognise it, and &mdash; whether that recognition succeeds or not
+        &mdash; read its behavioural signals anyway. Here's that journey, step by step.
+      </p>
+
+      <div class="pipeline-grid">
+        <!-- STAGE A -->
+        <div class="pipeline-col">
+          <span class="pipeline-col-label">&#9202; Per frame</span>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">1</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Input frame</h4>
+              <p>A new frame is read from whichever source is active &mdash; camera, video file, or screen
+                capture.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">2</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Face detection (ONNX)</h4>
+              <p>The frame is resized to a fixed input size and passed through a lightweight, CPU-only detector.
+                Low-confidence hits are dropped and overlapping boxes are merged, leaving a clean list of
+                candidate faces.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">3</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Crop &amp; descriptor</h4>
+              <p>Each face is cropped using exactly its detected box &mdash; not yet expanded. That crop is
+                normalised for size and lighting and turned into a compact descriptor that blends local texture
+                with colour.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">4</span>
+            </div>
+            <div class="pl-content">
+              <h4>Identity matching</h4>
+              <p>The descriptor is compared against everyone enrolled in the gallery in two passes: a fast
+                similarity check, then a stricter fallback check for borderline cases. If neither confirms an
+                identity, the face carries on as <em>unidentified</em> &mdash; it doesn't leave the pipeline.</p>
+              <span class="pl-note">&#8627; No match found &mdash; continues as "Unknown", same path as everyone
+                else</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE B -->
+        <div class="pipeline-col">
+          <span class="pipeline-col-label">&#128100; Per detected face</span>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">5</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Expand &amp; smooth the crop</h4>
+              <p>The tight face box is grown outward to approximate the full call tile around the person, using
+                edge and colour cues against the background. That larger crop is then smoothed frame-to-frame so
+                it doesn't jitter.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">6</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Face &amp; hand landmarks</h4>
+              <p>The <em>expanded</em> crop &mdash; not the raw detection crop &mdash; is fed to the face and
+                hand landmark models. This runs for every detected face, identified or not, since reading
+                behaviour doesn't depend on knowing who someone is.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">7</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Metric extraction</h4>
+              <p>From those landmarks the system derives, all at once: eye state, mouth state, smile/grimace,
+                sustained yawning, gaze/focus, and hand gesture.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">8</span>
+            </div>
+            <div class="pl-content">
+              <h4>Final mosaic gate</h4>
+              <p>Only faces successfully matched to a real identity earn a visible tile on the mosaic.
+                Unidentified faces were fully analysed anyway &mdash; they simply aren't shown. Every frame does
+                more work than the final mosaic reveals.</p>
+              <div class="pl-gate-chips">
+                <span class="pl-chip pl-chip--in">&#10003; Shown on mosaic</span>
+                <span class="pl-chip pl-chip--out">&mdash; Analysed, not shown</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Architecture diagram -->
-      <div style="margin-bottom:2rem;">
-        <div class="arch-diagram">
-          <p class="arch-diagram-title">System Architecture</p>
-          <svg viewBox="0 0 550 490" xmlns="http://www.w3.org/2000/svg"
-            style="width:100%;max-width:540px;display:block;margin:0 auto;overflow:hidden;"
-            font-family="Inter, system-ui, sans-serif">
-            <defs>
-              <!-- Arrowhead marker -->
-              <marker id="ah" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
-                <polygon points="0 0, 9 3.5, 0 7" fill="#0a2850" />
-              </marker>
-              <!-- Drop shadow -->
-              <filter id="bsh" x="-10%" y="-10%" width="125%" height="135%">
-                <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0a2850" flood-opacity="0.09" />
-              </filter>
-              <!-- ClipPaths for tinted header strips -->
-              <clipPath id="cp-s">
-                <rect x="20" y="15" width="205" height="95" rx="12" />
-              </clipPath>
-              <clipPath id="cp-se">
-                <rect x="320" y="15" width="215" height="95" rx="12" />
-              </clipPath>
-              <clipPath id="cp-c">
-                <rect x="320" y="230" width="215" height="105" rx="12" />
-              </clipPath>
-              <clipPath id="cp-a">
-                <rect x="320" y="400" width="215" height="88" rx="12" />
-              </clipPath>
-            </defs>
-
-            <!-- ╔══ SENSORS ══╗ -->
-            <g filter="url(#bsh)">
-              <rect x="20" y="15" width="205" height="95" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
-            </g>
-            <rect x="20" y="15" width="205" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-s)" />
-            <line x1="20" y1="53" x2="225" y2="53" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
-            <text x="122" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
-              letter-spacing="1.8">SENSORS</text>
-            <text x="122" y="72" text-anchor="middle" font-size="12.5" fill="#1e293b">GPS &amp; IMU</text>
-            <text x="122" y="90" text-anchor="middle" font-size="12.5" fill="#1e293b">Ultrasonic</text>
-
-            <!-- ╔══ STATE ESTIMATOR ══╗ -->
-            <g filter="url(#bsh)">
-              <rect x="320" y="15" width="215" height="95" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
-            </g>
-            <rect x="320" y="15" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-se)" />
-            <line x1="320" y1="53" x2="535" y2="53" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
-            <text x="427" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
-              letter-spacing="1.8">STATE ESTIMATOR</text>
-            <text x="427" y="72" text-anchor="middle" font-size="12.5" fill="#1e293b">Kalman Filter</text>
-            <text x="427" y="90" text-anchor="middle" font-size="11.5" font-style="italic" fill="#64748b">x, y, vx,
-              vy</text>
-
-            <!-- ╔══ CONTROLLER ══╗ -->
-            <g filter="url(#bsh)">
-              <rect x="320" y="230" width="215" height="105" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
-            </g>
-            <rect x="320" y="230" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-c)" />
-            <line x1="320" y1="268" x2="535" y2="268" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
-            <text x="427" y="254" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
-              letter-spacing="1.8">CONTROLLER</text>
-            <!-- Chips -->
-            <rect x="333" y="278" width="82" height="26" rx="6" fill="rgba(10,40,80,0.08)" stroke="rgba(10,40,80,0.18)"
-              stroke-width="1" />
-            <text x="374" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0a2850">RRT
-              Planner</text>
-            <rect x="424" y="278" width="100" height="26" rx="6" fill="rgba(10,40,80,0.08)" stroke="rgba(10,40,80,0.18)"
-              stroke-width="1" />
-            <text x="474" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0a2850">Heading
-              Control</text>
-
-            <!-- ╔══ ACTUATION ══╗ -->
-            <g filter="url(#bsh)">
-              <rect x="320" y="400" width="215" height="88" rx="12" fill="#fff" stroke="#0a2850" stroke-width="2" />
-            </g>
-            <rect x="320" y="400" width="215" height="38" fill="rgba(10,40,80,0.07)" clip-path="url(#cp-a)" />
-            <line x1="320" y1="438" x2="535" y2="438" stroke="rgba(10,40,80,0.18)" stroke-width="1" />
-            <text x="427" y="424" text-anchor="middle" font-size="10" font-weight="800" fill="#0a2850"
-              letter-spacing="1.8">ACTUATION</text>
-            <text x="427" y="456" text-anchor="middle" font-size="12.5" fill="#1e293b">Differential-Drive Bot</text>
-            <text x="427" y="473" text-anchor="middle" font-size="11" font-style="italic" fill="#64748b">Pymunk physics
-              body</text>
-
-            <!-- ══ ARROWS ══ -->
-            <!-- GPS + IMU: Sensors right → SE left -->
-            <line x1="225" y1="62" x2="319" y2="62" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)" />
-            <text x="272" y="55" text-anchor="middle" font-size="10" fill="#64748b">GPS + IMU</text>
-
-            <!-- fused state: SE bottom → Controller top (straight vertical) -->
-            <line x1="427" y1="110" x2="427" y2="229" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)" />
-            <text x="443" y="174" text-anchor="start" font-size="10" fill="#64748b">fused state</text>
-
-            <!-- obstacle dist: L-shape — Sensors bottom → down → right → Controller left-centre -->
-            <polyline points="122,110 122,283 319,283" fill="none" stroke="#0a2850" stroke-width="2"
-              marker-end="url(#ah)" />
-            <text x="108" y="210" text-anchor="end" font-size="10" fill="#64748b">obstacle dist.</text>
-
-            <!-- wheel speeds: Controller bottom → Actuation top (straight vertical) -->
-            <line x1="427" y1="335" x2="427" y2="399" stroke="#0a2850" stroke-width="2" marker-end="url(#ah)" />
-            <text x="443" y="371" text-anchor="start" font-size="10" fill="#64748b">wheel speeds</text>
-          </svg>
+      <!-- Live output: real mosaic screenshots -->
+      <p class="pipeline-col-label" style="margin: 2.5rem 0 1.3rem;">Live output</p>
+      <div class="gallery-2">
+        <div class="gallery-item">
+          <img src="../static/Projects/VideoCall/4_persons_detecction.png"
+            alt="Identity mosaic with 4 participants detected, each tile showing landmarks, name and metrics panel"
+            loading="lazy" style="height:340px;object-fit:contain;background:#14161c;">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            Mosaic with 4 participants identified &mdash; each tile shows the landmark mesh, the recognised name
+            and a live metrics panel (eyes, mouth, focus, state, yawn, hand)
+          </p>
+        </div>
+        <div class="gallery-item">
+          <img src="../static/Projects/VideoCall/4_persons_detecction_one_person_missiong.png"
+            alt="Identity mosaic showing a black, reserved tile after one participant turns off their camera"
+            loading="lazy" style="height:340px;object-fit:contain;background:#14161c;">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            When a participant turns their camera off, the mosaic reserves their tile and shows it black &mdash;
+            the other identities keep their original position
+          </p>
         </div>
       </div>
-
     </div>
   </section>
 
   <!-- ══════════════════════════════════════
        Video Demo
        ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
+  <section class="demo-section" style="background:#fff; padding-bottom:0;">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
@@ -1100,9 +1347,9 @@
 
       <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
         <div class="video-card">
-          <a class="video-thumb-wrap" href="https://youtu.be/YVPpjKtE6y0" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/YVPpjKtE6y0/hqdefault.jpg"
-              alt="DifferentialBot RRT Simulator — Full Simulation Demo" loading="lazy">
+          <a class="video-thumb-wrap" href="https://www.youtube.com/watch?v=Uhewsx7fz2M" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/Uhewsx7fz2M/hqdefault.jpg"
+              alt="Multi-Person Real-Time Behavioral Tracking System — live demo on a real video call" loading="lazy">
             <span class="video-part-badge">Full Demo</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
@@ -1114,21 +1361,22 @@
             </span>
           </a>
           <div class="video-card-body">
-            <p class="video-card-title">DifferentialBot RRT Simulator &mdash; Full Simulation Demo</p>
+            <p class="video-card-title">Multi-Person Real-Time Behavioral Tracking System &mdash; Live Demo on a
+              Real Video Call</p>
             <p class="video-card-desc">
-              Full simulation run: the robot builds an RRT path from start to goal through a hallway map,
-              follows waypoints using bang-bang heading control, detects obstacles with its ultrasonic sensor,
-              backs up and replans automatically &mdash; with GPS, Kalman-filtered, and RRT traces all rendered live.
+              Short clip of the system running on an actual video call: participants are detected and matched
+              against previously enrolled profiles, and each tile updates in real time with eye, mouth, focus,
+              yawn, and hand-gesture status &mdash; all processed locally, frame by frame, with no cloud
+              dependency.
             </p>
             <div class="video-card-tags">
+              <span class="video-card-tag">YOLOv8 (ONNX)</span>
+              <span class="video-card-tag">MediaPipe</span>
+              <span class="video-card-tag">OpenCV</span>
               <span class="video-card-tag">Python</span>
-              <span class="video-card-tag">PyGame</span>
-              <span class="video-card-tag">Pymunk</span>
-              <span class="video-card-tag">RRT</span>
-              <span class="video-card-tag">Kalman Filter</span>
-              <span class="video-card-tag">Differential Drive</span>
             </div>
-            <a href="https://youtu.be/YVPpjKtE6y0" target="_blank" rel="noopener" class="video-card-link">
+            <a href="https://www.youtube.com/watch?v=Uhewsx7fz2M" target="_blank" rel="noopener"
+              class="video-card-link">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path
                   d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
@@ -1138,10 +1386,10 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
+  <div style="height:68px; background:#fff;"></div>
 
   <footer class="footer">
     <div class="footer-inner">
