@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaching — Lucas Pin</title>
+  <meta name="description"
+    content="Courses and educational materials by Lucas Pin — Linear Algebra, Faculty of Engineering FIUNA.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='rgb(10,40,80)'/><text x='16' y='22' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='14' fill='white'>LP</text></svg>">
+  <link rel="apple-touch-icon" href="static/lp-og-preview.png">
+  <meta property="og:image" content="https://portfolio-lucas-pin.vercel.app/static/lp-og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://portfolio-lucas-pin.vercel.app/static/lp-og-preview.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    /* ── PAGE: white body, gray header banner (matches research.html / projects.html) ── */
+    body {
+      background: #fff;
+    }
+
+    .proj-page-header {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 96px 32px 56px;
+      text-align: center;
+    }
+
+    .proj-page-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 0.75rem;
+    }
+
+    .proj-page-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .proj-page-sub {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* ── TEACHING PHOTO ── */
+    .teaching-photo-section {
+      background: #fff;
+      padding: 56px 32px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .teaching-photo-wrap {
+      max-width: 820px;
+      width: 100%;
+    }
+
+    .teaching-photo-frame {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .teaching-photo-frame img {
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    .teaching-photo-caption {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--text);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    /* ── COURSES CONTENT ── */
+    .proj-list-section {
+      background: #fff;
+      padding: 64px 24px 80px;
+      max-width: none;
+      margin: 0;
+    }
+
+    .research-lines {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    .research-lines-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0 0 2rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── COURSE CARD ── */
+    .course-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 2rem 2.25rem 2.25rem;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .course-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-card-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-top: 0.1rem;
+    }
+
+    .course-card-meta-block {
+      flex: 1;
+    }
+
+    .course-card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.3;
+      margin: 0 0 0.3rem;
+    }
+
+    .course-card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.22rem 0.65rem;
+      border-radius: 20px;
+    }
+
+    .course-desc {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin: 0 0 0.6rem;
+    }
+
+    .course-context {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      font-style: italic;
+      background: #fff;
+      border-left: 3px solid var(--primary);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 0.65rem 0.9rem;
+      margin: 0 0 1.75rem;
+    }
+
+    /* ── MATERIALS LIST ── */
+    .materials-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 1rem;
+    }
+
+    .materials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .lecture-row {
+      display: flex;
+      gap: 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--dark);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .lecture-row:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10, 40, 80, 0.07);
+      transform: translateY(-2px);
+    }
+
+    .lecture-thumb {
+      flex-shrink: 0;
+      width: 180px;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lecture-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .lecture-row:hover .lecture-thumb img {
+      transform: scale(1.04);
+    }
+
+    .lecture-body {
+      flex: 1;
+      padding: 0.9rem 1rem 0.9rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .lecture-number {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 0.2rem;
+    }
+
+    .lecture-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.35;
+      margin: 0 0 0.35rem;
+    }
+
+    .lecture-desc {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--text);
+      margin: 0 0 0.6rem;
+    }
+
+    .lecture-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .lecture-open i {
+      font-size: 0.62rem;
+      transition: transform 0.18s ease;
+    }
+
+    .lecture-row:hover .lecture-open i {
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 600px) {
+      .teaching-photo-section {
+        padding: 40px 20px 0;
+      }
+
+      .course-card {
+        padding: 1.5rem 1.25rem;
+      }
+
+      .course-card-header {
+        flex-direction: column;
+      }
+
+      /* Stack: thumbnail on top, text below */
+      .lecture-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .lecture-thumb {
+        width: 100%;
+        height: 180px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .lecture-thumb img {
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .lecture-body {
+        padding: 0.9rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a href="home.html" class="nav-logo">
+      <span class="nav-logo-icon">LP</span>
+      Lucas Pin
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="home.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html" class="active">Teaching</a>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <div class="proj-page-header">
+    <p class="proj-page-eyebrow">Education</p>
+    <h1 class="proj-page-title">Teaching</h1>
+    <p class="proj-page-sub">
+      Courses and materials I have developed and delivered
+      at the Faculty of Engineering (FIUNA).
+    </p>
+  </div>
+
+  <!-- ===== TEACHING PHOTO ===== -->
+  <div class="teaching-photo-section">
+    <div class="teaching-photo-wrap">
+      <div class="teaching-photo-frame">
+        <img src="../static/Teaching/Teaching.jpg"
+          alt="Lucas Pin teaching Linear Algebra at the Faculty of Engineering (FIUNA)" loading="eager">
+      </div>
+      <p class="teaching-photo-caption">
+        Lecture session at the Faculty of Engineering — Universidad Nacional de Asunción (FIUNA).
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== COURSES ===== -->
+  <section class="proj-list-section">
+    <div class="research-lines">
+      <h2 class="research-lines-title">Courses</h2>
+
+      <!-- ── Linear Algebra ── -->
+      <div class="course-card">
+
+        <div class="course-card-header">
+          <div class="course-card-icon">
+            <!-- Two arrows at an angle — vector / coordinate system -->
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" width="22" height="22" aria-hidden="true">
+              <!-- Horizontal arrow (x-axis) -->
+              <line x1="3" y1="15" x2="16" y2="15" />
+              <polyline points="13,12 16,15 13,18" />
+              <!-- Diagonal arrow (y direction) -->
+              <line x1="3" y1="15" x2="11" y2="4" />
+              <polyline points="8,5 11,4 12,7" />
+            </svg>
+          </div>
+          <div class="course-card-meta-block">
+            <h3 class="course-card-title">Linear Algebra</h3>
+            <div class="course-card-badges">
+              <span class="badge">Undergraduate</span>
+              <span class="badge">Teaching Assistant</span>
+              <span class="badge">FIUNA</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="course-desc">
+          Second-semester undergraduate course covering the core foundations of linear algebra:
+          vector spaces, linear transformations, matrix decompositions, eigenvalues and eigenvectors,
+          and inner product spaces. The course emphasizes both rigorous proofs and practical
+          computational applications in engineering contexts.
+        </p>
+
+        <p class="course-context">
+          Taught as <strong>Teaching Assistant (Profesor Auxiliar)</strong> at the
+          <strong>Facultad de Ingeniería — Universidad Nacional de Asunción (FIUNA)</strong>.
+          Responsible for weekly problem-solving sessions, grading, and preparation of supplementary materials.
+        </p>
+
+        <!-- Materials -->
+        <p class="materials-title"><i class="fas fa-folder-open" style="margin-right:0.35rem;"></i>Lecture Notes</p>
+        <div class="materials-list">
+
+          <!-- Lecture 1 -->
+          <a href="https://drive.google.com/file/d/1nVyp0czKJGfYQj8jr8xjLaBRkRmPBvPH/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-1">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1nVyp0czKJGfYQj8jr8xjLaBRkRmPBvPH&sz=w400"
+                alt="Lecture 1 — Vector Spaces and Subspaces" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 1</p>
+              <h4 class="lecture-title">Vector Spaces and Subspaces</h4>
+              <p class="lecture-desc">Introduces the fundamental theory of vector spaces: axioms, common examples, and
+                how to identify subspaces within them.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 2 -->
+          <a href="https://drive.google.com/file/d/1bEzgIjCeL5nStBDYnVTX2FD4EObi0zRM/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-2">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1bEzgIjCeL5nStBDYnVTX2FD4EObi0zRM&sz=w400"
+                alt="Lecture 2 — Linear Combinations, Bases and Dimension" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 2</p>
+              <h4 class="lecture-title">Linear Combinations, Spanning Sets, Bases &amp; Dimension</h4>
+              <p class="lecture-desc">Develops the tools to describe a vector space: linear combinations, linear
+                independence, spanning sets, bases, and dimension.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 3 -->
+          <a href="https://drive.google.com/file/d/1RCdVwLIXXCGNO9nSQeYA8CJHerPaAoMg/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-3">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1RCdVwLIXXCGNO9nSQeYA8CJHerPaAoMg&sz=w400"
+                alt="Lecture 3 — Sum of Subspaces, Coordinates and Isomorphism" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 3</p>
+              <h4 class="lecture-title">Sum of Subspaces, Coordinates &amp; Isomorphism</h4>
+              <p class="lecture-desc">Explores subspace sums and direct sums, coordinate representations relative to a
+                basis, and the concept of isomorphism between vector spaces.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 4 -->
+          <a href="https://drive.google.com/file/d/1ZU4H4YvjBMSrtHjGMM2nfxJWnXxeICgP/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-4">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1ZU4H4YvjBMSrtHjGMM2nfxJWnXxeICgP&sz=w400"
+                alt="Lecture 4 — Linear Maps" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 4</p>
+              <h4 class="lecture-title">Linear Maps</h4>
+              <p class="lecture-desc">Introduces mappings between sets (injective, surjective, bijective) and formally
+                defines linear maps, their uniqueness from basis images, and classic examples: zero operator, identity,
+                derivative, and reflections.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 5 -->
+          <a href="https://drive.google.com/file/d/11KDRVbKrkQXyA055Q1dDmxjVONhnGOce/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-5">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=11KDRVbKrkQXyA055Q1dDmxjVONhnGOce&sz=w400"
+                alt="Lecture 5 — Image, Kernel, and Operations on Linear Maps" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 5</p>
+              <h4 class="lecture-title">Image, Kernel &amp; Operations on Linear Maps</h4>
+              <p class="lecture-desc">Defines image and kernel as subspaces, presents the rank-nullity theorem,
+                classifies maps (injective, surjective, bijective), and covers operations: sum, scalar multiplication,
+                composition, and inverse.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 6 -->
+          <a href="https://drive.google.com/file/d/1b4BYd94j0l-9u38nIKAk8xd5B6BQte0n/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-6">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1b4BYd94j0l-9u38nIKAk8xd5B6BQte0n&sz=w400"
+                alt="Lecture 6 — Matrix Representation and Change of Basis" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 6</p>
+              <h4 class="lecture-title">Matrix Representation &amp; Change of Basis</h4>
+              <p class="lecture-desc">Shows how every linear map is represented by a matrix with respect to chosen
+                bases, links image and kernel to column/null spaces, translates map operations into matrix operations,
+                and introduces the change-of-basis matrix.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 7 -->
+          <a href="https://drive.google.com/file/d/1XFL_W_DI0P9jqT6X80Tp8uA2c-2XmpxU/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-7">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1XFL_W_DI0P9jqT6X80Tp8uA2c-2XmpxU&sz=w400"
+                alt="Lecture 7 — Inner Product, Norm and Distance" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 7</p>
+              <h4 class="lecture-title">Inner Product, Norm &amp; Distance</h4>
+              <p class="lecture-desc">Introduces inner products in real and complex spaces with axioms and examples (ℝⁿ,
+                function spaces, Gram matrix), then defines norm and distance as derived notions, including the ∞, 1,
+                and Euclidean norms.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 8 -->
+          <a href="https://drive.google.com/file/d/1Tp9XqOGa4PArkegSdRRB_7s4q_y4xtc8/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-8">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1Tp9XqOGa4PArkegSdRRB_7s4q_y4xtc8&sz=w400"
+                alt="Lecture 8 — Orthogonality and Projection" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 8</p>
+              <h4 class="lecture-title">Orthogonality &amp; Projection</h4>
+              <p class="lecture-desc">Defines orthogonality and orthogonal complements, presents orthonormal bases,
+                orthogonal projection onto vectors and subspaces, and the Gram-Schmidt algorithm for constructing an
+                orthogonal basis.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 9 -->
+          <a href="https://drive.google.com/file/d/1WNTJdGFXkw-q5UAkmWT1ftjuToDFtddo/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-9">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1WNTJdGFXkw-q5UAkmWT1ftjuToDFtddo&sz=w400"
+                alt="Lecture 9 — Orthogonal Matrices, Fundamental Spaces and Least Squares" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 9</p>
+              <h4 class="lecture-title">Orthogonal Matrices, Fundamental Spaces &amp; Least Squares</h4>
+              <p class="lecture-desc">Studies orthogonal and unitary matrices, describes orthogonality between null and
+                column spaces of a matrix and its transpose, and develops the least squares problem via the normal
+                equation — applied to curve fitting and MSE minimization.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 10 -->
+          <a href="https://drive.google.com/file/d/1FHXJj8Tfl_RbLQQFqD65o2b55748KCYt/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-10">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1FHXJj8Tfl_RbLQQFqD65o2b55748KCYt&sz=w400"
+                alt="Lecture 10" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 10</p>
+              <h4 class="lecture-title">Diagonalization, Eigenvalues &amp; Eigenvectors</h4>
+              <p class="lecture-desc">Introduces similar matrices and diagonalization, the characteristic polynomial and
+                Cayley-Hamilton theorem, eigenvalues, eigenvectors and eigenspaces (algebraic and geometric
+                multiplicity), and a concrete algorithm for diagonalizing a matrix from its eigenvectors.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 11 -->
+          <a href="https://drive.google.com/file/d/1PCFAUtBrLaqX1ygYg6i4DwU8qvZh6Hyc/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-11">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1PCFAUtBrLaqX1ygYg6i4DwU8qvZh6Hyc&sz=w400"
+                alt="Lecture 11" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 11</p>
+              <h4 class="lecture-title">Orthogonal &amp; Unitary Diagonalization</h4>
+              <p class="lecture-desc">Extends diagonalization to real symmetric and complex Hermitian matrices, proves
+                eigenvalues are real and eigenvectors from distinct eigenvalues are orthogonal, defines orthogonal (D =
+                PᵀAP) and unitary (D = P*AP) diagonalization, and details the algorithm for orthonormalizing the
+                eigenvector basis.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <!-- Lecture 12 -->
+          <a href="https://drive.google.com/file/d/1TnIq5TDADqNs9apeTr90Qme9nM-9FvK_/view?usp=drive_link"
+            target="_blank" rel="noopener" class="lecture-row" id="lec-12">
+            <div class="lecture-thumb">
+              <img src="https://drive.google.com/thumbnail?id=1TnIq5TDADqNs9apeTr90Qme9nM-9FvK_&sz=w400"
+                alt="Lecture 12" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 12</p>
+              <h4 class="lecture-title">Stochastic Matrices &amp; Markov Chains</h4>
+              <p class="lecture-desc">Reviews probability basics (sample space, Kolmogorov axioms) to introduce the
+                Markov property and homogeneous Markov chains, models system evolution with a transition matrix, uses
+                diagonalization to compute matrix powers efficiently, and applies steady-state analysis — illustrated
+                with a social mobility case study.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+
+        </div>
+      </div><!-- /course-card -->
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Lucas Pin</span>
+
+      <div class="footer-links">
+        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+
+        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+
+        <a href="mailto:lucaspinf@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  </script>
+
+</body>
+
+</html>
