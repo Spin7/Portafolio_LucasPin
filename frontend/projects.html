@@ -234,77 +234,9 @@
 
       .proj-page-eyebrow,
       .proj-page-title,
-      .proj-page-sub,
-      .proj-group-title,
-      .proj-card {
+      .proj-page-sub {
         animation: none;
       }
-    }
-
-    /* ── ON-LOAD ENTRANCE: everything fades in together, staggered slightly
-       so it cascades down the page — no scroll trigger involved ── */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .proj-group-title {
-      animation: fadeDown 0.6s ease both;
-    }
-
-    .proj-card {
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .proj-group:nth-of-type(1) .proj-group-title {
-      animation-delay: 0.25s;
-    }
-
-    .proj-group:nth-of-type(1) .proj-card:nth-child(1) {
-      animation-delay: 0.33s;
-    }
-
-    .proj-group:nth-of-type(1) .proj-card:nth-child(2) {
-      animation-delay: 0.41s;
-    }
-
-    .proj-group:nth-of-type(2) .proj-group-title {
-      animation-delay: 0.4s;
-    }
-
-    .proj-group:nth-of-type(2) .proj-card:nth-child(1) {
-      animation-delay: 0.48s;
-    }
-
-    .proj-group:nth-of-type(2) .proj-card:nth-child(2) {
-      animation-delay: 0.56s;
-    }
-
-    .proj-group:nth-of-type(3) .proj-group-title {
-      animation-delay: 0.55s;
-    }
-
-    .proj-group:nth-of-type(3) .proj-card:nth-child(1) {
-      animation-delay: 0.63s;
-    }
-
-    .proj-group:nth-of-type(3) .proj-card:nth-child(2) {
-      animation-delay: 0.71s;
-    }
-
-    .proj-group:nth-of-type(4) .proj-group-title {
-      animation-delay: 0.7s;
-    }
-
-    .proj-group:nth-of-type(4) .proj-card:nth-child(1) {
-      animation-delay: 0.78s;
     }
   </style>
 </head>

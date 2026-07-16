@@ -347,45 +347,11 @@
       }
     }
 
-    /* ── ON-LOAD ENTRANCE: everything fades in together, staggered slightly
-       so it cascades down the page — no scroll trigger involved ── */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .teaching-photo-frame {
-      animation: fadeUp 0.6s 0.25s ease both;
-    }
-
-    .teaching-photo-caption {
-      animation: fadeUp 0.6s 0.32s ease both;
-    }
-
-    .research-lines-title {
-      animation: fadeDown 0.6s 0.4s ease both;
-    }
-
-    .course-card {
-      animation: fadeUp 0.6s 0.48s ease both;
-    }
-
     @media (prefers-reduced-motion: reduce) {
 
       .proj-page-eyebrow,
       .proj-page-title,
-      .proj-page-sub,
-      .teaching-photo-frame,
-      .teaching-photo-caption,
-      .research-lines-title,
-      .course-card {
+      .proj-page-sub {
         animation: none;
       }
     }
