@@ -27,7 +27,13 @@
     .proj-page-header {
       background: var(--bg);
       border-bottom: 2px solid var(--border);
-      padding: 96px 32px 56px;
+      padding: 72px 32px 40px;
+      min-height: 280px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
     }
 
@@ -220,6 +226,10 @@
     }
 
     @media (max-width: 720px) {
+      .proj-page-header {
+        min-height: 240px;
+      }
+
       .proj-cards-grid {
         grid-template-columns: 1fr;
         gap: 1.75rem;
