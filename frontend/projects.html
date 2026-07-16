@@ -230,50 +230,12 @@
       }
     }
 
-    /* ── SCROLL REVEAL: each group + its cards fade/slide in as you scroll ── */
-    .proj-group-title {
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
-    }
-
-    .proj-card {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .proj-group.in-view .proj-group-title {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .proj-group.in-view .proj-card {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .proj-group.in-view .proj-card:nth-child(1) {
-      transition-delay: 0.05s;
-    }
-
-    .proj-group.in-view .proj-card:nth-child(2) {
-      transition-delay: 0.16s;
-    }
-
     @media (prefers-reduced-motion: reduce) {
 
       .proj-page-eyebrow,
       .proj-page-title,
       .proj-page-sub {
         animation: none;
-      }
-
-      .proj-group-title,
-      .proj-card {
-        opacity: 1;
-        transform: none;
-        transition: none;
       }
     }
   </style>
@@ -473,24 +435,6 @@
       hamburger.classList.toggle('open');
       navLinks.classList.toggle('open');
     });
-
-    // Reveal each project group (title + cards) as it scrolls into view
-    const projGroups = document.querySelectorAll('.proj-group');
-    if ('IntersectionObserver' in window) {
-      const groupObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            groupObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-      projGroups.forEach((group) => groupObserver.observe(group));
-    } else {
-      // Fallback for older browsers: just show everything
-      projGroups.forEach((group) => group.classList.add('in-view'));
-    }
   </script>
 
 </body>
