@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DifferentialBot RRT Simulator &mdash; Lucas Pin</title>
   <meta name="description"
-    content="2D simulation of a differential-drive robot performing autonomous navigation using the RRT path planning algorithm, built with PyGame and Pymunk. Features Kalman Filter sensor fusion, PID heading control, ultrasonic obstacle detection, and live occupancy mapping.">
+    content="2D simulation of a differential-drive robot performing autonomous navigation using the RRT path planning algorithm, built with PyGame and Pymunk. Features Kalman Filter sensor fusion, bang-bang heading control, ultrasonic obstacle detection, and live occupancy mapping.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <!-- Favicon -->
@@ -857,7 +857,8 @@
             </tr>
             <tr>
               <td><strong>Control</strong></td>
-              <td>High-level controller tracks waypoints and triggers replanning on obstacle proximity; PID translates
+              <td>High-level controller tracks waypoints and triggers replanning on obstacle proximity; bang-bang
+                translates
                 heading error into differential wheel speeds</td>
             </tr>
             <tr>
@@ -886,7 +887,7 @@
           motion + replanning if needed &nbsp;&middot;&nbsp;
           <strong>4. Plan</strong> &mdash; RRT generates a new collision-free path from the current position
           to the goal &nbsp;&middot;&nbsp;
-          <strong>5. Control</strong> &mdash; the PID heading controller computes left/right wheel speeds
+          <strong>5. Control</strong> &mdash; the bang-bang heading controller computes left/right wheel speeds
           toward the next waypoint &nbsp;&middot;&nbsp;
           <strong>6. Act</strong> &mdash; wheel speeds are applied to the physics body &nbsp;&middot;&nbsp;
           <strong>7. Map</strong> &mdash; new obstacle detections are recorded into the occupancy grid

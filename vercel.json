@@ -1,36 +1,104 @@
 {
   "outputDirectory": "frontend",
   "rewrites": [
-    { "source": "/", "destination": "/home.html" },
-    { "source": "/home", "destination": "/home.html" },
-    { "source": "/projects", "destination": "/projects.html" },
-    { "source": "/projects1", "destination": "/projects1.html" },
-    { "source": "/projects2", "destination": "/projects2.html" },
-    { "source": "/research", "destination": "/research.html" },
-    { "source": "/research1", "destination": "/research1.html" },
-    { "source": "/research2", "destination": "/research2.html" },
-    { "source": "/teaching", "destination": "/teaching.html" },
-    { "source": "/teaching1", "destination": "/teaching1.html" },
-    { "source": "/teaching2", "destination": "/teaching2.html" },
-    { "source": "/projects/self-balance-robot", "destination": "/projects/self-balance-robot.html" },
-    { "source": "/projects/behavioral-face-tracking", "destination": "/projects/behavioral-face-tracking.html" },
-    { "source": "/projects/gantry-robot", "destination": "/projects/gantry-robot.html" },
-    { "source": "/projects/hexapod-robot", "destination": "/projects/hexapod-robot.html" },
-    { "source": "/projects/realtime-car-plate-recognition", "destination": "/projects/realtime-car-plate-recognition.html" },
-    { "source": "/projects/robodk-cell", "destination": "/projects/robodk-cell.html" },
-    { "source": "/projects/rrt-diferential-bot-simulation", "destination": "/projects/rrt-diferential-bot-simulation.html" },
-    { "source": "/research/agent-simulation", "destination": "/research/agent-simulation.html" },
-    { "source": "/research/mechatronic-trap", "destination": "/research/mechatronic-trap.html" }
+    {
+      "source": "/",
+      "destination": "/home.html"
+    },
+    {
+      "source": "/home",
+      "destination": "/home.html"
+    },
+    {
+      "source": "/projects",
+      "destination": "/projects.html"
+    },
+    {
+      "source": "/projects1",
+      "destination": "/projects1.html"
+    },
+    {
+      "source": "/projects2",
+      "destination": "/projects2.html"
+    },
+    {
+      "source": "/research",
+      "destination": "/research.html"
+    },
+    {
+      "source": "/research1",
+      "destination": "/research1.html"
+    },
+    {
+      "source": "/research2",
+      "destination": "/research2.html"
+    },
+    {
+      "source": "/teaching",
+      "destination": "/teaching.html"
+    },
+    {
+      "source": "/teaching1",
+      "destination": "/teaching1.html"
+    },
+    {
+      "source": "/teaching2",
+      "destination": "/teaching2.html"
+    },
+    {
+      "source": "/projects/self-balance-robot",
+      "destination": "/projects/self-balance-robot.html"
+    },
+    {
+      "source": "/projects/behavioral-face-tracking",
+      "destination": "/projects/behavioral-face-tracking.html"
+    },
+    {
+      "source": "/projects/gantry-robot",
+      "destination": "/projects/gantry-robot.html"
+    },
+    {
+      "source": "/projects/hexapod-robot",
+      "destination": "/projects/hexapod-robot.html"
+    },
+    {
+      "source": "/projects/realtime-car-plate-recognition",
+      "destination": "/projects/realtime-car-plate-recognition.html"
+    },
+    {
+      "source": "/projects/robodk-cell",
+      "destination": "/projects/robodk-cell.html"
+    },
+    {
+      "source": "/projects/rrt-diferential-bot-simulation",
+      "destination": "/projects/rrt-differential-bot-simulation.html"
+    },
+    {
+      "source": "/research/agent-simulation",
+      "destination": "/research/agent-simulation.html"
+    },
+    {
+      "source": "/research/mechatronic-trap",
+      "destination": "/research/mechatronic-trap.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
       ]
     }
   ]
 }
-
